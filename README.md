@@ -1,2 +1,0 @@
-# LUMO
-Loan Management System
