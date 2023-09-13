@@ -3,6 +3,8 @@ package com.wellsfargo.luma.service;
 import com.wellsfargo.luma.model.Employee;
 import com.wellsfargo.luma.model.LoginRequest;
 import com.wellsfargo.luma.repository.EmployeeRepository;
+import com.wellsfargo.luma.response.LoginResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,16 +18,16 @@ public class EmployeeService {
         return  employeeRepository.save(employee);
     }
 
-    public String employeeLogin(LoginRequest loginRequest) {
-        try {
-            Employee employee = employeeRepository.getReferenceById(loginRequest.getEmployeeId());
-            if (employee.getPassword().equals(loginRequest.getPassword()))
-                return "Login Successful";
+    public LoginResponse employeeLogin(LoginRequest loginRequest) {
 
-        } catch (Exception e) {
-            return "Unable to login";
-        }
+         Employee employee = employeeRepository.findByNameAndPassword(
+                 loginRequest.getUserName(),loginRequest.getPassword());
+         if ( employee!=null)
+            {
+                return new LoginResponse(true, loginRequest.getUserName());
+            }
+        return new LoginResponse(false,"");
 
-        return "Check credentials";
+
     }
 }

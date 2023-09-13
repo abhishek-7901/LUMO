@@ -3,6 +3,7 @@ package com.wellsfargo.luma.controller;
 import com.wellsfargo.luma.model.Employee;
 import com.wellsfargo.luma.model.LoginRequest;
 import com.wellsfargo.luma.repository.EmployeeRepository;
+import com.wellsfargo.luma.response.LoginResponse;
 import com.wellsfargo.luma.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +14,12 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/employee")
-//@RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@RequiredArgsConstructor
 public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
+    private final EmployeeService employeeService;
 
     @PostMapping("/new")
     public Map<String,Object> addEmployee(@RequestBody Employee employee){
@@ -29,12 +30,8 @@ public class EmployeeController {
     }
 
     @PostMapping("/login")
-    public Map<String,Object> employeeLogin(@RequestBody LoginRequest loginRequest){
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("Success",employeeService.employeeLogin(loginRequest));
-
-        return map;
-
+    public LoginResponse employeeLogin(@RequestBody LoginRequest loginRequest){
+        return employeeService.employeeLogin(loginRequest);
     }
 
     }

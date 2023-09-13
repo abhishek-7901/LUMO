@@ -1,20 +1,16 @@
-package com.wellsfargo.luma.model;
+package com.wellsfargo.luma.response;
 
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-
-
-@Data
+@Getter@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginRequest {
+public class LoginResponse {
 
-    //notnull
-
+    private boolean login;
     private String userName;
-    private String password;
-
 }
