@@ -26,16 +26,17 @@ const Login = () => {
   return (
     <div>
       {/* Login Card */}
-      <div className="card">
-        <div className="card-body">
-          <h5 className="card-title">Login</h5>
-          <form onSubmit={handleSubmit}>
+      <div className="login-card">
+        <div className="login-card-body">
+          <h5 className="login-card-title">Login</h5>
+          <form onSubmit={handleSubmit} autocomplete="on">
             <div className="form-group">
               <label htmlFor="employeeId">employeeId</label>
-              <input type="text" name="employeeId" onChange={e=> setEmployeeId(e.target.value)} required />
+              <input type="text" name="employeeId" /*minlength="6" maxlength="12"*/ 
+              onChange={e=> setEmployeeId(e.target.value)} autofocus  required />
               <br></br>
               <label htmlFor="Password">Password</label>
-              <input type="password" name="password" onChange={e=> setPassword(e.target.value)} required />
+              <input type="password" name="password" minlength="6" onChange={e=> setPassword(e.target.value)} required />
               <br></br>
               <input type="submit" value="Login" />
             </div>
