@@ -6,6 +6,7 @@ import Dashboard from './components/Dashboard';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import { useState } from 'react';
 import Navbar from './components/Navbar';
+import LandingPage from './components/LandingPage';
 function App() {
   // const [token, setToken] = useState()
   // if (!token) {
@@ -18,9 +19,11 @@ function App() {
 
         <Navbar></Navbar>
         <Routes>
-          <Route path='/' element={<Dashboard />} />
+          <Route path='/' element={<LandingPage />} />
+          <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
+          <Route path='*' element={<h1>Not Found</h1>} />
         </Routes>
 
       </div>

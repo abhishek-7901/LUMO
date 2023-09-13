@@ -1,9 +1,11 @@
 import React from 'react'
 import '../styles/Login.css'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 const Login = () => {
   const [employeeId, setEmployeeId] = useState('')
   const [password, setPassword] = useState('')
+  const navigate = useNavigate()
   const handleSubmit = async e=> {
     e.preventDefault()
     const user = {employeeId, password}
@@ -16,6 +18,10 @@ const Login = () => {
     })
     const data = await response.json()
     console.log(data)
+    console.log(data["Success"])
+    if (data["Success"] === "Login Successful") {
+      navigate('/dashboard')
+    }
   }
   return (
     <div>
@@ -25,11 +31,11 @@ const Login = () => {
           <h5 className="card-title">Login</h5>
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label for="employeeId">employeeId</label>
-              <input type="text" name="employeeId" onChange={e=> setEmployeeId(e.target.value)} />
+              <label htmlFor="employeeId">employeeId</label>
+              <input type="text" name="employeeId" onChange={e=> setEmployeeId(e.target.value)} required />
               <br></br>
-              <label for="Password">Password</label>
-              <input type="password" name="password" onChange={e=> setPassword(e.target.value)} />
+              <label htmlFor="Password">Password</label>
+              <input type="password" name="password" onChange={e=> setPassword(e.target.value)} required />
               <br></br>
               <input type="submit" value="Login" />
             </div>

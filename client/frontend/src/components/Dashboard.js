@@ -2,7 +2,13 @@ import React from 'react'
 
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
+    <div>
+      <h1>Dashboard</h1>
+      <div>
+        {/* <h3>Employee Details</h3> */}
+        <h2> You have successfully logged in!</h2>
+      </div>
+    </div>
   )
 }
 
