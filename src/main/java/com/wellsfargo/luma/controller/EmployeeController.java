@@ -28,7 +28,7 @@ public class EmployeeController {
         return map;
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public String employeeLogin(@RequestBody LoginRequest loginRequest){
         return employeeService.employeeLogin(loginRequest);
 
