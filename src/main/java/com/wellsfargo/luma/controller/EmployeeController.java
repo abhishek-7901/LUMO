@@ -14,6 +14,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/employee")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class EmployeeController {
 
 
@@ -29,8 +30,11 @@ public class EmployeeController {
     }
 
     @PostMapping("/login")
-    public String employeeLogin(@RequestBody LoginRequest loginRequest){
-        return employeeService.employeeLogin(loginRequest);
+    public Map<String,Object> employeeLogin(@RequestBody LoginRequest loginRequest){
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("Success",employeeService.employeeLogin(loginRequest));
+
+        return map;
 
     }
 
