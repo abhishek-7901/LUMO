@@ -1,20 +1,24 @@
 package com.wellsfargo.luma.controller;
 
 import com.wellsfargo.luma.model.Employee;
+import com.wellsfargo.luma.model.LoginRequest;
+import com.wellsfargo.luma.repository.EmployeeRepository;
 import com.wellsfargo.luma.service.EmployeeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/employee")
+@RequiredArgsConstructor
 public class EmployeeController {
 
-    @Autowired
-    private EmployeeService employeeService;
+
+    private final EmployeeService employeeService;
+
 
     @PostMapping("/new")
     public Map<String,Object> addEmployee(@RequestBody Employee employee){
@@ -23,4 +27,11 @@ public class EmployeeController {
         map.put("EmplyeeDetails",newEmployee);
         return map;
     }
-}
+
+    @GetMapping("/login")
+    public String employeeLogin(@RequestBody LoginRequest loginRequest){
+        return employeeService.employeeLogin(loginRequest);
+
+    }
+
+    }
