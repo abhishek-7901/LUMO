@@ -1,5 +1,5 @@
 /* CSS for login Card */
-.card {
+.login-card {
   width: 400px;
   margin: 30px auto;
   padding: 30px auto;
@@ -8,13 +8,13 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.card-body {
+.login-card-body {
   padding: 0 40px;
   text-align: center;
   justify-content: center;
 }
 
-.card-title {
+.login-card-title {
   font-family: "Raleway", sans-serif;
   font-size: 2rem;
   font-weight: bold;

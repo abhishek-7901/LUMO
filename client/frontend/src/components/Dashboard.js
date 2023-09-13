@@ -1,14 +1,48 @@
 import React from 'react'
+import '../styles/Dashboard.css'
+import { Link } from 'react-router-dom'
 
 const Dashboard = () => {
   return (
     <div>
-      <h1>Dashboard</h1>
-      <div>
-        {/* <h3>Employee Details</h3> */}
-        <h2> You have successfully logged in!</h2>
+      <div className='dashboard-header'>
+        <h1>Dashboard</h1>
+      </div>
+      <div className='dashboard-container'>
+
+        <div className="row">
+          <div className="col-sm-4">
+            <div className="dashboard-card card-center">
+              <div className="dashboard-card-body">
+                <h5 className="dashboard-card-title">View Loanss</h5>
+                <p className="dashboard-card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <Link href="#" className="btn btn-primary">Go somewhere</Link>
+              </div>
+            </div>
+          </div>
+          <div className="col-sm-4">
+            <div className="dashboard-card">
+              <div className="dashboard-card-body">
+                <h5 className="dashboard-card-title">Apply for Loans</h5>
+                <p className="dashboard-card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <Link href="#" className="btn btn-primary">Go somewhere</Link>
+              </div>
+            </div>
+          </div>
+          <div className="col-sm-4">
+            <div className="dashboard-card">
+              <div className="dashboard-card-body">
+                <h5 className="dashboard-card-title">View Items Purchased</h5>
+                <p className="dashboard-card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <Link href="#" className="btn btn-primary">Go somewhere</Link>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
+
   )
 }
 
