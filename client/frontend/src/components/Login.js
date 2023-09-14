@@ -3,12 +3,12 @@ import '../styles/Login.css'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 const Login = () => {
-  const [employeeId, setEmployeeId] = useState('')
+  const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
   const handleSubmit = async e=> {
     e.preventDefault()
-    const user = {employeeId, password}
+    const user = {userName, password}
     const response = await fetch('http://localhost:9191/employee/login', {
       method: 'POST',
       headers: {
@@ -19,7 +19,7 @@ const Login = () => {
     const data = await response.json()
     console.log(data)
     console.log(data["Success"])
-    if (data["Success"] === "Login Successful") {
+    if (data.login === true) {
       navigate('/dashboard')
     }
   }
@@ -31,9 +31,9 @@ const Login = () => {
           <h5 className="login-card-title">Login</h5>
           <form onSubmit={handleSubmit} autocomplete="on">
             <div className="form-group">
-              <label htmlFor="employeeId">employeeId</label>
-              <input type="text" name="employeeId" /*minlength="6" maxlength="12"*/ 
-              onChange={e=> setEmployeeId(e.target.value)} autofocus  required />
+              <label htmlFor="userName">userName</label>
+              <input type="text" name="userName" /*minlength="6" maxlength="12"*/ 
+              onChange={e=> setUserName(e.target.value)} autofocus  required />
               <br></br>
               <label htmlFor="Password">Password</label>
               <input type="password" name="password" minlength="6" onChange={e=> setPassword(e.target.value)} required />

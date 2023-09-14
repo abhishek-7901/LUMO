@@ -15,11 +15,12 @@ import java.util.Map;
 @RestController
 @RequestMapping("/employee")
 @RequiredArgsConstructor
+@CrossOrigin(origins="http://localhost:3000")
 public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-    private final EmployeeService employeeService;
+//    private final EmployeeService employeeService;
 
     @PostMapping("/new")
     public Map<String,Object> addEmployee(@RequestBody Employee employee){
