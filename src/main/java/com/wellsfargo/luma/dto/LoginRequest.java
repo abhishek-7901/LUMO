@@ -1,4 +1,4 @@
-package com.wellsfargo.luma.model;
+package com.wellsfargo.luma.dto;
 
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;

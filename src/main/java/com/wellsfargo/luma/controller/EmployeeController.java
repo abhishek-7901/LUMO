@@ -1,9 +1,8 @@
 package com.wellsfargo.luma.controller;
 
 import com.wellsfargo.luma.model.Employee;
-import com.wellsfargo.luma.model.LoginRequest;
-import com.wellsfargo.luma.repository.EmployeeRepository;
-import com.wellsfargo.luma.response.LoginResponse;
+import com.wellsfargo.luma.dto.LoginRequest;
+import com.wellsfargo.luma.dto.LoginResponse;
 import com.wellsfargo.luma.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-//    private final EmployeeService employeeService;
+
 
     @PostMapping("/new")
     public Map<String,Object> addEmployee(@RequestBody Employee employee){
