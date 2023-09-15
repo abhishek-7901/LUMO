@@ -3,8 +3,8 @@ import '../styles/Login.css'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 const Login = () => {
-  const [userName, setUserName] = useState('')
-  const [password, setPassword] = useState('')
+  const [userName, setUserName] = useState('') //userName->variabe, setter function 
+  const [password, setPassword] = useState('') //state->changes rerendered
   const navigate = useNavigate()
   const handleSubmit = async e=> {
     e.preventDefault()
@@ -23,6 +23,10 @@ const Login = () => {
       navigate('/dashboard')
     }
   }
+  const handleUsernameChange = (argu) => {  //arrow function, handle.. holds value of function
+    // console.log(argu)  //print
+    setUserName(argu.target.value)
+  }
   return (
     <div>
       {/* Login Card */}
@@ -33,10 +37,10 @@ const Login = () => {
             <div className="form-group">
               <label htmlFor="userName">userName</label>
               <input type="text" name="userName" /*minlength="6" maxlength="12"*/ 
-              onChange={e=> setUserName(e.target.value)} autofocus  required />
+              onChange={handleUsernameChange} autofocus  required />
               <br></br>
               <label htmlFor="Password">Password</label>
-              <input type="password" name="password" minlength="6" onChange={e=> setPassword(e.target.value)} required />
+              <input type="password" name="password" minlength="6" onChange={e=> setPassword(e.target.value)} required /> {/*type, name ->arg*/}
               <br></br>
               <input type="submit" value="Login" />
             </div>
@@ -47,4 +51,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Login  //return value jsx which can be used as a tag value
