@@ -5,15 +5,21 @@ import com.wellsfargo.luma.dto.LoginRequest;
 import com.wellsfargo.luma.repository.EmployeeRepository;
 import com.wellsfargo.luma.dto.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    public Employee addEmployee(Employee employee){
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
+    public Employee addEmployee(Employee employee){
+        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
         return  employeeRepository.save(employee);
     }
 
@@ -26,7 +32,9 @@ public class EmployeeService {
                 return new LoginResponse(true, loginRequest.getUserName());
             }
         return new LoginResponse(false,"");
+    }
 
-
+    public Optional<Employee> findByName(String username){
+        return employeeRepository.findByName(username);
     }
 }
