@@ -24,7 +24,9 @@ const Register = () => {
     e.preventDefault()
     if(password==password_Conf)
     {
-      const user = { email, userName, password }
+      let name=userName
+      
+      const user = { email, name, password }
       const response = await fetch('http://localhost:9191/employee/new', {
         method: 'POST',
         headers: {
@@ -34,9 +36,12 @@ const Register = () => {
       })
       const data = await response.json()
       console.log(data)
-      console.log(data["Success"])
-      if (data.Register === true) {
+      console.log(data["EmplyeeDetails"].name)
+      if (data.EmplyeeDetails.name ) {
         navigate('/dashboard')
+      }
+      else{
+        console.log("FAILED")
       }
     }
   }
@@ -50,20 +55,22 @@ const Register = () => {
           {/* Need to implement minimum length for each field, 
           and email regex for the email field, 
           also have to take password twice, and match the both of them "like confirm password"  */}
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="form-group">
               Email: <input type="email" name="email"
-              onChange={e=>setEmail(e.target.value)} pattern={'/^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$/'} title="Invalid email address"  required/>
+              onChange={e=>setEmail(e.target.value)} 
+              // pattern={'/^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$/'} 
+              title="Invalid email address"  required/>
+
+            Username:  <input type="text" name="userame" minlength="6" maxlength="20" onChange={e=> setUserName(e.target.value)} onkeyup='check();' required />
               <br></br>
-            Username: <input type="text" name="username" minlength="6" maxlength="20" required />
-            <br></br>
             Password:  <input type="password" name="password" minlength="6" maxlength="20" onChange={e=> setPassword(e.target.value)} onkeyup='check();' required />
               <br></br>
-              Confirm Password:  <input type="password" name="passwordconf" minlength="6" maxlength="20" onChange={e => setPassword(e.target.value)} onkeyup='check();' required />
+              Confirm Password:  <input type="password" name="passwordconf" minlength="6" maxlength="20" onChange={e => setPasswordConf(e.target.value)} onkeyup='check();' required />
               <span id='message'></span>
             <br></br>
               <input type="submit" value="Submit"
-              onSubmit={handleSubmit}/>
+              />
             </div>
           </form>
         </div>
