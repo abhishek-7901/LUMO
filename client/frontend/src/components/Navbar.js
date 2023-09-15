@@ -5,7 +5,7 @@ const Navbar = () => {
         <div>
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="container-fluid">
-                    <Link className="navbar-brand" to="/" styles={{fontWeight:"35px"}}>MAPAP</Link>
+                    <Link className="navbar-brand" to="/" style={{fontWeight:"35px"}}>MAPAP</Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
