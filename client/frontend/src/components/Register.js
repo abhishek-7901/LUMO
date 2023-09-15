@@ -65,9 +65,9 @@ const Register = () => {
           <p className="register-card-text">Please fill in this form to create an account.</p>
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              Email: <input type="email" name="email" onChange={e => setEmail(e.target.value)}
-                // pattern={'/^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$/'} 
-                title="Invalid email address" required />
+              {/* Email: <input type="email" name="email" onChange={e => setEmail(e.target.value)} */}
+                {/* // pattern={'/^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$/'}  */}
+                {/* title="Invalid email address" required /> */}
 
               Username:  <input type="text" name="userame" minlength="6" maxlength="20" onChange={e => setUserName(e.target.value)} onkeyup='check();' required />
               <br></br>
