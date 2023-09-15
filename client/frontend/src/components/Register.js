@@ -9,6 +9,7 @@ const Register = () => {
   const [doj, setDoj] = useState('')
   const [password, setPassword] = useState('')
   const [password_Conf, setPasswordConf] = useState('')
+  const [gender,setGender]=useState('')
   const navigate = useNavigate()
 
   var check = function() {
@@ -29,7 +30,7 @@ const Register = () => {
 
       let name=userName
       
-      const user = { email, name, dob, doj, password }
+      const user = { email, name, dob, doj, password,gender }
 
       const response = await fetch('http://localhost:9191/employee/new', {
         method: 'POST',
@@ -79,7 +80,7 @@ const Register = () => {
               <br></br>
             Date of Joining: <input type="date" name="doj" onChange={e => setDoj(e.target.value)} required />
               <br></br>
-            Gender: <input type="text" name="dob" onChange={e => setDob(e.target.value)} required />
+            Gender: <input type="text" name="dob" onChange={e => setGender(e.target.value)} required />
               <br></br>
 
               <input type="submit" value="Submit"
