@@ -5,6 +5,8 @@ const Register = () => {
 
   const [email, setEmail] = useState('') //userName->variabe, setter function 
   const [userName, setUserName] = useState('')
+  const [dob, setDob] = useState('')
+  const [doj, setDoj] = useState('')
   const [password, setPassword] = useState('')
   const [password_Conf, setPasswordConf] = useState('')
   const navigate = useNavigate()
@@ -24,9 +26,11 @@ const Register = () => {
     e.preventDefault()
     if(password==password_Conf)
     {
+
       let name=userName
       
-      const user = { email, name, password }
+      const user = { email, name, dob, doj, password }
+
       const response = await fetch('http://localhost:9191/employee/new', {
         method: 'POST',
         headers: {
@@ -64,11 +68,20 @@ const Register = () => {
 
             Username:  <input type="text" name="userame" minlength="6" maxlength="20" onChange={e=> setUserName(e.target.value)} onkeyup='check();' required />
               <br></br>
+
             Password:  <input type="password" name="password" minlength="6" maxlength="20" onChange={e=> setPassword(e.target.value)} onkeyup='check();' required />
               <br></br>
               Confirm Password:  <input type="password" name="passwordconf" minlength="6" maxlength="20" onChange={e => setPasswordConf(e.target.value)} onkeyup='check();' required />
               <span id='message'></span>
             <br></br>
+
+            Date of Birth: <input type="date" name="dob" onChange={e => setDob(e.target.value)} required />
+              <br></br>
+            Date of Joining: <input type="date" name="doj" onChange={e => setDoj(e.target.value)} required />
+              <br></br>
+            Gender: <input type="text" name="dob" onChange={e => setDob(e.target.value)} required />
+              <br></br>
+
               <input type="submit" value="Submit"
               />
             </div>
