@@ -26,6 +26,7 @@
     margin-top:1rem;
     border:1px solid rgb(206, 205, 205);
     border-radius: 3px;
+    min-height: 180px;
 }
 
 .dashboard-card-title {
