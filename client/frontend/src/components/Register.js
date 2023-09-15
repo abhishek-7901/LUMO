@@ -10,6 +10,8 @@ const Register = () => {
   const [password, setPassword] = useState('')
   const [password_Conf, setPasswordConf] = useState('')
   const [gender,setGender]=useState('')
+  const[errorMsg, setErrorMsg] = useState('');
+  const [successMsg, setSuccessmMg] = useState('');
   const navigate = useNavigate()
 
   var check = function() {
@@ -43,9 +45,13 @@ const Register = () => {
       console.log(data)
       console.log(data["EmplyeeDetails"].name)
       if (data.EmplyeeDetails.name ) {
-        navigate('/dashboard')
+        setSuccessmMg('Registeration Successful')
+        setTimeout(() => {
+          navigate('/dashboard')
+        }, 2000)
       }
       else{
+        setErrorMsg('Registeration Failed');
         console.log("FAILED")
       }
     }
@@ -83,8 +89,9 @@ const Register = () => {
             Gender: <input type="text" name="dob" onChange={e => setGender(e.target.value)} required />
               <br></br>
 
-              <input type="submit" value="Submit"
-              />
+              <input type="submit" value="Submit"/>
+              {errorMsg && <p className='error-message'>{errorMsg}</p>}
+              {successMsg && <p className='success-message'>{successMsg}</p>}
             </div>
           </form>
         </div>
