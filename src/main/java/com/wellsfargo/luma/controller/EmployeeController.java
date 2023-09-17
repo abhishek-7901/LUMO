@@ -36,7 +36,7 @@ public class EmployeeController {
     @PostMapping("/new")
     public Map<String,Object> addEmployee(@RequestBody Employee employee){
         Map<String, Object> map = new HashMap<String, Object>();
-        Employee newEmployee = employeeService.addEmployee(employee);
+        Employee newEmployee = employeeService.addEmployee(employee,"EMP");
         String token = jwtService.generateToken(employee.getName(),employee.getEmployeeId().toString());
         map.put("authtoken",token);
         map.put("EmplyeeDetails",newEmployee);
