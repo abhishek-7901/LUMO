@@ -2,8 +2,10 @@ package com.wellsfargo.luma.controller;
 
 import com.wellsfargo.luma.dto.LoginRequest;
 import com.wellsfargo.luma.model.Employee;
+import com.wellsfargo.luma.model.Loan;
 import com.wellsfargo.luma.service.EmployeeService;
 import com.wellsfargo.luma.service.JwtService;
+import com.wellsfargo.luma.service.LoanService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,6 +33,9 @@ public class AdminController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private LoanService loanService;
 
     @PostMapping("/new")
     public Map<String, Object> addEmployee(@RequestBody Employee employee) {
@@ -64,6 +69,39 @@ public class AdminController {
 
             } else {
                 throw new UsernameNotFoundException("invalid user request !");
+            }
+        }catch (Exception e){
+            log.info(e.getStackTrace().toString());
+            map.put("success",false);
+            map.put("Reason","Check Credentials");
+            return ResponseEntity.internalServerError().body(map);
+        }
+
+    }
+    @PostMapping("/addLoanCard")
+    public ResponseEntity<Map<String,Object>> addLoanCard(@RequestBody Loan loan, @RequestHeader("Authorization") String authHeader){
+        Map<String, Object> map = new HashMap<String, Object>();
+        try {
+            String token = authHeader.substring(7);
+            if(token == null)
+            {
+                map.put("success" , false);
+                map.put("message","Error Fetching User. No User Found");
+                return new ResponseEntity<>(map,HttpStatus.NOT_FOUND);
+            }
+            String name = jwtService.extractUsername(token);
+            Optional<Employee> employee = employeeService.findByName(name);
+            if(Objects.equals("ADMIN",employee.get().getRole())){
+                Loan newLoan = loanService.addLoanCard(loan);
+                map.put("LoanDetails",loan);
+                map.put("Success",true);
+
+                return new ResponseEntity<>(map,HttpStatus.CREATED);
+            }
+            else {
+                map.put("success", false);
+                map.put("Reason", "Not Authorized Admin");
+                return new ResponseEntity<>(map, HttpStatus.FORBIDDEN);
             }
         }catch (Exception e){
             log.info(e.getStackTrace().toString());
