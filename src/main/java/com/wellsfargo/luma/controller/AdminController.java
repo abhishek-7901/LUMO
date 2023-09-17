@@ -16,10 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/admin")
@@ -64,7 +61,7 @@ public class AdminController {
                 else{
                     map.put("success", false);
                     map.put("Reason", "Not Authorized Admin");
-                    return new ResponseEntity<>(map, HttpStatus.FORBIDDEN);
+                    return new ResponseEntity<>(map, HttpStatus.UNAUTHORIZED);
                 }
 
             } else {
@@ -92,16 +89,57 @@ public class AdminController {
             String name = jwtService.extractUsername(token);
             Optional<Employee> employee = employeeService.findByName(name);
             if(Objects.equals("ADMIN",employee.get().getRole())){
-                Loan newLoan = loanService.addLoanCard(loan);
-                map.put("LoanDetails",loan);
-                map.put("Success",true);
+                Loan oldLoan = loanService.findLoanByLoanId(loan.getLoanId());
+                if(oldLoan == null)
+                {
+                    Loan newLoan = loanService.addLoanCard(loan);
+                    map.put("LoanDetails",newLoan);
+                    map.put("Success",true);
 
-                return new ResponseEntity<>(map,HttpStatus.CREATED);
+                    return new ResponseEntity<>(map,HttpStatus.CREATED);
+                }
+
+                map.put("Success",false);
+
+                return new ResponseEntity<>(map,HttpStatus.CONFLICT);
             }
             else {
                 map.put("success", false);
                 map.put("Reason", "Not Authorized Admin");
-                return new ResponseEntity<>(map, HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>(map, HttpStatus.UNAUTHORIZED);
+            }
+        }catch (Exception e){
+            log.info(e.getStackTrace().toString());
+            map.put("success",false);
+            map.put("Reason","Check Credentials");
+            return ResponseEntity.internalServerError().body(map);
+        }
+
+    }
+
+    @GetMapping("/viewLoanCards")
+    public ResponseEntity<Map<String,Object>> viewLoanCards(@RequestHeader("Authorization") String authHeader){
+        Map<String, Object> map = new HashMap<String, Object>();
+        try {
+            String token = authHeader.substring(7);
+            if(token == null)
+            {
+                map.put("success" , false);
+                map.put("message","Error Fetching User. No User Found");
+                return new ResponseEntity<>(map,HttpStatus.NOT_FOUND);
+            }
+            String name = jwtService.extractUsername(token);
+            Optional<Employee> employee = employeeService.findByName(name);
+            if(Objects.equals("ADMIN",employee.get().getRole())){
+                List<Loan> loanList = loanService.getLoanCards();
+                map.put("Success",true);
+                map.put("LoanCards",loanList);
+                return new ResponseEntity<>(map,HttpStatus.OK);
+            }
+            else {
+                map.put("success", false);
+                map.put("Reason", "Not Authorized Admin");
+                return new ResponseEntity<>(map, HttpStatus.UNAUTHORIZED);
             }
         }catch (Exception e){
             log.info(e.getStackTrace().toString());
