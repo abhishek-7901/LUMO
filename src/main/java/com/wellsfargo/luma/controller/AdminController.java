@@ -2,8 +2,10 @@ package com.wellsfargo.luma.controller;
 
 import com.wellsfargo.luma.dto.LoginRequest;
 import com.wellsfargo.luma.model.Employee;
+import com.wellsfargo.luma.model.Item;
 import com.wellsfargo.luma.model.Loan;
 import com.wellsfargo.luma.service.EmployeeService;
+import com.wellsfargo.luma.service.ItemService;
 import com.wellsfargo.luma.service.JwtService;
 import com.wellsfargo.luma.service.LoanService;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +35,9 @@ public class AdminController {
 
     @Autowired
     private LoanService loanService;
+
+    @Autowired
+    private ItemService itemService;
 
     @PostMapping("/new")
     public Map<String, Object> addEmployee(@RequestBody Employee employee) {
@@ -134,6 +139,83 @@ public class AdminController {
                 List<Loan> loanList = loanService.getLoanCards();
                 map.put("Success",true);
                 map.put("LoanCards",loanList);
+                return new ResponseEntity<>(map,HttpStatus.OK);
+            }
+            else {
+                map.put("success", false);
+                map.put("Reason", "Not Authorized Admin");
+                return new ResponseEntity<>(map, HttpStatus.UNAUTHORIZED);
+            }
+        }catch (Exception e){
+            log.info(e.getStackTrace().toString());
+            map.put("success",false);
+            map.put("Reason","Check Credentials");
+            return ResponseEntity.internalServerError().body(map);
+        }
+
+    }
+
+    @PostMapping("/addItem")
+    public ResponseEntity<Map<String,Object>> addItem(@RequestBody Item item, @RequestHeader("Authorization") String authHeader){
+        Map<String, Object> map = new HashMap<String, Object>();
+        try {
+            String token = authHeader.substring(7);
+            if(token == null)
+            {
+                map.put("success" , false);
+                map.put("message","Error Fetching User. No User Found");
+                return new ResponseEntity<>(map,HttpStatus.NOT_FOUND);
+            }
+            String name = jwtService.extractUsername(token);
+            Optional<Employee> employee = employeeService.findByName(name);
+            if(Objects.equals("ADMIN",employee.get().getRole())){
+
+                Item oldItem = itemService.findItemByItemId(item.getItemId());
+                if(oldItem == null)
+                {
+
+                    Item newItem = itemService.addItem(item);
+                    map.put("ItemDetails",newItem);
+                    map.put("Success",true);
+
+                    return new ResponseEntity<>(map,HttpStatus.CREATED);
+                }
+
+                map.put("Success",false);
+
+                return new ResponseEntity<>(map,HttpStatus.CONFLICT);
+            }
+            else {
+                map.put("success", false);
+                map.put("Reason", "Not Authorized Admin");
+                return new ResponseEntity<>(map, HttpStatus.UNAUTHORIZED);
+            }
+        }catch (Exception e){
+            log.info(e.getStackTrace().toString());
+            map.put("success",false);
+            map.put("Reason","Check Credentials");
+            return ResponseEntity.internalServerError().body(map);
+        }
+
+    }
+
+    @GetMapping("/viewItems")
+    public ResponseEntity<Map<String,Object>> viewItems(@RequestHeader("Authorization") String authHeader){
+        Map<String, Object> map = new HashMap<String, Object>();
+        try {
+            String token = authHeader.substring(7);
+            if(token == null)
+            {
+                map.put("success" , false);
+                map.put("message","Error Fetching User. No User Found");
+                return new ResponseEntity<>(map,HttpStatus.NOT_FOUND);
+            }
+            String name = jwtService.extractUsername(token);
+            Optional<Employee> employee = employeeService.findByName(name);
+            if(Objects.equals("ADMIN",employee.get().getRole())){
+                List<Item> itemList = itemService.getItems();
+                map.put("Success",true);
+                map.put("LoanCards",itemList);
                 return new ResponseEntity<>(map,HttpStatus.OK);
             }
             else {

@@ -14,6 +14,7 @@ public class LoanService {
     private LoanRepository loanRepository;
 
     public Loan addLoanCard(Loan loan){
+        loan.setStatus(false);
         return loanRepository.save(loan);
     }
 
@@ -23,5 +24,13 @@ public class LoanService {
 
     public List<Loan> getLoanCards(){
         return loanRepository.findAll();
+    }
+
+    public int changeLoanStatus(String Id, Boolean status){
+        return loanRepository.changeLoanStatus(Id,status);
+    }
+
+    public List<Loan> findUnavailedLoans(String type, Boolean status){
+        return loanRepository.findLoanByTypeAndStatus(type,status);
     }
 }

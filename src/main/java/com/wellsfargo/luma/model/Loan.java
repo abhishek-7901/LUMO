@@ -23,4 +23,6 @@ public class Loan {
     private String type;
 
     private Integer duration;
+
+    private Boolean status;
 }
