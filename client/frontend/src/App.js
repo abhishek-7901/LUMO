@@ -2,14 +2,14 @@ import logo from './logo.svg';
 import './App.css';
 import Login from './components/Login'
 import Register from './components/Register'
-import Dashboard from './components/Dashboard';
+import Dashboard from './components/User/UserDashboard';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import { useState } from 'react';
 import Navbar from './components/Navbar';
 import LandingPage from './components/LandingPage';
-import ApplyLoan from './components/ApplyLoan';
-import ViewLoan from './components/ViewLoan';
-import ViewItem from './components/ViewItem';
+import ApplyLoan from './components/User/ApplyLoan';
+import ViewLoan from './components/User/ViewLoan';
+import ViewItem from './components/User/ViewItem';
 import Protected from './components/Protected';
 function App() {
   return (
