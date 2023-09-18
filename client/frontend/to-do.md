@@ -60,4 +60,6 @@ Front end
 Careful when you delte and update stuff, since data may cascade on top of each other. 
 
 
+Need to add navbar roles 
+Need to figure out why admin/viewUser is not working
 
