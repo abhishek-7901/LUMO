@@ -150,7 +150,7 @@ const AdminCustomerData = () => {
                                     </Col>
                                     {/* Confirm Password */}
                                     <Col>
-                                        <Form.Group className="" controlId="formBasicPassword">
+                                        <Form.Group className="" controlId="formBasicConfirmPassword">
                                             <Form.Label>Confirm Password</Form.Label>
                                             <Form.Control name='passwordconf' type="password" placeholder="Confirm Password" />
                                         </Form.Group>
