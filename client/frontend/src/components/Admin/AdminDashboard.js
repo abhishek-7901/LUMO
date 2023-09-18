@@ -13,7 +13,7 @@ const AdminDashboard = () => {
 
         <div className="row">
           <div className="col-sm-4">
-            <Link to='/viewLoan' style={{ textDecoration: "none" }}>
+            <Link to='/admin/customerData' style={{ textDecoration: "none" }}>
               <div className="user-dashboard-card card-center">
                 <div className="user-dashboard-card-body">
                   <h5 className="user-dashboard-card-title">Customer Data Management</h5>
@@ -24,7 +24,7 @@ const AdminDashboard = () => {
             </Link>
           </div>
           <div className="col-sm-4">
-            <Link to='/applyLoan' style={{ textDecoration: "none" }}>
+            <Link to='/admin/loanCard' style={{ textDecoration: "none" }}>
               <div className="user-dashboard-card">
                 <div className="user-dashboard-card-body">
                   <h5 className="user-dashboard-card-title">Loan Card<br></br> Management</h5>
@@ -35,7 +35,7 @@ const AdminDashboard = () => {
             </Link>
           </div>
           <div className="col-sm-4">
-            <Link to='/viewItem' style={{ textDecoration: "none" }}>
+            <Link to='/admin/itemData' style={{ textDecoration: "none" }}>
               <div className="user-dashboard-card">
                 <div className="user-dashboard-card-body">
                   <h5 className="user-dashboard-card-title">Items Data <br></br>Management</h5>

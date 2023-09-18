@@ -13,6 +13,10 @@ import ViewItem from './components/User/ViewItem';
 import Protected from './components/Protected';
 import AdminLogin from './components/Admin/AdminLogin';
 import AdminDashboard from './components/Admin/AdminDashboard';
+import AdminCustomerData from './components/Admin/AdminCustomerData';
+import AdminLoanCard from './components/Admin/AdminLoanCard';
+import AdminItemData from './components/Admin/AdminItemData';
+
 function App() {
   return (
     <Router>
@@ -24,10 +28,13 @@ function App() {
           <Route path='/admin/login' element={<AdminLogin />} />
           <Route path='/' element={<LandingPage />} />
           <Route path='/dashboard' element={<Protected><Dashboard /></Protected>} />
-          <Route path='/admin/dashboard' element={<Protected><AdminDashboard /></Protected>} />
           <Route path='/applyLoan' element={<Protected><ApplyLoan /></Protected>} />
           <Route path='/viewLoan' element={<Protected><ViewLoan /></Protected>} />
           <Route path='/viewItem' element={<Protected><ViewItem /></Protected>} />
+          <Route path='/admin/dashboard' element={<Protected><AdminDashboard /></Protected>} />
+          <Route path='/admin/customerData' element={<Protected><AdminCustomerData /></Protected>} />
+          <Route path='/admin/loanCard' element={<Protected><AdminLoanCard /></Protected>} />
+          <Route path='/admin/itemData' element={<Protected><AdminItemData /></Protected>} />
           <Route path='*' element={<h1>Not Found</h1>} />
         </Routes>
 
