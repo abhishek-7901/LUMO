@@ -1,4 +1,4 @@
-.dashboard-header{
+.user-dashboard-header{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,7 +7,7 @@
 }
 
 
-.dashboard-container {
+.user-dashboard-container {
     justify-content: center;
     align-items: center;
     display: flex;
@@ -16,7 +16,7 @@
     margin: 0 auto;
 }
 
-.dashboard-card {
+.user-dashboard-card {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,7 +28,7 @@
     border-radius: 3px;
 }
 
-.dashboard-card-title {
+.user-dashboard-card-title {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -38,7 +38,7 @@
     border-bottom: 1px solid grey;
 }
 
-.dashboard-card-title{
+.user-dashboard-card-title{
     font-size: 1.5rem;
     font-weight: 500;
     color: #333;
@@ -46,7 +46,7 @@
     padding: 0;
 }
 
-.dashboard-card-body {
+.user-dashboard-card-body {
     /* display: flex; */
     justify-content: center;
     align-items: center;
