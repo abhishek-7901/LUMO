@@ -30,4 +30,8 @@ public class ItemService {
     public int changeItemStatus(String Id, Boolean status){
         return itemRepository.changeItemStatus(Id,status);
     }
+
+    public List<Item>findItemByStatus(Boolean status){
+        return itemRepository.findItemByStatus(status);
+    }
 }

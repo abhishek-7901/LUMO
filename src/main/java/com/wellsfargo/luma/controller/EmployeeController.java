@@ -231,5 +231,41 @@ public class EmployeeController {
 
     }
 
+    @GetMapping("/listOfItems")
+    public ResponseEntity<Map<String,Object>> listOfItems(@RequestHeader("Authorization") String authHeader){
+        Map<String, Object> map = new HashMap<String, Object>();
+        try {
+            String token = authHeader.substring(7);
+            if(token == null)
+            {
+                map.put("success" , false);
+                map.put("message","Error Fetching User. No User Found");
+                return new ResponseEntity<>(map,HttpStatus.NOT_FOUND);
+            }
+            String name = jwtService.extractUsername(token);
+            Optional<Employee> employee = employeeService.findByName(name);
+            if(Objects.equals("EMP",employee.get().getRole())){
+
+                List<Item> itemList = itemService.findItemByStatus(false);
+                map.put("Success",true);
+                map.put("LoanCards",itemList);
+                return new ResponseEntity<>(map,HttpStatus.OK);
+            }
+            else {
+                map.put("success", false);
+                map.put("Reason", "Not Authorized.");
+                return new ResponseEntity<>(map, HttpStatus.UNAUTHORIZED);
+            }
+        }catch (Exception e){
+            log.info(e.getStackTrace().toString());
+            map.put("success",false);
+            map.put("Reason","Check Credentials");
+            return ResponseEntity.internalServerError().body(map);
+        }
+
+    }
+
+
+
 
 }

@@ -18,6 +18,6 @@ public interface ItemRepository extends JpaRepository<Item,Long> {
     @Query("UPDATE Item u SET u.status = ?2 WHERE u.itemId = ?1")
     public int changeItemStatus(String Id, Boolean status);
 
-
+    public List<Item>findItemByStatus(Boolean status);
 
 }
