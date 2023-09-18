@@ -5,6 +5,8 @@ import com.wellsfargo.luma.repository.IssuedCardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class IssuedCardService {
 
@@ -13,5 +15,9 @@ public class IssuedCardService {
 
     public IssuedCard addCard(IssuedCard issuedCard){
         return issuedCardRepository.save(issuedCard);
+    }
+
+    public List<IssuedCard> findIssuedCardByEmpId(Long id){
+        return issuedCardRepository.findIssuedCardByEmpId(id);
     }
 }
