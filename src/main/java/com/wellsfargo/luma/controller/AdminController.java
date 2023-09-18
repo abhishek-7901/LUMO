@@ -95,6 +95,9 @@ public class AdminController {
             String name = jwtService.extractUsername(token);
             Optional<Employee> employee = employeeService.findByName(name);
             if(Objects.equals("ADMIN",employee.get().getRole())){
+                // Check that if theere is any loan card with the same loanId or not
+                // if there is , then we just loanService.getLoanbyLoanId
+                // we need to delete the already
                 Loan oldLoan = loanService.findLoanByLoanId(loan.getLoanId());
                 if(oldLoan == null)
                 {
@@ -249,7 +252,7 @@ public class AdminController {
             if(Objects.equals("ADMIN",employee.get().getRole())){
                 List<Item> itemList = itemService.getItems();
                 map.put("Success",true);
-                map.put("LoanCards",itemList);
+                map.put("ItemList",itemList);
                 return new ResponseEntity<>(map,HttpStatus.OK);
             }
             else {
