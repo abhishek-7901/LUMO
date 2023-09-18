@@ -13,7 +13,7 @@ const UserDashboard = () => {
 
         <div className="row">
           <div className="col-sm-4">
-            <Link to='/viewLoan' style={{ textDecoration: "none" }}>
+            <Link to='/employee/viewLoan' style={{ textDecoration: "none" }}>
               <div className="user-dashboard-card card-center">
                 <div className="user-dashboard-card-body">
                   <h5 className="user-dashboard-card-title">View Loanss</h5>
@@ -24,7 +24,7 @@ const UserDashboard = () => {
             </Link>
           </div>
           <div className="col-sm-4">
-            <Link to='/applyLoan' style={{ textDecoration: "none" }}>
+            <Link to='/employee/applyLoan' style={{ textDecoration: "none" }}>
               <div className="user-dashboard-card">
                 <div className="user-dashboard-card-body">
                   <h5 className="user-dashboard-card-title">Apply for Loans</h5>
@@ -35,7 +35,7 @@ const UserDashboard = () => {
             </Link>
           </div>
           <div className="col-sm-4">
-            <Link to='/viewItem' style={{ textDecoration: "none" }}>
+            <Link to='/employee/viewItem' style={{ textDecoration: "none" }}>
               <div className="user-dashboard-card">
                 <div className="user-dashboard-card-body">
                   <h5 className="user-dashboard-card-title">View Items Purchased</h5>
