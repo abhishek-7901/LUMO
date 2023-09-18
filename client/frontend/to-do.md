@@ -60,6 +60,7 @@ Front end
 Careful when you delte and update stuff, since data may cascade on top of each other. 
 
 
-Need to add navbar roles 
-Need to figure out why admin/viewUser is not working
+Need to add navbar roles [DONE]
+Need to figure out why admin/viewUser is not working[DONE]
+Make designations, departments from a list which we can change in the frontend.
 
