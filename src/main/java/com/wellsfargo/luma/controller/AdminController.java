@@ -156,6 +156,39 @@ public class AdminController {
 
     }
 
+    @GetMapping("/viewUsers")
+    public ResponseEntity<Map<String,Object>> viewUsers(@RequestHeader("Authorization") String authHeader){
+        Map<String, Object> map = new HashMap<String, Object>();
+        try {
+            String token = authHeader.substring(7);
+            if(token == null)
+            {
+                map.put("success" , false);
+                map.put("message","Error Fetching User. No User Found");
+                return new ResponseEntity<>(map,HttpStatus.NOT_FOUND);
+            }
+            String name = jwtService.extractUsername(token);
+            Optional<Employee> employee = employeeService.findByName(name);
+            if(Objects.equals("ADMIN",employee.get().getRole())){
+                List<Employee>employeeList=employeeService.findAll();
+                map.put("Success",true);
+                map.put("EmployeeList",employeeList);
+                return new ResponseEntity<>(map,HttpStatus.OK);
+            }
+            else {
+                map.put("success", false);
+                map.put("Reason", "Not Authorized Admin");
+                return new ResponseEntity<>(map, HttpStatus.UNAUTHORIZED);
+            }
+        }catch (Exception e){
+            log.info(e.getStackTrace().toString());
+            map.put("success",false);
+            map.put("Reason","Check Credentials");
+            return ResponseEntity.internalServerError().body(map);
+        }
+
+    }
+
     @PostMapping("/addItem")
     public ResponseEntity<Map<String,Object>> addItem(@RequestBody Item item, @RequestHeader("Authorization") String authHeader){
         Map<String, Object> map = new HashMap<String, Object>();
