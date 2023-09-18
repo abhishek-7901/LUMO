@@ -12,8 +12,8 @@
 6. Tables UI needs to be revamped
 7. Apply loan logic for populating the form based on a list of items as recieved. 
 8. Add Validations for every form
-9. Error showing properly
-
+9. Error showing properly in case of any backend errors, consider dummy for now. 
+10. Give drop downs for designation and department
 ### Backend 
 1. Make all tables and entities   - Use relational table to populate the apply for loan form, view loan cards availed, and view items purchased. 
 2. Create APIs for creating and reading loans and items 
@@ -41,8 +41,9 @@ Front end
 8. Item table view [DONE]
 9. Item edit and delete
 10. Add validations to every form in the backend.
-11. Error showing properly
- 
+11. Error showing properly in case any sent from the backend, consider dummy for now. 
+12. Give drop downs for designation and department
+
 ### Backend 
 1. Make Loan master table - Loan id, type of loan, duration in years
 2. Item master table - item id, category, description, value, item make.
