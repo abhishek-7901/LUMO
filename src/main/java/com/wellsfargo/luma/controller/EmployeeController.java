@@ -191,4 +191,45 @@ public class EmployeeController {
 
     }
 
+    @GetMapping("/viewItems")
+    public ResponseEntity<Map<String,Object>> viewItems(@RequestHeader("Authorization") String authHeader){
+        Map<String, Object> map = new HashMap<String, Object>();
+        try {
+            String token = authHeader.substring(7);
+            if(token == null)
+            {
+                map.put("success" , false);
+                map.put("message","Error Fetching User. No User Found");
+                return new ResponseEntity<>(map,HttpStatus.NOT_FOUND);
+            }
+            String name = jwtService.extractUsername(token);
+            Optional<Employee> employee = employeeService.findByName(name);
+            if(Objects.equals("EMP",employee.get().getRole())){
+
+                List<IssuedCard> issuedCardList = issuedCardService.findIssuedCardByEmpId(employee.get().getEmployeeId());
+                List<Item> itemList = new ArrayList<>();
+                issuedCardList.forEach((card)->{
+                    Item item = itemService.findItemByItemId(card.getItemId());
+                    itemList.add(item);
+                });
+                map.put("ItemList",itemList);
+                map.put("Success",true);
+
+                return new ResponseEntity<>(map,HttpStatus.OK);
+            }
+            else {
+                map.put("success", false);
+                map.put("Reason", "Not Authorized.");
+                return new ResponseEntity<>(map, HttpStatus.UNAUTHORIZED);
+            }
+        }catch (Exception e){
+            log.info(e.getStackTrace().toString());
+            map.put("success",false);
+            map.put("Reason","Check Credentials");
+            return ResponseEntity.internalServerError().body(map);
+        }
+
+    }
+
+
 }
