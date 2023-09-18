@@ -1,8 +1,17 @@
 import React from 'react'
 import '../styles/Dashboard.css'
 import { Link } from 'react-router-dom'
-
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 const Dashboard = () => {
+  let navigate = useNavigate();
+  useEffect(()=>{
+      if(!localStorage.getItem('token'))
+      {
+          navigate('/login')
+      }
+  },[])
+  
   return (
     <div>
       <div className='dashboard-header'>
