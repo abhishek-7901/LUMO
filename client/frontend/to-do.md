@@ -28,9 +28,9 @@
 ## LAMO
 
 Front end  
-1. Make login page 
-2. Make employee registeration page (shift from LUMO register to here)
-3. View employee list page and edit and delete buttons in the table
+1. Make login page [DONE]
+2. Make employee registeration page (shift from LUMO register to here) [DONE]
+3. Add and View employee list page [DONE] and edit and delete buttons in the table
 4. Loan card addition
 5. Loan card table view 
 6. Loan card edit and delete 
@@ -44,8 +44,8 @@ Front end
 3. Loan Item Relation table - issue id(primary key),Item id, loan id(joined on), employee id( TO SHOW CASE WHICH EMPLOYEE TOOK WHAT LOAN THAT IS VIEW ITEMS AND VEIW LOANS TABLE FOR EACH USER SPECIFICALLY)
 
 ### []API calls and meanings 
-1. /admin/addUser-> register the user
-2. /admin/viewUser-> view all the users 
+1. /admin/addUser-> register the user [DONE]
+2. /admin/viewUser-> view all the users  [DONE]
 3. /admin/editUser-> edit the user
 4. /admin/deleteUser
 5. /admin/addLoanCard -> add a loan card
