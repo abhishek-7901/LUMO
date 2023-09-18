@@ -61,6 +61,7 @@ public class AdminController {
                 if (Objects.equals("ADMIN",role)) {
                     map.put("authtoken", jwtService.generateToken(authRequest.getUserName(), employee.get().getEmployeeId().toString()));
                     map.put("success", true);
+                    map.put("EmployeeDetails",employee);
                     return new ResponseEntity<>(map, HttpStatus.OK);
                 }
                 else{

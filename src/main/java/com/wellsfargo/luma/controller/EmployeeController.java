@@ -68,6 +68,7 @@ public class EmployeeController {
         if (authentication.isAuthenticated()) {
             Optional<Employee> employee = employeeService.findByName(authRequest.getUserName());
             log.info(employee.get().getName());
+            map.put("EmployeeDetails",employee);
             map.put("authtoken",jwtService.generateToken(authRequest.getUserName(),employee.get().getEmployeeId().toString()));
             map.put("success",true);
             return map;
