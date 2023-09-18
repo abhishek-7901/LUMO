@@ -22,13 +22,18 @@ const Login = () => {
     });
     const json = await response.json()
     console.log(json);
+    const userBody=json["EmployeeDetails"]
+    // console.log("USERBODY"+userBody.name)
     if (json.success) {
       // Save the auth token and redirect
       localStorage.setItem('token', json.authtoken);
       localStorage.setItem('pass', user.password);
+      localStorage.setItem('user', userBody.name);
+      localStorage.setItem('role', userBody.role);
+
       setSuccessmMg('Login Successful')
       setTimeout(() => {
-        navigate('/dashboard')
+        navigate('/employee/dashboard')
       }, 2000);
 
     }

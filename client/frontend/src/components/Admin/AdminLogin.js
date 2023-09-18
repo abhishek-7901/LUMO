@@ -25,6 +25,8 @@ const AdminLogin = () => {
       // Save the auth token and redirect
       localStorage.setItem('token', json.authtoken);
       localStorage.setItem('pass', user.password);
+      localStorage.setItem('role', 'ADMIN')
+      localStorage.setItem('user', user.userName);
       setSuccessmMg('Admin Login Successful')
       setTimeout(() => {
         navigate('/admin/dashboard')
