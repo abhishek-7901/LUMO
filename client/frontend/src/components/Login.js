@@ -33,7 +33,7 @@ const Login = () => {
 
       setSuccessmMg('Login Successful')
       setTimeout(() => {
-        navigate('/dashboard')
+        navigate('/employee/dashboard')
       }, 2000);
 
     }

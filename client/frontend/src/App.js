@@ -27,10 +27,10 @@ function App() {
           <Route path='/register' element={<Register />} />
           <Route path='/admin/login' element={<AdminLogin />} />
           <Route path='/' element={<LandingPage />} />
-          <Route path='/dashboard' element={<Protected><Dashboard /></Protected>} />
-          <Route path='/applyLoan' element={<Protected><ApplyLoan /></Protected>} />
-          <Route path='/viewLoan' element={<Protected><ViewLoan /></Protected>} />
-          <Route path='/viewItem' element={<Protected><ViewItem /></Protected>} />
+          <Route path='/employee/dashboard' element={<Protected><Dashboard /></Protected>} />
+          <Route path='/employee/applyLoan' element={<Protected><ApplyLoan /></Protected>} />
+          <Route path='/employee/viewLoan' element={<Protected><ViewLoan /></Protected>} />
+          <Route path='/employee/viewItem' element={<Protected><ViewItem /></Protected>} />
           <Route path='/admin/dashboard' element={<AdminProtected><AdminDashboard /></AdminProtected>} />
           <Route path='/admin/customerData' element={<AdminProtected><AdminCustomerData /></AdminProtected>} />
           <Route path='/admin/loanCard' element={<AdminProtected><AdminLoanCard /></AdminProtected>} />

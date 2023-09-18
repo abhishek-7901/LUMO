@@ -47,7 +47,7 @@ const Register = () => {
         localStorage.setItem('token', json.authtoken);
         setSuccessmMg('Registeration Successful')
         setTimeout(() => {
-          navigate('/dashboard')
+          navigate('/employee/dashboard')
         }, 2000)
       }
       else {
