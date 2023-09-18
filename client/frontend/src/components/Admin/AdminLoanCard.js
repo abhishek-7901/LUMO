@@ -133,7 +133,7 @@ const AdminLoanCard = () => {
                   {loanCards.map(
                     loanCard =>
                       <tr key={loanCard.id}>
-                        <td>{loanCard.loan_id}</td>
+                        <td>{loanCard.loanId}</td>
                         <td>{loanCard.type}</td>
                         <td>{loanCard.duration}</td>
                       </tr>
