@@ -17,10 +17,10 @@ const AdminLoanCard = () => {
     console.log("TEST", loanCard)
     // fields are duration, loan_id,type and status
     let duration = loanCard.duration
-    let loan_id = loanCard.loan_id
+    let loanId = loanCard.loan_id
     let type = loanCard.type
 
-    let loanCardData = { duration, loan_id, type }
+    let loanCardData = { loanId, type,duration }
     const response = await fetch('http://localhost:9191/admin/addLoanCard', {
       method: 'POST',
       headers: {
