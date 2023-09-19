@@ -58,41 +58,35 @@ const Register = () => {
   }
 
   return (
-    <div>
+    <div className='login-body bgfull' style={{paddingTop:"5vh"}}>
       {/* Register register-card */}
-      <div className="register-card">
-        <div className="register-card-body">
-          <h5 className="register-card-title">Register</h5>
-          <p className="register-card-text">Please fill in this form to create an account.</p>
+      <div className="login-card">
+        <div className="login-card-body">
+          <h5 className="login-card-title">Register</h5>
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               {/* Email: <input type="email" name="email" onChange={e => setEmail(e.target.value)} */}
               {/* // pattern={'/^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$/'}  */}
               {/* title="Invalid email address" required /> */}
 
-              Username:  <input type="text" name="userame" minlength="6" maxlength="20" onChange={e => setUserName(e.target.value)} onkeyup='check();' required />
+              Username:  <input type="text" name="username" className='login-input' minlength="6" maxlength="20" onChange={e => setUserName(e.target.value)} onkeyup='check();' required />
               <br></br>
 
-              Password:  <input type="password" name="password" minlength="6" maxlength="20" onChange={e => setPassword(e.target.value)} onkeyup='check();' required />
+              Password:  <input type="password" name="password" className='login-input' minlength="6" maxlength="20" onChange={e => setPassword(e.target.value)} onkeyup='check();' required />
               <br></br>
-              Confirm Password:  <input type="password" name="passwordconf" minlength="6" maxlength="20" onChange={e => setPasswordConf(e.target.value)} onkeyup='check();' required />
+              Confirm Password:  <input type="password" className='login-input' name="passwordconf" minlength="6" maxlength="20" onChange={e => setPasswordConf(e.target.value)} onkeyup='check();' required />
               <span id='message'></span>
               <br></br>
 
-              Date of Birth: <input type="date" name="dob" onChange={e => setDob(e.target.value)} required />
+              Date of Birth: <input type="date" name="dob"  className='login-input' onChange={e => setDob(e.target.value)} required />
               <br></br>
-              Date of Joining: <input type="date" name="doj" onChange={e => setDoj(e.target.value)} required />
+              Date of Joining: <input type="date" name="doj" className='login-input' onChange={e => setDoj(e.target.value)} required />
               <br></br>
-              Gender: <input type="text" name="dob" onChange={e => setGender(e.target.value)} required />
-              {/* <div className="form-check">
-                <input id="genderInput" className="form-check-input" type="radio" name="flexRadioDefault"  />
-                  <label id="genderLabel" className="form-check-label" for="genderInput" />
-                    Default radio
-                  
-              </div> */}
+              Gender (M or F): <input type="text" name="dob" className='login-input' onChange={e => setGender(e.target.value)} required />
+              
               <br></br>
 
-              <input type="submit" value="Submit" />
+              <input type="submit" className='login-input' style={{backgroundColor:'#ff7d00',color:'#fff',fontSize:'20px'}} value="Submit" />
               {errorMsg && <p className='error-message'>{errorMsg}</p>}
               {successMsg && <p className='success-message'>{successMsg}</p>}
             </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import '../styles/ViewLoan.css'
+import '../../styles/ViewLoan.css'
 
 const ViewLoan = () => {
 
