@@ -4,7 +4,7 @@
 ## LUMO 
 
 ### Front end 
-1. Home page needs to be given some buttons 
+1. Home page needs to be given some buttons [DONE]
 2. UI for Login needs to be revamped
 3. UI for Register needs to be revamped
 4. Tables for loans and items need to be created 
