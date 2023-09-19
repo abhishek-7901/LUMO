@@ -81,7 +81,7 @@ const Navbar = () => {
                                 <Link className="btn btn-primary mx-1" to="/register" role="button">Signup</Link>
                             </form> :
                             <div style={{ display: "flex", flexDirection: "row" }}>
-                                <Link to='/' style={{ textDecoration: 'none', color: 'grey', margin: "auto" }}> {localStorage.getItem('user')}</Link>
+                                <Link to={(localStorage.getItem('role')=='ADMIN')?"/admin/dashboard":"/employee/dashboard"} style={{ textDecoration: 'none', color: 'grey', margin: "auto" }}><b>{(localStorage.getItem('role')=='ADMIN')?"Admin":"Employee"}</b> {localStorage.getItem('user')}</Link>
                                 <button onClick={handleLogout} className='btn btn-primary mx-2'>Logout</button>
                             </div>}
                     </div>
