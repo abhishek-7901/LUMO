@@ -18,7 +18,9 @@ public class ItemService {
         item.setStatus(false);
         return itemRepository.save(item);
     }
-
+    public void deleteById(long Id){
+        itemRepository.deleteById(Id) ;
+    }
     public Item findItemByItemId(String Id){
         return itemRepository.findItemByItemId(Id);
     }
