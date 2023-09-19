@@ -104,6 +104,7 @@ public class AdminController {
                 Loan oldLoan = loanService.findLoanByLoanId(loan.getLoanId());
                 if(oldLoan == null)
                 {
+                    map.put("before adding", loan) ;
                     Loan newLoan = loanService.addLoanCard(loan);
                     map.put("LoanDetails",newLoan);
                     map.put("Success",true);
@@ -128,6 +129,104 @@ public class AdminController {
         }
 
     }
+
+    @PutMapping("/editLoanCard/{id}")
+    public ResponseEntity<Map<String,Object>> editLoan(@PathVariable(value = "id") String lId,
+               @RequestBody Loan loan, @RequestHeader("Authorization") String authHeader){
+        Map<String, Object> map = new HashMap<String, Object>();
+        try {
+            String token = authHeader.substring(7);
+            if(token == null)
+            {
+                map.put("success" , false);
+                map.put("message","Error Fetching User. No User Found");
+                return new ResponseEntity<>(map,HttpStatus.NOT_FOUND);
+            }
+            String name = jwtService.extractUsername(token);
+            Optional<Employee> employee = employeeService.findByName(name);
+            if(Objects.equals("ADMIN",employee.get().getRole())){
+                map.put("loan Id", lId) ;
+                Loan oldLoan = loanService.findLoanByLoanId(lId);
+                map.put("loan", oldLoan) ;
+                if(oldLoan == null){
+                    map.put("Loan Id incorrect", false) ;
+                    return new ResponseEntity<>(map, HttpStatus.NOT_FOUND) ;
+                }
+                else {
+                    if (oldLoan.getStatus().equals(false)){
+                        loan.setId(oldLoan.getId()) ;
+                        loan.setLoanId(oldLoan.getLoanId());
+                        Loan newLoan = loanService.addLoanCard(loan);
+                        map.put("LoanDetails",newLoan);
+                        map.put("Success",true);
+                        return new ResponseEntity<>(map,HttpStatus.CREATED);
+                    }
+                    else {
+                        map.put("cannot do it, loan is being utilised by an employee", false) ;
+                        return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST) ;
+                    }
+                }
+            }
+            else {
+                map.put("success", false);
+                map.put("Reason", "Not Authorized Admin");
+                return new ResponseEntity<>(map, HttpStatus.UNAUTHORIZED);
+            }
+        }catch (Exception e){
+            log.info(e.getStackTrace().toString());
+            map.put("success",false);
+            map.put("Reason","Check Credentials");
+            return ResponseEntity.internalServerError().body(map);
+        }
+    }
+
+    @DeleteMapping("/deleteLoanCard/{id}")
+    public ResponseEntity<Map<String,Object>> deleteLoan(@PathVariable(value = "id") String lId,
+                                            @RequestHeader("Authorization") String authHeader){
+        Map<String, Object> map = new HashMap<String, Object>();
+        try {
+            String token = authHeader.substring(7);
+            if(token == null)
+            {
+                map.put("success" , false);
+                map.put("message","Error Fetching User. No User Found");
+                return new ResponseEntity<>(map,HttpStatus.NOT_FOUND);
+            }
+            String name = jwtService.extractUsername(token);
+            Optional<Employee> employee = employeeService.findByName(name);
+            if(Objects.equals("ADMIN",employee.get().getRole())){
+                Loan oldLoan = loanService.findLoanByLoanId(lId);
+                if(oldLoan == null){
+                    map.put("Loan Id incorrect", false) ;
+                    return new ResponseEntity<>(map, HttpStatus.NOT_FOUND) ;
+                }
+                else {
+                    //what is the status of the object here
+                    if (oldLoan.getStatus().equals(false)){
+                        loanService.deleteById(oldLoan.getId()) ;
+                        map.put("Data deleted", true) ;
+                        return new ResponseEntity<>(map, HttpStatus.OK) ;
+                    }
+                    else {
+                        map.put("Loan in use, cannot delete", false);
+                        return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
+                    }
+                }
+            }
+            else {
+                map.put("success", false);
+                map.put("Reason", "Not Authorized Admin");
+                return new ResponseEntity<>(map, HttpStatus.UNAUTHORIZED);
+            }
+        }catch (Exception e){
+            log.info(e.getStackTrace().toString());
+            map.put("success",false);
+            map.put("Reason","Check Credentials");
+            return ResponseEntity.internalServerError().body(map);
+        }
+    }
+
+
 
     @GetMapping("/viewLoanCards")
     public ResponseEntity<Map<String,Object>> viewLoanCards(@RequestHeader("Authorization") String authHeader){
@@ -239,6 +338,108 @@ public class AdminController {
 
     }
 
+    @PutMapping("/editItem/{id}")
+    public ResponseEntity<Map<String,Object>> editItem(@PathVariable(value = "id") String tId, @RequestBody Item item, @RequestHeader("Authorization") String authHeader){
+        Map<String, Object> map = new HashMap<String, Object>();
+        log.info("hello");
+        try {
+            String token = authHeader.substring(7);
+            if(token == null)
+            {
+                map.put("success" , false);
+                map.put("message","Error Fetching User. No User Found");
+                return new ResponseEntity<>(map,HttpStatus.NOT_FOUND);
+            }
+            String name = jwtService.extractUsername(token);
+            map.put("im here", false) ;
+            Optional<Employee> employee = employeeService.findByName(name);
+            if(Objects.equals("ADMIN",employee.get().getRole())){
+
+                map.put("Item Id", tId) ;
+                Item oldItem = itemService.findItemByItemId(item.getItemId());
+                if(oldItem == null)
+                {
+                    map.put("Item id incorrect",false) ;
+                    return new ResponseEntity<>(map,HttpStatus.NOT_FOUND);
+                }
+                else {
+                    if (oldItem.getStatus().equals(false)){
+                        item.setId(oldItem.getId());
+                        Item newItem = itemService.addItem(item) ;
+                        map.put("Item details", newItem) ;
+                        map.put("Success", true) ;
+                        return new ResponseEntity<>(map, HttpStatus.CREATED) ;
+                    }
+                    else {
+                        map.put("cannot do it item is being availed by a user", false) ;
+                        return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST) ;
+                    }
+                }
+            }
+            else {
+                map.put("success", false);
+                map.put("Reason", "Not Authorized Admin");
+                return new ResponseEntity<>(map, HttpStatus.UNAUTHORIZED);
+            }
+        }catch (Exception e){
+            log.info(e.getStackTrace().toString());
+            map.put("success",false);
+            map.put("Reason","Check Credentials");
+            return ResponseEntity.internalServerError().body(map);
+        }
+
+    }
+
+    @PutMapping("/deleteItem/{id}")
+    public ResponseEntity<Map<String,Object>> deleteItem(@PathVariable(value = "id") String tId, @RequestHeader("Authorization") String authHeader){
+        Map<String, Object> map = new HashMap<String, Object>();
+        log.info("hello");
+        try {
+            String token = authHeader.substring(7);
+            if(token == null)
+            {
+                map.put("success" , false);
+                map.put("message","Error Fetching User. No User Found");
+                return new ResponseEntity<>(map,HttpStatus.NOT_FOUND);
+            }
+            String name = jwtService.extractUsername(token);
+            Optional<Employee> employee = employeeService.findByName(name);
+            if(Objects.equals("ADMIN",employee.get().getRole())){
+
+                map.put("Item Id", tId) ;
+                Item oldItem = itemService.findItemByItemId(tId);
+                if(oldItem == null)
+                {
+                    map.put("Item id incorrect",false) ;
+                    return new ResponseEntity<>(map,HttpStatus.NOT_FOUND);
+                }
+                else {
+                    if (oldItem.getStatus().equals(false)){
+                        itemService.deleteById(oldItem.getId());
+                        map.put("Data deleted", true) ;
+                        return new ResponseEntity<>(map, HttpStatus.CREATED) ;
+                    }
+                    else {
+                        map.put("cannot do it item is being availed by a user", false) ;
+                        return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST) ;
+                    }
+                }
+            }
+            else {
+                map.put("success", false);
+                map.put("Reason", "Not Authorized Admin");
+                return new ResponseEntity<>(map, HttpStatus.UNAUTHORIZED);
+            }
+        }catch (Exception e){
+            log.info(e.getStackTrace().toString());
+            map.put("success",false);
+            map.put("Reason","Check Credentials");
+            return ResponseEntity.internalServerError().body(map);
+        }
+
+    }
+
+
     @GetMapping("/viewItems")
     public ResponseEntity<Map<String,Object>> viewItems(@RequestHeader("Authorization") String authHeader){
         Map<String, Object> map = new HashMap<String, Object>();
@@ -269,6 +470,5 @@ public class AdminController {
             map.put("Reason","Check Credentials");
             return ResponseEntity.internalServerError().body(map);
         }
-
     }
 }

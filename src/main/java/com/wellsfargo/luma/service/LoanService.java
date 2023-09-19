@@ -30,6 +30,10 @@ public class LoanService {
         return loanRepository.changeLoanStatus(Id,status);
     }
 
+    public void deleteById(long id){
+        loanRepository.deleteById(id);
+    }
+
     public List<Loan> findUnavailedLoans(String type, Boolean status){
         return loanRepository.findLoanByTypeAndStatus(type,status);
     }

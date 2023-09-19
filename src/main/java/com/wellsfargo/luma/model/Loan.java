@@ -1,5 +1,6 @@
 package com.wellsfargo.luma.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,5 +25,6 @@ public class Loan {
 
     private Integer duration;
 
+    @JsonProperty
     private Boolean status;
 }
