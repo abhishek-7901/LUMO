@@ -61,20 +61,25 @@ public class EmployeeController {
 
     @PostMapping("/auth")
     public Map<String, Object> authenticateAndGetToken(@RequestBody LoginRequest authRequest) {
-        log.info(authRequest.getPassword());
         Map<String, Object> map = new HashMap<String, Object>();
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassword()));
-        log.info(authentication.toString());
-        if (authentication.isAuthenticated()) {
-            Optional<Employee> employee = employeeService.findByName(authRequest.getUserName());
-            log.info(employee.get().getName());
-            map.put("EmployeeDetails",employee);
-            map.put("authtoken",jwtService.generateToken(authRequest.getUserName(),employee.get().getEmployeeId().toString()));
-            map.put("success",true);
-            return map;
-        } else {
+        try {
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassword()));
+            log.info(authentication.toString());
+            if (authentication.isAuthenticated()) {
+                Optional<Employee> employee = employeeService.findByName(authRequest.getUserName());
+                log.info(employee.get().getName());
+                map.put("EmployeeDetails", employee);
+                map.put("authtoken", jwtService.generateToken(authRequest.getUserName(), employee.get().getEmployeeId().toString()));
+                map.put("success", true);
+                return map;
+            } else {
+                map.put("success", false);
+                map.put("Reason", "Invalid user request !");
+                return map;
+            }
+        }catch (Exception e){
             map.put("success", false);
-            map.put("Reason", "Invalid user request !");
+            map.put("Reason", "Check Credentials");
             return map;
         }
 
