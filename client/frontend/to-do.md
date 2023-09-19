@@ -14,6 +14,9 @@
 8. Add Validations for every form [Prabhat]
 9. Error showing properly in case of any backend errors, consider dummy for now. 
 10. Give drop downs for designation and department
+11. User Dashboard UI 
+12. Landing Page UI [Prabhat] [Done]
+
 ### Backend 
 1. Make all tables and entities   - Use relational table to populate the apply for loan form, view loan cards availed, and view items purchased. 
 2. Create APIs for creating and reading loans and items 
@@ -43,6 +46,7 @@ Front end
 10. Add validations to every form in the backend.
 11. Error showing properly in case any sent from the backend, consider dummy for now. 
 12. Give drop downs for designation and department
+13. Admin Dashboard UI 
 
 ### Backend 
 1. Make Loan master table - Loan id, type of loan, duration in years
@@ -65,8 +69,10 @@ Front end
 
 Careful when you delte and update stuff, since data may cascade on top of each other. 
 
+###ERRORS
 
 Need to add navbar roles [DONE]
 Need to figure out why admin/viewUser is not working[DONE]
 Make designations, departments from a list which we can change in the frontend.
+Making background color to the whole page in login and register
 
