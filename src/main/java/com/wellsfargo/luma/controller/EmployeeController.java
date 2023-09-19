@@ -73,8 +73,9 @@ public class EmployeeController {
             map.put("success",true);
             return map;
         } else {
-            log.info("Failed Authentication",authentication);
-            throw new UsernameNotFoundException("invalid user request !");
+            map.put("success", false);
+            map.put("Reason", "Invalid user request !");
+            return map;
         }
 
 
