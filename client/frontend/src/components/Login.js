@@ -22,14 +22,14 @@ const Login = () => {
     });
     const json = await response.json()
     console.log(json);
-    const userBody=json["EmployeeDetails"]
+   
     // console.log("USERBODY"+userBody.name)
     if (json.success) {
       // Save the auth token and redirect
       localStorage.setItem('token', json.authtoken);
       localStorage.setItem('pass', user.password);
-      localStorage.setItem('user', userBody.name);
-      localStorage.setItem('role', userBody.role);
+      localStorage.setItem('user', json["EmployeeDetails"].name);
+      localStorage.setItem('role', json["EmployeeDetails"].role);
 
       setSuccessmMg('Login Successful')
       setTimeout(() => {
@@ -47,32 +47,34 @@ const Login = () => {
     setUserName(argu.target.value)
   }
   return (
-    <div>
+    <div className="bgfull">
+    <div className='login-body'>
       {/* Login Card */}
-      <div className="login-card">
+      <div className="login-card container" style={{marginTop:'18vh'}}>
         <div className="login-card-body">
-          <h5 className="login-card-title">Login</h5>
+          <h5 className="login-card-title " style={{paddingTop:'15px'}}>Login</h5>
           <form onSubmit={handleSubmit} autoComplete="on">
             <div className="form-group">
 
-              <label htmlFor="userName">userName</label>
-              <input type="text" name="userName"
+              <label style={{paddingBottom:'5px'}}htmlFor="userName">Username</label>
+              <input type="text" name="userName" className='login-input' style={{textAlign:'center'}}
                 onChange={handleUsernameChange} autoFocus required />
               <br></br>
 
               <label htmlFor="Password">Password</label>
-              <input type="password" name="password" onChange={e => setPassword(e.target.value)} required /> {/*type, name ->arg*/}
+              <input type="password" name="password" style={{textAlign:'center'}} className='login-input' onChange={e => setPassword(e.target.value)} required /> {/*type, name ->arg*/}
               <br></br>
 
-              <Link to='/admin/login' style={{ textDecoration: "none" }}>Are you an Admin?</Link>
+              <Link to='/admin/login' style={{ textDecoration: "none",display:"block",marginBottom:'5px' }}>Are you an Admin?</Link>
 
-                <input type="submit" value="Login" />
+                <input type="submit" value="Login" className='login-input'  style={{backgroundColor:'#ff7d00',color:'#fff',fontSize:'20px'}}/>
                 {errorMsg && <p className='error-message'>{errorMsg}</p>}
                 {successMsg && <p className='success-message'>{successMsg}</p>}
             </div>
           </form>
         </div>
       </div>
+    </div>
     </div>
   )
 }

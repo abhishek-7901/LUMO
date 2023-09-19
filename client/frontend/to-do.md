@@ -5,13 +5,13 @@
 
 ### Front end 
 1. Home page needs to be given some buttons [DONE]
-2. UI for Login needs to be revamped
-3. UI for Register needs to be revamped
-4. Tables for loans and items need to be created 
-5. Apply loans needs to be revamped UI
-6. Tables UI needs to be revamped
+2. UI for Login needs to be revamped [Prabhat] [DONE]
+3. UI for Register needs to be revamped [Prabhat] [DONE]
+4. Tables for loans and items need to be created -> View loan , view table [Priyanka] (look at loan card data file in admin side)
+5. Apply loans needs to be revamped UI [Prabhat]
+6. Tables UI needs to be revamped [Priyanka]
 7. Apply loan logic for populating the form based on a list of items as recieved. 
-8. Add Validations for every form
+8. Add Validations for every form [Prabhat]
 9. Error showing properly in case of any backend errors, consider dummy for now. 
 10. Give drop downs for designation and department
 ### Backend 
@@ -50,18 +50,18 @@ Front end
 3. Loan Item Relation table - issue id(primary key),Item id, loan id(joined on), employee id( TO SHOW CASE WHICH EMPLOYEE TOOK WHAT LOAN THAT IS VIEW ITEMS AND VEIW LOANS TABLE FOR EACH USER SPECIFICALLY)
 
 ### []API calls and meanings 
-1. /admin/addUser-> register the user 
-2. /admin/viewUser-> view all the users 
-3. /admin/editUser-> edit the user
+1. /admin/addUser-> register the user [Prabhat] [Done]
+2. /admin/viewUser-> view all the users [Prabhat] [Done]
+3. /admin/editUser-> edit the user 
 4. /admin/deleteUser
-5. /admin/addLoanCard -> add a loan card
-6. /admin/viewLoanCards -> send list of loan cards
+5. /admin/addLoanCard -> add a loan card [Prabhat] [Done]
+6. /admin/viewLoanCards -> send list of loan cards [Prabhat] [Done]
 7. /admin/editLoanCard 
 8. /admin/deleteLoanCard
-9. /admin/addItem
+9. /admin/addItem [Prabhat] [Done]
 10. /admin/editItem
 11. /admin/deleteItem
-12. /admin/viewItem
+12. /admin/viewItem [Prabhat] [Done]
 
 Careful when you delte and update stuff, since data may cascade on top of each other. 
 

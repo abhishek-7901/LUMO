@@ -1,7 +1,8 @@
 import React from 'react'
 import '../../styles/Login.css'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link,useNavigate } from 'react-router-dom'
+
 const AdminLogin = () => {
   const [userName, setUserName] = useState('') //userName->variabe, setter function 
   const [password, setPassword] = useState('') //state->changes rerendered
@@ -43,28 +44,32 @@ const AdminLogin = () => {
     setUserName(argu.target.value)
   }
   return (
-    <div>
-      {/* Login Card */}
-      <div className="login-card">
-        <div className="login-card-body">
-          <h5 className="login-card-title">Admin Login</h5>
-          <form onSubmit={handleSubmit} autoComplete="on">
-            <div className="form-group">
+    <div className='bgfull'>
+      <div className='login-body'>
+        {/* Login Card */}
+        <div className="login-card container"  style={{marginTop:'18vh',marginBottom:'15vh'}}>
+          <div className="login-card-body">
+            <h5 className="login-card-title" style={{paddingTop:'15px'}}>Admin Login</h5>
+            <form onSubmit={handleSubmit} autoComplete="on">
+              <div className="form-group">
 
-              <label htmlFor="userName">Username</label>
-              <input type="text" name="userName"
-                onChange={handleUsernameChange} autoFocus required />
-              <br></br>
+                <label htmlFor="userName">Username</label>
+                <input type="text" className='login-input' name="userName"
+                  onChange={handleUsernameChange} autoFocus required />
+                <br></br>
 
-              <label htmlFor="Password">Password</label>
-              <input type="password" name="password" onChange={e => setPassword(e.target.value)} required /> {/*type, name ->arg*/}
-              <br></br>
+                <label htmlFor="Password">Password</label>
+                <input type="password" name="password" className='login-input' onChange={e => setPassword(e.target.value)} required /> {/*type, name ->arg*/}
+                <br></br>
 
-              <input type="submit" value="Login" />
-              {errorMsg && <p className='error-message'>{errorMsg}</p>}
-              {successMsg && <p className='success-message'>{successMsg}</p>}
-            </div>
-          </form>
+                <Link to='/login' style={{ textDecoration: "none",display:"block",marginBottom:'5px' }}>Are you an Employee?</Link>
+
+                <input type="submit" value="Login" className='login-input' style={{backgroundColor:'#ff7d00',color:'#fff',fontSize:'20px'}}/>
+                {errorMsg && <p className='error-message'>{errorMsg}</p>}
+                {successMsg && <p className='success-message'>{successMsg}</p>}
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
