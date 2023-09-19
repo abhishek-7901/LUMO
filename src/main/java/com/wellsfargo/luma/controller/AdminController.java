@@ -123,6 +123,49 @@ public class AdminController {
 
     }
 
+    @PutMapping("/editLoanCard/{id}")
+    public ResponseEntity<Map<String,Object>> editLoan(@PathVariable(value = "id") String lId,
+               @RequestBody Loan loan, @RequestHeader("Authorization") String authHeader){
+        Map<String, Object> map = new HashMap<String, Object>();
+        try {
+            String token = authHeader.substring(7);
+            if(token == null)
+            {
+                map.put("success" , false);
+                map.put("message","Error Fetching User. No User Found");
+                return new ResponseEntity<>(map,HttpStatus.NOT_FOUND);
+            }
+            String name = jwtService.extractUsername(token);
+            Optional<Employee> employee = employeeService.findByName(name);
+            if(Objects.equals("ADMIN",employee.get().getRole())){
+                Loan oldLoan = loanService.findLoanByLoanId(lId);
+                if(oldLoan == null){
+                    map.put("Loan Id incorrect", false) ;
+                    return new ResponseEntity<>(map, HttpStatus.NOT_FOUND) ;
+                }
+                else {
+                    loan.setId(oldLoan.getId()) ;
+                    loan.setLoanId(oldLoan.getLoanId());
+                    Loan newLoan = loanService.addLoanCard(loan);
+                    map.put("LoanDetails",newLoan);
+                    map.put("Success",true);
+                    return new ResponseEntity<>(map,HttpStatus.CREATED);
+                }
+            }
+            else {
+                map.put("success", false);
+                map.put("Reason", "Not Authorized Admin");
+                return new ResponseEntity<>(map, HttpStatus.UNAUTHORIZED);
+            }
+        }catch (Exception e){
+            log.info(e.getStackTrace().toString());
+            map.put("success",false);
+            map.put("Reason","Check Credentials");
+            return ResponseEntity.internalServerError().body(map);
+        }
+
+    }
+
     @GetMapping("/viewLoanCards")
     public ResponseEntity<Map<String,Object>> viewLoanCards(@RequestHeader("Authorization") String authHeader){
         Map<String, Object> map = new HashMap<String, Object>();
