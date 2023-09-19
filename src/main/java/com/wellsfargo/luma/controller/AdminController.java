@@ -166,8 +166,55 @@ public class AdminController {
             map.put("Reason","Check Credentials");
             return ResponseEntity.internalServerError().body(map);
         }
-
     }
+
+    @DeleteMapping("/deleteLoanCard/{id}")
+    public ResponseEntity<Map<String,Object>> deleteLoan(@PathVariable(value = "id") String lId,
+                                            @RequestHeader("Authorization") String authHeader){
+        Map<String, Object> map = new HashMap<String, Object>();
+        try {
+            String token = authHeader.substring(7);
+            if(token == null)
+            {
+                map.put("success" , false);
+                map.put("message","Error Fetching User. No User Found");
+                return new ResponseEntity<>(map,HttpStatus.NOT_FOUND);
+            }
+            String name = jwtService.extractUsername(token);
+            Optional<Employee> employee = employeeService.findByName(name);
+            if(Objects.equals("ADMIN",employee.get().getRole())){
+                Loan oldLoan = loanService.findLoanByLoanId(lId);
+                if(oldLoan == null){
+                    map.put("Loan Id incorrect", false) ;
+                    return new ResponseEntity<>(map, HttpStatus.NOT_FOUND) ;
+                }
+                else {
+                    //what is the status of the object here
+                    if (oldLoan.getStatus().equals(false)){
+                        loanService.deleteById(oldLoan.getId()) ;
+                        map.put("Data deleted", true) ;
+                        return new ResponseEntity<>(map, HttpStatus.OK) ;
+                    }
+                    else {
+                        map.put("Loan in use, cannot delete", false);
+                        return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
+                    }
+                }
+            }
+            else {
+                map.put("success", false);
+                map.put("Reason", "Not Authorized Admin");
+                return new ResponseEntity<>(map, HttpStatus.UNAUTHORIZED);
+            }
+        }catch (Exception e){
+            log.info(e.getStackTrace().toString());
+            map.put("success",false);
+            map.put("Reason","Check Credentials");
+            return ResponseEntity.internalServerError().body(map);
+        }
+    }
+
+
 
     @GetMapping("/viewLoanCards")
     public ResponseEntity<Map<String,Object>> viewLoanCards(@RequestHeader("Authorization") String authHeader){
