@@ -68,7 +68,7 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .cors(withDefaults())
-                .authorizeHttpRequests((authorize)->authorize.requestMatchers("/employee/auth","/employee/**","/admin/new","admin/auth").permitAll().anyRequest().authenticated())
+                .authorizeHttpRequests((authorize)->authorize.requestMatchers("/employee/auth","/employee/**","/admin/new","/admin/auth").permitAll().anyRequest().authenticated())
                 .sessionManagement((session)-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(authFilter,UsernamePasswordAuthenticationFilter.class)

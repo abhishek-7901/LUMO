@@ -71,7 +71,10 @@ public class AdminController {
                 }
 
             } else {
-                throw new UsernameNotFoundException("invalid user request !");
+                map.put("success", false);
+                map.put("Reason", "Invalid user request !");
+                return new ResponseEntity<>(map,HttpStatus.INTERNAL_SERVER_ERROR);
+                //throw new UsernameNotFoundException("invalid user request !");
             }
         }catch (Exception e){
             log.info(e.getStackTrace().toString());
