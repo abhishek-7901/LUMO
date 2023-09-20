@@ -226,6 +226,44 @@ public class AdminController {
         }
     }
 
+    @DeleteMapping("/deleteUser/{id}")
+    public ResponseEntity<Map<String, Object>> deleteUser(@PathVariable(id) String eId,
+                              @RequestHeader("Authorization") String authHeader){
+        Map<String, Object> map = new HashMap<String, Object>() ;
+
+        try {
+            String token = authHeader.substring(7);
+            if (token == null) {
+                map.put("success", false);
+                map.put("message", "Error fetching user. No user found");
+                return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
+            }
+            String name = jwtService.extractUsername(token);
+            Optional<Employee> employee = employeeService.findByName(name);
+
+            if (Objects.equals("ADMIN", employee.get().getRole())) {
+                Employee oldEmp = employeeService.findById(eId);
+
+                if (oldEmp == null) {
+                    map.put("Employee Id doesn't exist", false);
+                    return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
+                } else {
+                    employeeService.deleteById(eId) ;
+                }
+            } else {
+                map.put("success", false) ;
+                map.put("You are not authorized", false);
+                return new ResponseEntity<>(map, HttpStatus.UNAUTHORIZED);
+            }
+        } catch (Exception e){
+            log.info(e.getStackTrace().toString());
+            map.put("success",false);
+            map.put("Reason","Check Credentials");
+            return ResponseEntity.internalServerError().body(map);
+        }
+    }
+
+
 
 
     @GetMapping("/viewLoanCards")
@@ -472,3 +510,22 @@ public class AdminController {
         }
     }
 }
+//
+//    @PostMapping("/addIssue")
+//    public Map<String, Object> addIssue(@Validated @RequestBody EmployeeIssue employeeIssue) throws ResourceNotFoundException {
+//        Map<String, Object> map = new HashMap<String, Object>();
+//        Optional<Employee> employee = employeeService.findById(employeeIssue.getEmployee().getEmployeeId()) ;
+//        Employee emp2;
+//        if (employee.isPresent()){
+//            Employee empNotNull = employee.get() ;
+//            employeeIssue.setEmployee(empNotNull);
+//            empNotNull.addEmployeeIssue(employeeIssue) ;
+//            emp2 = employeeService.addEmployee(empNotNull) ;
+//        }
+//        else {
+//            throw new ResourceNotFoundException("Employee not found");
+//        }
+//        map.put("object", emp2) ;
+//        map.put("empIssue", employeeIssue);
+//        return map ;
+//    }
