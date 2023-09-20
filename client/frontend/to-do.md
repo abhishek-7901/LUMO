@@ -8,12 +8,12 @@
 2. UI for Login needs to be revamped [Prabhat] [DONE]
 3. UI for Register needs to be revamped [Prabhat] [DONE]
 4. Tables for loans and items need to be created -> View loan , view table [Priyanka] (look at loan card data file in admin side)
-5. Apply loans needs to be revamped UI [Prabhat]
+5. Apply loans needs to be revamped UI [Prabhat] [DONE]
 6. Tables UI needs to be revamped [Priyanka]
-7. Apply loan logic for populating the form based on a list of items as recieved. 
+7. Apply loan logic for populating the form based on a list of items as recieved. [Prabhat] [DONE]
 8. Add Validations for every form [Prabhat]
 9. Error showing properly in case of any backend errors, consider dummy for now. 
-10. Give drop downs for designation and department
+10. Give drop downs for designation and department [Prabhat] [DONE]
 11. User Dashboard UI 
 12. Landing Page UI [Prabhat] [Done]
 
@@ -27,7 +27,7 @@
 
 
 1. /listOfItems -> on landing on the page of apply loan to fill and populate the fields inside the form. 
-2. /applyLoan -> POST request which will have item/loan details, check in backend, if there are loan cards available for that item type. and also link the loan id with the item id with the employee id with the issue id. [Merin] -> send item object
+2. /applyLoan -> POST request which will have item/loan details, check in backend, if there are loan cards available for that item type. and also link the loan id with the item id with the employee id with the issue id. [Prabhat-frontend-done] 
 3. /employee/viewloans -> list of all loans on that user id (loan cards availed table)
 4. /employee/viewItems -> list of all items purchased by that id (items purchased id) 
 <!-- 5. /employee/viewItems -> all unavailed items (for apply loan logic) non filtered  -->
@@ -38,18 +38,18 @@
 ## LAMO
 
 Front end  
-1. Make login page [DONE]
-2. Make employee registeration page (shift from LUMO register to here) [DONE]
-3. Add and View employee list page [DONE] and edit and delete buttons in the table
-4. Loan card addition [DONE]
-5. Loan card table view [DONE]
+1. Make login page[Prabhat] [DONE]
+2. Make employee registeration page (shift from LUMO register to here)[Prabhat] [DONE]
+3. Add and View employee list page[Prabhat] [DONE] and edit and delete buttons in the table
+4. Loan card addition [Prabhat] [DONE]
+5. Loan card table view [Prabhat] [DONE]
 6. Loan card edit and delete 
-7. Item creation page [DONE]
-8. Item table view [DONE]
+7. Item creation page [Prabhat] [DONE]
+8. Item table view [Prabhat] [DONE]
 9. Item edit and delete
 10. Add validations to every form in the backend.
 11. Error showing properly in case any sent from the backend, consider dummy for now. 
-12. Give drop downs for designation and department
+12. Give drop downs for designation and department [Prabhat]
 13. Admin Dashboard UI 
 
 ### Backend 
