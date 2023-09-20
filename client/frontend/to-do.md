@@ -27,9 +27,13 @@
 
 
 1. /listOfItems -> on landing on the page of apply loan to fill and populate the fields inside the form. 
-2. /applyloan -> POST request which will have item/loan details, check in backend, if there are loan cards available for that item type. and also link the loan id with the item id with the employee id with the issue id. 
-3. /user/viewloans/{id} -> list of all loans on that user id (loan cards availed table)
-4. /user/viewitems/{id} -> list of all items purchased by that id (items purchased id)
+2. /applyLoan -> POST request which will have item/loan details, check in backend, if there are loan cards available for that item type. and also link the loan id with the item id with the employee id with the issue id. [Merin] -> send item object
+3. /employee/viewloans -> list of all loans on that user id (loan cards availed table)
+4. /employee/viewItems -> list of all items purchased by that id (items purchased id) 
+<!-- 5. /employee/viewItems -> all unavailed items (for apply loan logic) non filtered  -->
+6. /employee/listOfItems -> all unavailed items in the pool
+
+
 
 ## LAMO
 
