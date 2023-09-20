@@ -17,7 +17,7 @@ public class EmployeeService {
     private EmployeeRepository employeeRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    public PasswordEncoder passwordEncoder;
 
     public Employee addEmployee(Employee employee, String role){
         employee.setPassword(passwordEncoder.encode(employee.getPassword()));
