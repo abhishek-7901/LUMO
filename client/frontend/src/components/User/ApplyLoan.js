@@ -1,37 +1,229 @@
 import React from 'react'
+import { useState, useEffect } from 'react'
+import { Accordion, Button, Container, Form, Row, Col } from 'react-bootstrap'
 
 const ApplyLoan = () => {
+  const [items, setItems] = useState([])
+  const [categories, setCategories] = useState([])
+  const [selectedCategory, setSelectedCategory] = useState("")    // State to store the selected category from the dropdown menu
+  const [makes, setMakes] = useState([])
+  const [selectedMake, setSelectedMake] = useState("")    // State to store the selected make from the dropdown menu
+  const [descriptions, setDescriptions] = useState([])
+  const [selectedDescription, setSelectedDescription] = useState("")    // State to store the selected description from the dropdown menu
+  const [value, setValue] = useState("0")    // State to store the value of the item
+
+  // useffect to get all the items into the page
+  useEffect(() => {
+    getItemList()
+    // console.log("first")
+  }, [])//Dependency array, this useeffect is called when the page renders
+
+  // useffect to get all the categories into the drop down menu when the items are loaded
+  useEffect(() => {
+    const data = () => { getCategories() }
+    if (items) {
+      data()
+    }
+    // console.log("here")
+  }, [items]//Dependency array, this use effect is called when the page renders and state of items changes
+  )
+
+  // useffect to load the items into the drop down menu when the category is selected
+  useEffect(() => {
+    getItemMakes()
+    // console.log("second")
+  }, [selectedCategory])//Dependency array, this useeffect is called when the page renders and state of selectedCategory changes
+
+  // useffect to load the items into the drop down menu when the make is selected
+  useEffect(() => {
+    getItemDescription()
+    // console.log("third")
+  }, [selectedMake, selectedCategory])//Dependency array, this useeffect is called when the page renders and state of selectedMake changes
+
+  // useffect to load the value of the item into the state when the description is selected
+  useEffect(() => {
+    getItemValue()
+    // console.log("fourth")
+  }, [selectedCategory,selectedMake,selectedDescription])//Dependency array, this useeffect is called when the page renders and state of selectedDescription changes
+
+  // Gets all the unique categories from the Items state and sets it into the category state.
+  function getCategories() {
+    console.log("in category")
+    let categoryList = []
+    items.forEach(item => {
+      if (!categoryList.includes(item.category)) {
+        categoryList.push(item.category)
+      }
+    })
+    console.log(categoryList)
+    setCategories(categoryList)
+  }
+
+  //Gets all the unique makes from the Items state and sets it into the make state.
+  function getItemMakes() {
+    console.log("in make")
+    let makeList = []
+    items.forEach(item => {
+      if (item.category === selectedCategory) {
+        if (!makeList.includes(item.make)) {
+          makeList.push(item.make)
+        }
+      }
+    })
+    console.log(makeList)
+    setMakes(makeList)
+  }
+
+  //Gets all the item descriptions from the items state and sets it into the description state, only those which have the right category and make. cant be repetitive.
+  function getItemDescription() {
+    console.log("in description")
+    let descriptionList = []
+    items.forEach(item => {
+      if (item.category === selectedCategory && item.make === selectedMake) {
+        if (!descriptionList.includes(item.description)) {
+          descriptionList.push(item.description)
+        }
+      }
+    })
+    console.log(descriptionList)
+    setDescriptions(descriptionList)
+  }
+
+  function getItemValue() {
+    console.log("in value")
+    let value = 0
+    items.forEach(item => {
+      if (item.category === selectedCategory && item.make === selectedMake && item.description === selectedDescription) {
+        value = item.value;
+        setValue(value)
+        return
+      }
+      else if(item.category === selectedCategory && item.make === selectedMake && item.description !== selectedDescription){
+        setValue("0")
+      }
+    })
+    console.log(value)
+  }
+
+  // TO DO
+  // Handles the submit function call
+  function handleSubmit(params) {
+    //get all the form data in an array and post it to backend at /applyLoan also send the employee ID, and the item ID
+    console.log(params)
+    console.log(params.target[0].value)
+    console.log(params.target[1].value)
+    console.log(params.target[2].value)
+    console.log(params.target[3].value)
+    console.log(params.target[4].value)
+    console.log(params.target[5].value)
+
+  }
+
+  // SEts the list of items into the state Items. 
+  function getItemList() {
+    fetch('http://localhost:9191/employee/listOfItems', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+      }
+    }).then(response => {
+      return response.json()
+    }).then(data => {
+      console.log(data)
+      // console.log(data["LoanCards"])
+      setItems(data["LoanCards"])
+    })
+  }
+
   return (
-    <div className="container" style={{justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
-      <h1 style={{margin:"15px auto"}}>Apply Loan</h1>
-      <h3>Select product and apply for loan</h3>
-      <form>
-        <label htmlFor='EmployeeID'>Employee ID</label>
-        <input type='text' id='EmployeeID' name='EmployeeID' placeholder='Employee ID' />
-        <label htmlFor='ItemDescription'>Item Description</label>
-        <input type='text' id='ItemDescription' name='ItemDescription' placeholder='Item Description' />
-        <label type='text' htmlFor='ItemMake'>Item Make</label><br />
-        {/* Drop down menu with the options wooden, glass and plastic */}
-        <select id='ItemMake' name='ItemMake'>
-          <option value='Wooden'>Wooden</option>
-          <option value='Glass'>Glass</option>
-          <option value='Plastic'>Plastic</option>
-        </select>
-        <br /><br />
-        <label id='ItemCategory' htmlFor='ItemCategory'>Item Category</label><br />
-        {/* Drop down menu with the options furniture, electronics,stationary and crockery */}
-        <select id='ItemCategory' name='ItemCategory'>
-          <option value='Furniture'>Furniture</option>
-          <option value='Electronics'>Electronics</option>
-          <option value='Stationary'>Stationary</option>
-          <option value='Crockery'>Crockery</option>
-        </select>
-        <br></br>
-        <br></br>
-        <label id='ItemCost' htmlFor='ItemCost'>Item Cost</label>
-        <input type='text' id='ItemCost' name='ItemCost' placeholder='Item Cost' />
-        <input type='submit' value='Apply for loan' />
-      </form>
+    <div className="container" style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+
+
+      <Container style={{ width: "80%", margin: "10px auto", justifyContent: "center" }}>
+        <h1 style={{ verticalAlign: "middle", textAlign: 'center' }}>Loan Card Management</h1>
+
+        <Form onSubmit={handleSubmit}>
+
+          {/* Employee ID  */}
+          <Row className="">
+            <Col>
+              <Form.Group className="" controlId="formBasicEmployeeID">
+                <Form.Label style={{marginTop:'5px'}}>Employee ID</Form.Label>
+                <Form.Control name='employeeId' type="text" placeholder={localStorage.getItem('empId')} disabled />
+              </Form.Group>
+            </Col>
+
+            {/* Item Category */}
+            <Col>
+              {/* Item Category Dropdown menu which calls function getCategories and gets all the data from that call.  */}
+              <Form.Group className="" controlId="formBasicItemCategory">
+                <Form.Label style={{marginTop:'5px'}}>Item Category</Form.Label>
+                {/* On change, set the option chosen as the selected category */}
+                <Form.Select name='category' aria-label="Default select example" onChange={() => { setSelectedCategory(document.getElementById('formBasicItemCategory').value) }}>
+                  <option>Select Item Category</option>
+                  {categories.map((item, index) => {
+                    return (
+                      <option key={index} value={item} >{item}</option>
+                    )
+                  })}
+                </Form.Select>
+              </Form.Group>
+            </Col>
+          </Row>
+
+          {/* Item Make  */}
+          <Row className="">
+            <Col>
+              {/* Item Make Dropdown menu which calls function getMakes and gets all the data from that call.  */}
+              <Form.Group className="" controlId="formBasicItemMake">
+                <Form.Label style={{marginTop:'5px'}}>Item Make</Form.Label>
+                {/* On change, set the option chosen as the selected make */}
+                <Form.Select name='make' aria-label="Default select example" onChange={() => { setSelectedMake(document.getElementById('formBasicItemMake').value) }}>
+                  <option>Select Item Make</option>
+                  {makes.map((item, index) => {
+                    return (
+                      <option key={index} value={item} onSelect={console.log({ item })}>{item}</option>
+                    )
+                  })}
+                </Form.Select>
+              </Form.Group>
+            </Col>
+            {/* Item Description */}
+            <Col>
+              {/* Item Description Dropdown menu which calls function getDescriptions and gets all the data from that call.  */}
+              <Form.Group className="" controlId="formBasicItemDescription">
+                <Form.Label style={{marginTop:'5px'}}>Item Description</Form.Label>
+                {/* On change, set the option chosen as the selected description */}
+                <Form.Select name='description' aria-label="Default select example" onChange={() => { setSelectedDescription(document.getElementById('formBasicItemDescription').value) }}>
+                  <option>Select Item Description</option>
+                  {descriptions.map((item, index) => {
+                    return (
+                      <option key={index} value={item} onSelect={console.log({ item })}>{item}</option>
+                    )
+                  })}
+                </Form.Select>
+              </Form.Group>
+            </Col>
+          </Row>
+
+          {/* Item Value */}
+          <Row className="">
+            <Col>
+              {/* Item Value */}
+              <Form.Group className="" controlId="formBasicItemValue">
+                <Form.Label style={{marginTop:'5px'}}>Item Value</Form.Label>
+                <Form.Control name='value' type="text" placeholder={value} disabled />
+              </Form.Group>
+            </Col>
+          </Row>
+          {/* Submit Button */}
+
+
+          <Button className="mt-3" variant="primary" type="submit">
+            Submit
+          </Button>
+        </Form>
+      </Container>
     </div>
   )
 }
