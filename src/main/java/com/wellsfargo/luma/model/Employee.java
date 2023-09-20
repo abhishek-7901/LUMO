@@ -1,6 +1,7 @@
 package com.wellsfargo.luma.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,7 +9,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -44,6 +47,12 @@ public class Employee {
     private String role;
 
 
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    private List<IssuedCard> employeeIssues = new ArrayList<>() ;
 
+    @JsonManagedReference
+    public List<IssuedCard> getEmployeeIssues(){
+        return employeeIssues ;
+    }
 
 }
