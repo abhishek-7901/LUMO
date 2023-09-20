@@ -30,7 +30,8 @@ const Login = () => {
       localStorage.setItem('pass', user.password);
       localStorage.setItem('user', json["EmployeeDetails"].name);
       localStorage.setItem('role', json["EmployeeDetails"].role);
-
+      localStorage.setItem('empId',json["EmployeeDetails"].employeeId);
+      console.log(localStorage.getItem('empId'))
       setSuccessmMg('Login Successful')
       setTimeout(() => {
         navigate('/employee/dashboard')
