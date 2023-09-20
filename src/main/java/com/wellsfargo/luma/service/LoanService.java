@@ -16,6 +16,7 @@ public class LoanService {
     public Loan addLoanCard(Loan loan){
         loan.setStatus(false);
         return loanRepository.save(loan);
+
     }
 
     public Loan findLoanByLoanId(String Id){
