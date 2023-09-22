@@ -390,7 +390,7 @@ public class AdminController {
 
     }
 
-    @PutMapping("/deleteItem/{id}")
+    @DeleteMapping("/deleteItem/{id}")
     public ResponseEntity<Map<String,Object>> deleteItem(@PathVariable(value = "id") String tId, @RequestHeader("Authorization") String authHeader){
         Map<String, Object> map = new HashMap<String, Object>();
         log.info("hello");
