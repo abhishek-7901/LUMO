@@ -4,6 +4,9 @@ import { Form, Button, Container, Accordion, Row, Col } from 'react-bootstrap'
 import { useState } from 'react'
 import axios from 'axios'
 const AdminCustomerData = () => {
+    const [errorMsg, setErrorMsg] = useState('');
+    const [successMsg, setSuccessMsg] = useState('');
+    const [errorDeleteMsg, setErrorDeleteMsg] = useState('');
     const [customers, setCustomers] = useState([])
 
     function getCustomerData() {
@@ -32,8 +35,6 @@ const AdminCustomerData = () => {
     // const [gender, setGender] = useState('')
     // const [designation, setDesignation] = useState('')
     // const [department, setDepartment] = useState('')
-    const [errorMsg, setErrorMsg] = useState('');
-    const [successMsg, setSuccessMsg] = useState('');
     const handleSubmit = async e => {
         e.preventDefault()
         const formData = new FormData(e.target)
@@ -79,9 +80,45 @@ const AdminCustomerData = () => {
     }
 
 
+
+    function deleteEmployee(empId) {
+        fetch(`http://localhost:9191/admin/deleteEmployee/${empId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+            }
+        }).then(response => {
+            return response.json()
+        }).then(data => {
+            console.log(data)
+            if (!data["Data deleted"]) {
+                setErrorDeleteMsg("Employee is already availed!")
+                setTimeout(() => {
+                    setErrorDeleteMsg("")
+                }, 3000)
+
+            }
+            getCustomerData()
+        })
+    }
+
+    function editEmployee(empId) {
+        console.log(empId)
+        fetch(`http://localhost:9191/admin/editItem/${empId}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+            }
+        }).then(response => {
+            return response.json()
+        }).then(data => {
+            console.log(data)
+            editEmployee()
+        })
+    }
     return (
         <div>
-            <h1 style={{ verticalAlign: "middle", textAlign: 'center',marginTop:'15px' }}>Employee Data Management</h1>
+            <h1 style={{ verticalAlign: "middle", textAlign: 'center', marginTop: '15px' }}>Employee Data Management</h1>
             <Accordion style={{ margin: "20px" }} alwaysOpen>
                 <Accordion.Item eventKey="0">
                     <Accordion.Header>Register New Employee</Accordion.Header>
@@ -175,8 +212,9 @@ const AdminCustomerData = () => {
                 </Accordion.Item>
                 <Accordion.Item eventKey="1">
                     <Accordion.Header>Employee Data Table</Accordion.Header>
-                    <Accordion.Body>
-                        <h2 style={{ verticalAlign: "middle", textAlign: 'center' ,margin:"15px auto" }}>Existing Employee Data</h2>
+                    <Accordion.Body style={{ textAlign: 'center' }}>
+                        <h2 style={{ verticalAlign: "middle", textAlign: 'center', margin: "15px auto" }}>Existing Employee Data</h2>
+                        {errorDeleteMsg && <p className='error-message' style={{ color: 'red', marginTop: '10px' }}>{errorDeleteMsg}</p>}
                         <div style={{ textAlign: "center", justifyContent: "center" }}>
                             <table className="table table-success w-auto" style={{ margin: "auto" }}>
                                 <thead>
@@ -204,6 +242,15 @@ const AdminCustomerData = () => {
                                                 <td> {cust.doj} </td>
                                                 <td>{cust.gender}</td>
                                                 <td>{cust.role}</td>
+                                                <td>
+                                                    <button className='btn btn-success' onClick={() => editEmployee(cust.employeeId)}>
+
+                                                    </button>
+                                                    &nbsp;
+                                                    <button className='btn btn-danger' onClick={() => deleteEmployee(cust.employeeId)}>
+
+                                                    </button>
+                                                </td>
                                             </tr>
                                     )}
                                 </tbody>

@@ -7,14 +7,14 @@
 1. Home page needs to be given some buttons [DONE]
 2. UI for Login needs to be revamped [Prabhat] [DONE]
 3. UI for Register needs to be revamped [Prabhat] [DONE]
-4. Tables for loans and items need to be created -> View loan , view table [Priyanka] (look at loan card data file in admin side)
+4. Tables for loans and items need to be created -> View loan , view table [Priyanka] (look at loan card data file in admin side) [NOT DONE]
 5. Apply loans needs to be revamped UI [Prabhat] [DONE]
 6. Tables UI needs to be revamped [Priyanka]
 7. Apply loan logic for populating the form based on a list of items as recieved. [Prabhat] [DONE]
 8. Add Validations for every form [Prabhat]
 9. Error showing properly in case of any backend errors, consider dummy for now. 
 10. Give drop downs for designation and department [Prabhat] [DONE]
-11. User Dashboard UI 
+11. User Dashboard UI [DONE]
 12. Landing Page UI [Prabhat] [Done]
 
 ### Backend 
@@ -48,9 +48,9 @@ Front end
 8. Item table view [Prabhat] [DONE]
 9. Item edit and delete
 10. Add validations to every form in the backend.
-11. Error showing properly in case any sent from the backend, consider dummy for now. 
-12. Give drop downs for designation and department [Prabhat]
-13. Admin Dashboard UI 
+11. Error showing properly in case any sent from the backend, consider dummy for now. [Prabhat] [DONE]
+12. Give drop downs for designation and department [Prabhat] [DONE]
+13. Admin Dashboard UI [Prabhat]  [DONE]
 
 ### Backend 
 1. Make Loan master table - Loan id, type of loan, duration in years
@@ -60,15 +60,15 @@ Front end
 ### []API calls and meanings 
 1. /admin/addUser-> register the user [Prabhat] [Done]
 2. /admin/viewUser-> view all the users [Prabhat] [Done]
-3. /admin/editUser-> edit the user 
-4. /admin/deleteUser
+3. /admin/editUser-> edit the user LEFT IN BACKEND
+4. /admin/deleteUser [Priyanka] [Done] LEFT IN BACKEND
 5. /admin/addLoanCard -> add a loan card [Prabhat] [Done]
 6. /admin/viewLoanCards -> send list of loan cards [Prabhat] [Done]
-7. /admin/editLoanCard 
-8. /admin/deleteLoanCard
+7. /admin/editLoanCard [Priyanka] NOT DONE
+8. /admin/deleteLoanCard [Priyanka] [Done]
 9. /admin/addItem [Prabhat] [Done]
-10. /admin/editItem
-11. /admin/deleteItem
+10. /admin/editItem [Priyanka] NOT DONE
+11. /admin/deleteItem [Priyanka] [Done]
 12. /admin/viewItem [Prabhat] [Done]
 
 Careful when you delte and update stuff, since data may cascade on top of each other. 
@@ -90,6 +90,6 @@ Making background color to the whole page in login and register
 6. User View Item UI Validation
 7. Admin Item Management UI Validation [DONE]
 8. User Apply Loan UI Validation
-9. Admin Dashboard UI Validation
-10. User Dashboard UI Validation
+9. Admin Dashboard UI Validation [DONE]
+10. User Dashboard UI Validation [DONE]
 
