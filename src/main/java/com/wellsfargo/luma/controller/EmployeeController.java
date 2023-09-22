@@ -45,13 +45,22 @@ public class EmployeeController {
     private IssuedCardService issuedCardService;
 
     @PostMapping("/new")
-    public Map<String,Object> addEmployee(@RequestBody Employee employee){
+    public ResponseEntity<Map<String,Object>> addEmployee(@RequestBody Employee employee){
         Map<String, Object> map = new HashMap<String, Object>();
-        Employee newEmployee = employeeService.addEmployee(employee,"EMP");
-        String token = jwtService.generateToken(employee.getName(),employee.getEmployeeId().toString());
-        map.put("authtoken",token);
-        map.put("EmplyeeDetails",newEmployee);
-        return map;
+        try{
+            Employee newEmployee = employeeService.addEmployee(employee,"EMP");
+            String token = jwtService.generateToken(employee.getName(),employee.getEmployeeId().toString());
+            map.put("authtoken",token);
+            map.put("EmplyeeDetails",newEmployee);
+            return new ResponseEntity<>(map,HttpStatus.CREATED);
+        }catch (Exception e){
+
+            map.put("success" , false);
+            map.put("Reason", "Error Adding Employee to DB");
+            return new ResponseEntity<>(map,HttpStatus.INTERNAL_SERVER_ERROR);
+
+        }
+
     }
 
 //    @PostMapping("/login")
