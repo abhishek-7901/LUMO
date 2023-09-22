@@ -71,6 +71,37 @@ const AdminCustomerData = () => {
 
     }
 
+    // const editCustomer = (id) => {
+    //     fetch('http://localhost:9191/admin/viewUsers', {
+    //         method: 'GET',
+    //         headers: {
+    //             'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+    //         }
+    //     }).then(response => {
+    //         //console.log(response)
+    //         return response.json()
+    //     }).then(data => {
+    //         console.log(data["EmployeeList"])
+    //         setCustomers(data["EmployeeList"])
+    //         console.log(customers)
+    //     })
+    // }
+
+    // const deleteCustomer = (id) => {
+    //     fetch('http://localhost:9191/admin/viewUsers', {
+    //         method: 'GET',
+    //         headers: {
+    //             'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+    //         }
+    //     }).then(response => {
+    //         //console.log(response)
+    //         return response.json()
+    //     }).then(data => {
+    //         console.log(data["EmployeeList"])
+    //         setCustomers(data["EmployeeList"])
+    //         console.log(customers)
+    //     })
+    // }
 
     return (
         <div>
@@ -193,11 +224,25 @@ const AdminCustomerData = () => {
                                                 <td> {cust.doj} </td>
                                                 <td>{cust.gender}</td>
                                                 <td>{cust.role}</td>
+                                                {/* <td>
+                                                    <button className='btn btn-success' onClick={() => editCustomer(cust.employeeId)}>
+                                                        <span>
+                                                            <FontAwesomeIcon icon="edit"></FontAwesomeIcon>
+                                                        </span>
+                                                    </button>
+                                                    &nbsp;
+                                                    <button className='btn btn-danger' onClick={() => deleteCustomer(cust.employeeId)}>
+                                                        <span>
+                                                            <FontAwesomeIcon icon="trash"></FontAwesomeIcon>
+                                                        </span>
+                                                    </button>
+                                                </td> */}
                                             </tr>
                                     )}
                                 </tbody>
                             </table>
                         </div>
+                        {/* {message && <div className='alert alert-success'>{message}</div>} */}
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>

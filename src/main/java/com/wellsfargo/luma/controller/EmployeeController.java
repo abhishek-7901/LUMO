@@ -54,6 +54,12 @@ public class EmployeeController {
         return map;
     }
 
+
+    @PostMapping("/login")
+    public LoginResponse employeeLogin(@RequestBody LoginRequest loginRequest){
+        return employeeService.employeeLogin(loginRequest);
+    }
+
 //    @PostMapping("/login")
 //    public LoginResponse employeeLogin(@RequestBody LoginRequest loginRequest){
 //        return employeeService.employeeLogin(loginRequest);
@@ -86,6 +92,7 @@ public class EmployeeController {
 
 //        map.put("employee",employeeService.employeeLogin(authRequest));
 //        return map;
+
 
     }
 

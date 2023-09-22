@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { Accordion, Button, Container, Form, Row, Col } from 'react-bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const AdminItemData = () => {
   const [items, setItems] = useState([])
@@ -60,6 +61,41 @@ const AdminItemData = () => {
   function statuscheck(status) {
     return status == false ? "N" : "Y"
   }
+
+  const editItem = (id) => {
+    fetch('http://localhost:9191/admin/editItem/${id}', {
+        method: 'PUT',
+        headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+        },
+        body: JSON.stringify(items),
+    }).then(response => {
+        return response.json()
+    }).then(data => {
+      // console.log(data["ItemList"])
+      setItems(data["ItemList"])
+      getItemData()
+        // console.log(items)
+    })
+  }
+
+  const deleteItem = (id) => {
+    fetch('http://localhost:9191/admin/deleteItem/${id}', {
+      method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+        }
+    }).then(response => {
+        console.log(response)
+        return response.json()
+    }).then(data => {
+      setItems(data["ItemList"])
+      getItemData()
+    })
+  }
+
   return (
     <div>
       <Accordion style={{ margin: "20px" }} alwaysOpen>
@@ -167,6 +203,19 @@ const AdminItemData = () => {
                         <td> {item.make} </td>
                         <td> {item.category} </td>
                         <td> {item.value} </td>
+                        <td>
+                            <button className='btn btn-success' onClick={() => editItem(item.itemId)}>
+                                <span>
+                                    <FontAwesomeIcon icon="edit"></FontAwesomeIcon>
+                                </span>
+                            </button>
+                            &nbsp;
+                            <button className='btn btn-danger' onClick={() => deleteItem(item.itemId)}>
+                                <span>
+                                    <FontAwesomeIcon icon="trash"></FontAwesomeIcon>
+                                </span>
+                            </button>
+                        </td>
                       </tr>)}
                 </tbody>
               </table>

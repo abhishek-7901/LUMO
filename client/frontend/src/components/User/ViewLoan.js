@@ -1,62 +1,54 @@
 import React, { useEffect, useState } from 'react'
-import '../../styles/ViewLoan.css'
+// import '../../styles/ViewLoan.css'
 
 const ViewLoan = () => {
 
-  const [loans,setLoans] = useState([]);
+  const [viewLoans, setViewLoan] = useState([])
+  useEffect(() => {
+    console.log("WELCOME to view loans")
+    getViewLoan()
+  }, [])
 
-  // useEffect(() => {
-
-  //   return cleanUp = () => {
-
-  //   }
-  // },[])
-
-  const fetchLoans = () => {
-    // 
+  function getViewLoan() {
+    fetch('http://localhost:9191/employee/viewLoans', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+      }
+    }).then(response => {
+      return response.json()
+    }).then(data => {
+      setViewLoan(data["ViewLoans"])
+      
+    })
   }
-  return (
-    <div>
-      <br/>
 
-      <h2 className="text-success">Loan Management Application</h2>
-      <br/>
-      <h3>Loan Cards Availed</h3>
-      <br/>
-        <div className="row justify-content-center"></div>
-      <br/>
-      <div className="row justify-content-center">
-        <table className="table table-success w-auto">
-          <thead>
-            <tr>
-              <th>Loan id </th>
-              <th>Loan type </th>
-              <th>Duration </th>
-              <th>Card Issue date </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>L00001 </td>
-              <td>Furniture </td>
-              <td>5 </td>
-              <td>1/1/2002 </td>
-            </tr>
-            <tr>
-              <td>L00001 </td>
-              <td>Furniture </td>
-              <td>5 </td>
-              <td>1/1/2002 </td>
-            </tr>
-            <tr>
-              <td>L00001 </td>
-              <td>Furniture </td>
-              <td>5 </td>
-              <td>1/1/2002 </td>
-            </tr>
-          </tbody>
-        </table>
-    </div>
+  return (
+
+    
+    <div style={{ textAlign: "center", justifyContent: "center" }}>
+      <table className="table table-success w-auto" style={{ margin: "auto" }}>
+        <thead>
+          <tr className="table-danger">
+            <th>Loan ID</th>
+            <th>Loan Type</th>
+            <th>Loan Duration</th>
+            {/* <th>Card Issue Date</th> */}
+          </tr>
+        </thead>
+        <tbody>
+          {viewLoans?.map(
+            viewLoan =>
+              <tr key={viewLoan.id}>
+                <td>{viewLoan.loanId}</td>
+                <td>{viewLoan.type}</td>
+                <td>{viewLoan.duration}</td>
+                {/* <td>{viewLoan.date}</td> */}
+              </tr>
+          )}
+
+        </tbody>
+      </table>
     </div>
     
   )

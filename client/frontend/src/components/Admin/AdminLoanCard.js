@@ -1,13 +1,13 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { Accordion, Button, Container, Form, Row, Col } from 'react-bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const AdminLoanCard = () => {
   const [loanCards, setLoanCards] = useState([])
   useEffect(() => {
     console.log("WELCOME to loan card")
     getLoanCardData()
-    // console.log(items)
   }, [])
 
   const handleSubmit = async e => {
@@ -58,6 +58,40 @@ const AdminLoanCard = () => {
       // console.log(customers)
     })
   }
+
+  const editLoanCard = (id) => {
+    fetch('http://localhost:9191/admin/editLoanCard/${id}', {
+        method: 'PUT',
+        headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+        },
+        body: JSON.stringify(loanCards),
+    }).then(response => {
+        return response.json()
+    }).then(data => {
+      // console.log(data["ItemList"])
+      setLoanCards(data["LoanCards"])
+      getLoanCardData()
+        // console.log(items)
+    })
+  }
+  
+  const deleteLoanCard = (id) => {
+    fetch('http://localhost:9191/admin/deleteLoanCard/${id}', {
+      method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+        }
+    }).then(response => {
+        console.log(response)
+        return response.json()
+    }).then(data => {
+      setLoanCards(data["LoanCards"])
+      getLoanCardData()
+    })
+}
 
   function statuscheck(status) {
     return status == false ? "N" : "Y"
@@ -136,6 +170,19 @@ const AdminLoanCard = () => {
                         <td>{loanCard.loanId}</td>
                         <td>{loanCard.type}</td>
                         <td>{loanCard.duration}</td>
+                        <td>
+                            <button className='btn btn-success' onClick={() => editLoanCard(loanCard.loanId)}>
+                                <span>
+                                    <FontAwesomeIcon icon="edit"></FontAwesomeIcon>
+                                </span>
+                            </button>
+                            &nbsp;
+                            <button className='btn btn-danger' onClick={() => deleteLoanCard(loanCard.loanId)}>
+                                <span>
+                                    <FontAwesomeIcon icon="trash"></FontAwesomeIcon>
+                                </span>
+                            </button>
+                        </td>
                       </tr>
                   )}
 

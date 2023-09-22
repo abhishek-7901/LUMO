@@ -13,7 +13,7 @@ const UserDashboard = () => {
 
         <div className="row">
           <div className="col-sm-4">
-            <Link to='/employee/viewLoan' style={{ textDecoration: "none" }}>
+            <Link to='/employee/viewLoans' style={{ textDecoration: "none" }}>
               <div className="user-dashboard-card card-center">
                 <div className="user-dashboard-card-body">
                   <h5 className="user-dashboard-card-title">View Loanss</h5>
