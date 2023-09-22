@@ -37,13 +37,15 @@ const AdminItemData = () => {
     if (responseData.Success) {
       setErrorMsg("")
       setSuccessMsg("Item added successfully")
-
+      setTimeout(() => {
+        setSuccessMsg("")
+      }, 3000)
       getItemData()
       e.target.reset();
     }
     else {
       setSuccessMsg("")
-      setErrorMsg("Item not added since : "+responseData.Reason)
+      setErrorMsg("Item not added since : " + responseData.Reason)
     }
   }
 
@@ -84,14 +86,14 @@ const AdminItemData = () => {
                   <Col>
                     {/* Item ID */}
                     <Form.Group className="" controlId="formBasicItemID">
-                      <Form.Label  style={{marginTop:"10px"}}>Item ID</Form.Label>
+                      <Form.Label style={{ marginTop: "10px" }}>Item ID</Form.Label>
                       <Form.Control name='itemId' type="text" required placeholder="Enter Item ID" />
                     </Form.Group>
                   </Col>
                   <Col>
                     {/* Item Category */}
                     <Form.Group className="" controlId="formBasicItemCategory">
-                      <Form.Label  style={{marginTop:"10px"}}>Item Category</Form.Label>
+                      <Form.Label style={{ marginTop: "10px" }}>Item Category</Form.Label>
                       {/* Normal text input */}
                       <Form.Control name='category' type="text" required placeholder="Enter Item Category" />
                       {/* DropDown for Item Category */}
@@ -109,7 +111,7 @@ const AdminItemData = () => {
                   <Col>
                     {/* Item Description */}
                     <Form.Group className="" controlId="formBasicItemDescription">
-                      <Form.Label  style={{marginTop:"10px"}}>Item Description</Form.Label>
+                      <Form.Label style={{ marginTop: "10px" }}>Item Description</Form.Label>
                       <Form.Control name='description' type="text" required placeholder="Enter Item Description" />
                     </Form.Group>
                   </Col>
@@ -117,7 +119,7 @@ const AdminItemData = () => {
 
                     {/* Item Cost */}
                     <Form.Group className="" controlId="formBasicItemCost">
-                      <Form.Label  style={{marginTop:"10px"}}>Item Cost</Form.Label>
+                      <Form.Label style={{ marginTop: "10px" }}>Item Cost</Form.Label>
                       <Form.Control name='value' type="number" required placeholder="Enter Item Cost" />
                     </Form.Group>
                   </Col>
@@ -128,7 +130,7 @@ const AdminItemData = () => {
 
                     {/* Item Make */}
                     <Form.Group className="" controlId="formBasicItemMake">
-                      <Form.Label style={{marginTop:"10px"}}>Item Make</Form.Label>
+                      <Form.Label style={{ marginTop: "10px" }}>Item Make</Form.Label>
                       {/* Normal Text Input */}
                       <Form.Control name='make' type="text" required placeholder="Enter Item Make" />
                       {/* Dropdown with wood, glass, plastic, paper */}

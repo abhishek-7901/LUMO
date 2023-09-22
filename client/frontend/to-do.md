@@ -82,14 +82,14 @@ Making background color to the whole page in login and register
 
 ### Validationn
 
-1. Admin Login
-2. Customer Data Managementt
-3. User View Loan
-4. Admin Loan MManagentt
-5. User Loginn
-6. User View Item
-7. Admin Item Managementt
-8. User Apply Loan
-9. Admin Dashboardd
-10. User Dashboard
+1. Admin Login UI [DONE] Validation [DONE]
+2. Customer Data Management UI Validation [DONE]
+3. User View Loan UI Validation
+4. Admin Loan Managent UI Validation [DONE]
+5. User Login UI Validation [DONE]
+6. User View Item UI Validation
+7. Admin Item Management UI Validation [DONE]
+8. User Apply Loan UI Validation
+9. Admin Dashboard UI Validation
+10. User Dashboard UI Validation
 

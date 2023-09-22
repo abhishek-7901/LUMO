@@ -22,7 +22,7 @@ const AdminLoanCard = () => {
     let loanId = loanCard.loan_id
     let type = loanCard.type
 
-    let loanCardData = { loanId, type,duration }
+    let loanCardData = { loanId, type, duration }
     const response = await fetch('http://localhost:9191/admin/addLoanCard', {
       method: 'POST',
       headers: {
@@ -38,6 +38,9 @@ const AdminLoanCard = () => {
     if (responseData.Success) {
       setErrorMsg("")
       setSuccessMsg("Loan Card added successfully")
+      setTimeout(() => {
+        setSuccessMsg("")
+      }, 3000)
       getLoanCardData()
       e.target.reset()
     }
@@ -68,13 +71,13 @@ const AdminLoanCard = () => {
   }
   return (
     <div>
-      <h1 style={{ verticalAlign: "middle", textAlign: 'center',marginTop:'20px' }}>Loan Card Management</h1>
+      <h1 style={{ verticalAlign: "middle", textAlign: 'center', marginTop: '20px' }}>Loan Card Management</h1>
       <Accordion style={{ margin: "20px" }} alwaysOpen>
         <Accordion.Item eventKey="0">
           <Accordion.Header>Add a new loan card</Accordion.Header>
           <Accordion.Body>
             {/* h2 header saying Add a loan card for employees to use */}
-            <h2 style={{ color: 'black',marginTop:'10px', marginBottom:'10px' }}>Add a new loan card for your employees</h2>
+            <h2 style={{ color: 'black', marginTop: '10px', marginBottom: '10px' }}>Add a new loan card for your employees</h2>
             {/* <Register /> */}
             <Container style={{ width: "80%", margin: "10px auto", justifyContent: "center" }}>
               <Form onSubmit={handleSubmit}>
@@ -84,16 +87,16 @@ const AdminLoanCard = () => {
 
                     {/* Loan ID */}
                     <Form.Group className="" controlId="formBasicLoanID">
-                      <Form.Label>Loan ID</Form.Label>
-                      <Form.Control name='loan_id' type="text" placeholder="Enter Loan ID" required/>
+                      <Form.Label style={{marginTop:'10px'}}>Loan ID</Form.Label>
+                      <Form.Control name='loan_id' type="text" placeholder="Enter Loan ID" required />
                     </Form.Group>
                   </Col>
                   <Col>
                     {/* Loan Type */}
                     <Form.Group className="" controlId="formBasicLoanType">
-                      <Form.Label>Loan Type</Form.Label>
+                      <Form.Label style={{marginTop:'10px'}}>Loan Type</Form.Label>
                       {/* Normal Text input */}
-                      <Form.Control name='type' type="text" placeholder="Enter Loan Type" required/>
+                      <Form.Control name='type' type="text" placeholder="Enter Loan Type" required />
 
                       {/* Dropdown with furniture, crockery and stationary */}
                       {/* <Form.Select name='type' aria-label="Default select example">
@@ -109,8 +112,8 @@ const AdminLoanCard = () => {
                 <Row className="">
                   <Col>
                     <Form.Group className="" controlId="formBasicLoanDuration">
-                      <Form.Label>Loan Duration</Form.Label>
-                      <Form.Control name='duration' type="text" placeholder="Enter Loan Duration" required/>
+                      <Form.Label style={{marginTop:'10px'}}>Loan Duration</Form.Label>
+                      <Form.Control name='duration' type="text" placeholder="Enter Loan Duration" required />
                     </Form.Group>
                   </Col>
                   <Col>
@@ -120,8 +123,8 @@ const AdminLoanCard = () => {
                 <Button className="mt-3" variant="primary" type="submit">
                   Submit
                 </Button>
-                {errorMsg && <p className='error-message' style={{color:'red',marginTop:'10px'}}>{errorMsg}</p>}
-                {successMsg && <p className='success-message' style={{color:'green',marginTop:'10px'}}>{successMsg}</p>}
+                {errorMsg && <p className='error-message' style={{ color: 'red', marginTop: '10px' }}>{errorMsg}</p>}
+                {successMsg && <p className='success-message' style={{ color: 'green', marginTop: '10px' }}>{successMsg}</p>}
               </Form>
             </Container>
           </Accordion.Body>
@@ -130,7 +133,7 @@ const AdminLoanCard = () => {
         <Accordion.Item eventKey="1">
           <Accordion.Header>Loan Card Table</Accordion.Header>
           <Accordion.Body>
-          <h2 style={{ color: 'black',marginTop:'10px', marginBottom:'10px' }}>Existing Loan Cards</h2>
+            <h2 style={{ color: 'black', marginTop: '10px', marginBottom: '10px' }}>Existing Loan Cards</h2>
             <div style={{ textAlign: "center", justifyContent: "center" }}>
               <table className="table table-success w-auto" style={{ margin: "auto" }}>
                 <thead>
