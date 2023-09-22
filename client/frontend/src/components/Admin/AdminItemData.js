@@ -96,11 +96,11 @@ const AdminItemData = () => {
       return response.json()
     }).then(data => {
       console.log(data)
-      if(!data["Data deleted"]){
+      if (!data["Data deleted"]) {
         setErrorDeleteMsg("Item is already availed!")
-        setTimeout(() => {  
+        setTimeout(() => {
           setErrorDeleteMsg("")
-        },3000)
+        }, 3000)
 
       }
       getItemData()
@@ -196,7 +196,7 @@ const AdminItemData = () => {
         </Accordion.Item>
         <Accordion.Item eventKey="1">
           <Accordion.Header>Item Data Table</Accordion.Header>
-          <Accordion.Body style={{textAlign:'center'}}>
+          <Accordion.Body style={{ textAlign: 'center' }}>
             <h2 style={{ color: 'black', marginTop: '10px', marginBottom: '10px' }}>Existing Item Data</h2>
             {errorDeleteMsg && <p className='error-message' style={{ color: 'red', marginTop: '10px' }}>{errorDeleteMsg}</p>}
             <div style={{ textAlign: "center", justifyContent: "center" }}>
