@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { Accordion, Button, Container, Form, Row, Col } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
 
 const ApplyLoan = () => {
   const [items, setItems] = useState([])
@@ -10,8 +11,9 @@ const ApplyLoan = () => {
   const [selectedMake, setSelectedMake] = useState("")    // State to store the selected make from the dropdown menu
   const [descriptions, setDescriptions] = useState([])
   const [selectedDescription, setSelectedDescription] = useState("")    // State to store the selected description from the dropdown menu
-  const [value, setValue] = useState("0")    // State to store the value of the item
+  const [value, setValue] = useState()    // State to store the value of the item
   const [id, setId] = useState("")
+  const navigate = useNavigate()
   // useffect to get all the items into the page
   useEffect(() => {
     getItemList()
@@ -28,6 +30,16 @@ const ApplyLoan = () => {
   }, [items]//Dependency array, this use effect is called when the page renders and state of items changes
   )
 
+  useEffect(() => {
+    console.log("category changed, so make change")
+    setSelectedMake("")
+  },[selectedCategory])
+  useEffect(() => {
+    console.log("category changed, so description change")
+    setSelectedDescription("")
+    setSelectedMake("")
+  },[selectedCategory])
+
   // useffect to load the items into the drop down menu when the category is selected
   useEffect(() => {
     getItemMakes()
@@ -36,15 +48,17 @@ const ApplyLoan = () => {
 
   // useffect to load the items into the drop down menu when the make is selected
   useEffect(() => {
+    console.log("third")
     getItemDescription()
-    // console.log("third")
-  }, [selectedCategory, selectedMake])//Dependency array, this useeffect is called when the page renders and state of selectedMake changes
+    getItemValue()
+  }, [selectedMake])//Dependency array, this useeffect is called when the page renders and state of selectedMake changes
 
   // useffect to load the value of the item into the state when the description is selected
   useEffect(() => {
     getItemValue()
+    console.log("UEF value",value)
     // console.log("fourth")
-  }, [selectedCategory, selectedMake, selectedDescription])//Dependency array, this useeffect is called when the page renders and state of selectedDescription changes
+  }, [selectedDescription,selectedMake,  selectedCategory])//Dependency array, this useeffect is called when the page renders and state of selectedDescription changes
 
   // Gets all the unique categories from the Items state and sets it into the category state.
   function getCategories() {
@@ -133,7 +147,15 @@ const ApplyLoan = () => {
       body: JSON.stringify(item)
     })
     const responseData = await response.json()
-    console.log(responseData)
+    if(responseData.success){
+      alert("Loan applied successfully")
+      navigate('/employee/dashboard')
+      
+    }
+    else{
+      alert("Loan not applied due to : " + responseData['Reason'])
+    }
+    console.log(responseData.Reason," +++",responseData["Reason"])
     console.log(responseData.success)
   }
 
@@ -155,7 +177,7 @@ const ApplyLoan = () => {
 
   return (
     <div className="container" style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
-
+      
 
       <Container style={{ width: "80%", margin: "10px auto", justifyContent: "center" }}>
         <h1 style={{ verticalAlign: "middle", textAlign: 'center' }}>Loan Card Management</h1>
