@@ -111,25 +111,25 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000/","http://localhost:3000/signup","*"));
         configuration.addAllowedOrigin("*");
-        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
         configuration.setAllowedHeaders(Arrays.asList("Access-Control-Allow-Headers","file","fileName","comment","pass","Authorization","Access-Control-Allow-Origin","name","authtoken","token","Content-Type"));
         configuration.addExposedHeader("Content-Disposition");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
+//
 //    @Bean
 //    CorsConfigurationSource corsConfigurationSource() {
 //        CorsConfiguration configuration = new CorsConfiguration();
 //        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000/dev"));
-//        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+//        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
 //        configuration.setAllowedHeaders(Arrays.asList("Access-Control-Allow-Headers","file","comment","pass"));
 //        configuration.addExposedHeader("Content-Disposition");
 //        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 //        source.registerCorsConfiguration("/**", configuration);
 //        return source;
 //    }
-
+//
 
 }
