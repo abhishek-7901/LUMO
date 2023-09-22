@@ -34,14 +34,16 @@ const AdminLoanCard = () => {
     console.log(responseData.Success)
 
     if (responseData.Success) {
-      // alert("Loan Card added successfully")
+      setErrorMsg("")
+      setSuccessMsg("Loan Card added successfully")
       getLoanCardData()
     }
     else {
-      // alert("Item not added")
+      setSuccessMsg("")
+      setErrorMsg("Item not added due to same loan ID")
     }
   }
-
+  const [successMsg, setSuccessMsg] = useState('');
   function getLoanCardData() {
     fetch('http://localhost:9191/admin/viewLoanCards', {
       method: 'GET',
@@ -60,17 +62,20 @@ const AdminLoanCard = () => {
   }
 
   function statuscheck(status) {
-    return status == false ? "N" : "Y"
+    return status == false ? "Unavailed" : "Availed"
   }
+  const [errorMsg, setErrorMsg] = useState('');
   return (
     <div>
+      <h1 style={{ verticalAlign: "middle", textAlign: 'center',marginTop:'20px' }}>Loan Card Management</h1>
       <Accordion style={{ margin: "20px" }} alwaysOpen>
         <Accordion.Item eventKey="0">
           <Accordion.Header>Add a new loan card</Accordion.Header>
           <Accordion.Body>
+            {/* h2 header saying Add a loan card for employees to use */}
+            <h2 style={{ color: 'black',marginTop:'10px', marginBottom:'10px' }}>Add a new loan card for your employees</h2>
             {/* <Register /> */}
             <Container style={{ width: "80%", margin: "10px auto", justifyContent: "center" }}>
-              <h1 style={{ verticalAlign: "middle", textAlign: 'center' }}>Loan Card Management</h1>
               <Form onSubmit={handleSubmit}>
                 {/* Loan ID and Loan Type */}
                 <Row className="">
@@ -79,20 +84,23 @@ const AdminLoanCard = () => {
                     {/* Loan ID */}
                     <Form.Group className="" controlId="formBasicLoanID">
                       <Form.Label>Loan ID</Form.Label>
-                      <Form.Control name='loan_id' type="text" placeholder="Enter Loan ID" />
+                      <Form.Control name='loan_id' type="text" placeholder="Enter Loan ID" required/>
                     </Form.Group>
                   </Col>
                   <Col>
                     {/* Loan Type */}
                     <Form.Group className="" controlId="formBasicLoanType">
                       <Form.Label>Loan Type</Form.Label>
+                      {/* Normal Text input */}
+                      <Form.Control name='type' type="text" placeholder="Enter Loan Type" required/>
+
                       {/* Dropdown with furniture, crockery and stationary */}
-                      <Form.Select name='type' aria-label="Default select example">
+                      {/* <Form.Select name='type' aria-label="Default select example">
                         <option>Open this select menu</option>
                         <option value="Furniture">Furniture</option>
                         <option value="Crockery">Crockery</option>
                         <option value="Stationary">Stationary</option>
-                      </Form.Select>
+                      </Form.Select> */}
                     </Form.Group>
                   </Col>
                 </Row>
@@ -101,7 +109,7 @@ const AdminLoanCard = () => {
                   <Col>
                     <Form.Group className="" controlId="formBasicLoanDuration">
                       <Form.Label>Loan Duration</Form.Label>
-                      <Form.Control name='duration' type="text" placeholder="Enter Loan Duration" />
+                      <Form.Control name='duration' type="text" placeholder="Enter Loan Duration" required/>
                     </Form.Group>
                   </Col>
                   <Col>
@@ -111,6 +119,8 @@ const AdminLoanCard = () => {
                 <Button className="mt-3" variant="primary" type="submit">
                   Submit
                 </Button>
+                {errorMsg && <p className='error-message' style={{color:'red',marginTop:'10px'}}>{errorMsg}</p>}
+                {successMsg && <p className='success-message' style={{color:'green',marginTop:'10px'}}>{successMsg}</p>}
               </Form>
             </Container>
           </Accordion.Body>
@@ -119,6 +129,7 @@ const AdminLoanCard = () => {
         <Accordion.Item eventKey="1">
           <Accordion.Header>Loan Card Table</Accordion.Header>
           <Accordion.Body>
+          <h2 style={{ color: 'black',marginTop:'10px', marginBottom:'10px' }}>Existing Loan Cards</h2>
             <div style={{ textAlign: "center", justifyContent: "center" }}>
               <table className="table table-success w-auto" style={{ margin: "auto" }}>
                 <thead>
@@ -126,6 +137,7 @@ const AdminLoanCard = () => {
                     <th>Loan Card ID</th>
                     <th>Loan Type</th>
                     <th>Loan Duration</th>
+                    <th>Loan Status</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -136,6 +148,7 @@ const AdminLoanCard = () => {
                         <td>{loanCard.loanId}</td>
                         <td>{loanCard.type}</td>
                         <td>{loanCard.duration}</td>
+                        <td>{statuscheck(loanCard.status)}</td>
                       </tr>
                   )}
 
