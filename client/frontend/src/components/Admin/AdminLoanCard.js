@@ -4,8 +4,10 @@ import { Accordion, Button, Container, Form, Row, Col } from 'react-bootstrap'
 
 const AdminLoanCard = () => {
   const [loanCards, setLoanCards] = useState([])
+  const [errorMsg, setErrorMsg] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
   useEffect(() => {
-    console.log("WELCOME to loan card")
+    // console.log("WELCOME to loan card")
     getLoanCardData()
     // console.log(items)
   }, [])
@@ -14,7 +16,7 @@ const AdminLoanCard = () => {
     e.preventDefault()
     const data = new FormData(e.target)
     const loanCard = Object.fromEntries(data.entries())
-    console.log("TEST", loanCard)
+    // console.log("TEST", loanCard)
     // fields are duration, loan_id,type and status
     let duration = loanCard.duration
     let loanId = loanCard.loan_id
@@ -43,7 +45,6 @@ const AdminLoanCard = () => {
       setErrorMsg("Item not added due to same loan ID")
     }
   }
-  const [successMsg, setSuccessMsg] = useState('');
   function getLoanCardData() {
     fetch('http://localhost:9191/admin/viewLoanCards', {
       method: 'GET',
@@ -64,7 +65,6 @@ const AdminLoanCard = () => {
   function statuscheck(status) {
     return status == false ? "Unavailed" : "Availed"
   }
-  const [errorMsg, setErrorMsg] = useState('');
   return (
     <div>
       <h1 style={{ verticalAlign: "middle", textAlign: 'center',marginTop:'20px' }}>Loan Card Management</h1>

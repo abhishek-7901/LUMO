@@ -319,7 +319,7 @@ public class AdminController {
 
                     return new ResponseEntity<>(map,HttpStatus.CREATED);
                 }
-
+                map.put("Reason", "Item ID exists already")    ;
                 map.put("Success",false);
 
                 return new ResponseEntity<>(map,HttpStatus.CONFLICT);
