@@ -80,3 +80,16 @@ Need to figure out why admin/viewUser is not working[DONE]
 Make designations, departments from a list which we can change in the frontend.
 Making background color to the whole page in login and register
 
+### Validationn
+
+1. Admin Login
+2. Customer Data Managementt
+3. User View Loan
+4. Admin Loan MManagentt
+5. User Loginn
+6. User View Item
+7. Admin Item Managementt
+8. User Apply Loan
+9. Admin Dashboardd
+10. User Dashboard
+
