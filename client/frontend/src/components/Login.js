@@ -31,6 +31,8 @@ const Login = () => {
       localStorage.setItem('user', json["EmployeeDetails"].name);
       localStorage.setItem('role', json["EmployeeDetails"].role);
       localStorage.setItem('empId',json["EmployeeDetails"].employeeId);
+      localStorage.setItem('department',json["EmployeeDetails"].department);
+      localStorage.setItem('designation',json["EmployeeDetails"].designation);
       console.log(localStorage.getItem('empId'))
       setSuccessmMg('Login Successful')
       setTimeout(() => {
