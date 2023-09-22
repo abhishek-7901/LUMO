@@ -6,6 +6,7 @@ const AdminLoanCard = () => {
   const [loanCards, setLoanCards] = useState([])
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const [errorDeleteMsg, setErrorDeleteMsg] = useState('');
   useEffect(() => {
     // console.log("WELCOME to loan card")
     getLoanCardData()
@@ -69,6 +70,41 @@ const AdminLoanCard = () => {
   function statuscheck(status) {
     return status == false ? "Unavailed" : "Availed"
   }
+  function editLoanCard(loanId) {
+    fetch(`http://localhost:9191/admin/editLoanCard/${loanId}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+      }
+    }).then(response => {
+      return response.json()
+    }).then(data => {
+      console.log(data)
+      getLoanCardData()
+    })
+
+  }
+  function deleteLoanCard(loanId) {
+    fetch(`http://localhost:9191/admin/deleteLoanCard/${loanId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+      }
+    }).then(response => {
+      return response.json()
+    }).then(data => {
+      console.log(data)
+      if(!data["Data deleted"]){
+        setErrorDeleteMsg("Loan Card already availed!")
+        setTimeout(() => {  
+          setErrorDeleteMsg("")
+        },3000)
+
+      }
+      getLoanCardData()
+    })
+  }
+
   return (
     <div>
       <h1 style={{ verticalAlign: "middle", textAlign: 'center', marginTop: '20px' }}>Loan Card Management</h1>
@@ -87,14 +123,14 @@ const AdminLoanCard = () => {
 
                     {/* Loan ID */}
                     <Form.Group className="" controlId="formBasicLoanID">
-                      <Form.Label style={{marginTop:'10px'}}>Loan ID</Form.Label>
+                      <Form.Label style={{ marginTop: '10px' }}>Loan ID</Form.Label>
                       <Form.Control name='loan_id' type="text" placeholder="Enter Loan ID" required />
                     </Form.Group>
                   </Col>
                   <Col>
                     {/* Loan Type */}
                     <Form.Group className="" controlId="formBasicLoanType">
-                      <Form.Label style={{marginTop:'10px'}}>Loan Type</Form.Label>
+                      <Form.Label style={{ marginTop: '10px' }}>Loan Type</Form.Label>
                       {/* Normal Text input */}
                       <Form.Control name='type' type="text" placeholder="Enter Loan Type" required />
 
@@ -112,7 +148,7 @@ const AdminLoanCard = () => {
                 <Row className="">
                   <Col>
                     <Form.Group className="" controlId="formBasicLoanDuration">
-                      <Form.Label style={{marginTop:'10px'}}>Loan Duration</Form.Label>
+                      <Form.Label style={{ marginTop: '10px' }}>Loan Duration</Form.Label>
                       <Form.Control name='duration' type="text" placeholder="Enter Loan Duration" required />
                     </Form.Group>
                   </Col>
@@ -132,8 +168,9 @@ const AdminLoanCard = () => {
 
         <Accordion.Item eventKey="1">
           <Accordion.Header>Loan Card Table</Accordion.Header>
-          <Accordion.Body>
+          <Accordion.Body style={{textAlign:'center'}}>
             <h2 style={{ color: 'black', marginTop: '10px', marginBottom: '10px' }}>Existing Loan Cards</h2>
+            {errorDeleteMsg && <p className='error-message' style={{ color: 'red', marginTop: '10px' }}>{errorDeleteMsg}</p>}
             <div style={{ textAlign: "center", justifyContent: "center" }}>
               <table className="table table-success w-auto" style={{ margin: "auto" }}>
                 <thead>
@@ -153,6 +190,15 @@ const AdminLoanCard = () => {
                         <td>{loanCard.type}</td>
                         <td>{loanCard.duration}</td>
                         <td>{statuscheck(loanCard.status)}</td>
+                        <td>
+                          <button className='btn btn-success' onClick={() => editLoanCard(loanCard.loanId)}>
+
+                          </button>
+                          &nbsp;
+                          <button className='btn btn-danger' onClick={() => deleteLoanCard(loanCard.loanId)}>
+
+                          </button>
+                        </td>
                       </tr>
                   )}
 

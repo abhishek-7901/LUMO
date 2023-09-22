@@ -6,7 +6,7 @@ const AdminItemData = () => {
   const [items, setItems] = useState([])
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
-
+  const [errorDeleteMsg, setErrorDeleteMsg] = useState('');
   useEffect(() => {
     getItemData()
     // console.log(items)
@@ -69,6 +69,44 @@ const AdminItemData = () => {
   function statuscheck(status) {
     return status == false ? "Unavailed" : "Availed"
   }
+
+  function editItem(itemId) {
+    console.log(itemId)
+    fetch(`http://localhost:9191/admin/editItem/${itemId}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+      }
+    }).then(response => {
+      return response.json()
+    }).then(data => {
+      console.log(data)
+      getItemData()
+    })
+  }
+
+  // delete function 
+  function deleteItem(itemId) {
+    fetch(`http://localhost:9191/admin/deleteItem/${itemId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+      }
+    }).then(response => {
+      return response.json()
+    }).then(data => {
+      console.log(data)
+      if(!data["Data deleted"]){
+        setErrorDeleteMsg("Item is already availed!")
+        setTimeout(() => {  
+          setErrorDeleteMsg("")
+        },3000)
+
+      }
+      getItemData()
+    })
+  }
+
   return (
     <div>
       <h1 style={{ verticalAlign: "middle", textAlign: 'center', margin: '10px auto' }}>Item Data Management</h1>
@@ -158,8 +196,9 @@ const AdminItemData = () => {
         </Accordion.Item>
         <Accordion.Item eventKey="1">
           <Accordion.Header>Item Data Table</Accordion.Header>
-          <Accordion.Body>
+          <Accordion.Body style={{textAlign:'center'}}>
             <h2 style={{ color: 'black', marginTop: '10px', marginBottom: '10px' }}>Existing Item Data</h2>
+            {errorDeleteMsg && <p className='error-message' style={{ color: 'red', marginTop: '10px' }}>{errorDeleteMsg}</p>}
             <div style={{ textAlign: "center", justifyContent: "center" }}>
               <table className="table table-success w-auto" style={{ margin: "auto" }}>
                 <thead>
@@ -183,6 +222,15 @@ const AdminItemData = () => {
                         <td> {item.make} </td>
                         <td> {item.category} </td>
                         <td> {item.value} </td>
+                        <td>
+                          <button className='btn btn-success' onClick={() => editItem(item.itemId)}>
+
+                          </button>
+                          &nbsp;
+                          <button className='btn btn-danger' onClick={() => deleteItem(item.itemId)}>
+
+                          </button>
+                        </td>
                       </tr>)}
                 </tbody>
               </table>
