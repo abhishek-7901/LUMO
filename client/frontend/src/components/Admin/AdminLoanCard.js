@@ -39,6 +39,7 @@ const AdminLoanCard = () => {
       setErrorMsg("")
       setSuccessMsg("Loan Card added successfully")
       getLoanCardData()
+      e.target.reset()
     }
     else {
       setSuccessMsg("")
