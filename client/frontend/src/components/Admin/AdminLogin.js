@@ -28,14 +28,18 @@ const AdminLogin = () => {
       localStorage.setItem('pass', user.password);
       localStorage.setItem('role', 'ADMIN')
       localStorage.setItem('user', user.userName);
+      setErrorMsg('')
       setSuccessmMg('Admin Login Successful')
       setTimeout(() => {
         navigate('/admin/dashboard')
       }, 2000);
 
     }
-    else {
-      setErrorMsg('Invalid Credentials');
+    else if(json.Reason==="Check Credentials") {
+     setErrorMsg('Invalid Credentials');
+    }
+    else{
+      setErrorMsg('Not an authorized Admin');
     }
   }
 
@@ -65,8 +69,8 @@ const AdminLogin = () => {
                 <Link to='/login' style={{ textDecoration: "none",display:"block",marginBottom:'5px' }}>Are you an Employee?</Link>
 
                 <input type="submit" value="Login" className='login-input' style={{backgroundColor:'#ff7d00',color:'#fff',fontSize:'20px'}}/>
-                {errorMsg && <p className='error-message'>{errorMsg}</p>}
-                {successMsg && <p className='success-message'>{successMsg}</p>}
+                {errorMsg && <p className='error-message' style={{color:'red'}}>{errorMsg}</p>}
+                {successMsg && <p className='success-message' style={{color:'green'}}>{successMsg}</p>}
               </div>
             </form>
           </div>
