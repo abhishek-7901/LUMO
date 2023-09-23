@@ -31,7 +31,10 @@ const Login = () => {
       localStorage.setItem('user', json["EmployeeDetails"].name);
       localStorage.setItem('role', json["EmployeeDetails"].role);
       localStorage.setItem('empId',json["EmployeeDetails"].employeeId);
+      localStorage.setItem('department',json["EmployeeDetails"].department);
+      localStorage.setItem('designation',json["EmployeeDetails"].designation);
       console.log(localStorage.getItem('empId'))
+      setErrorMsg('')
       setSuccessmMg('Login Successful')
       setTimeout(() => {
         navigate('/employee/dashboard')
@@ -69,8 +72,8 @@ const Login = () => {
               <Link to='/admin/login' style={{ textDecoration: "none",display:"block",marginBottom:'5px' }}>Are you an Admin?</Link>
 
                 <input type="submit" value="Login" className='login-input'  style={{backgroundColor:'#ff7d00',color:'#fff',fontSize:'20px'}}/>
-                {errorMsg && <p className='error-message'>{errorMsg}</p>}
-                {successMsg && <p className='success-message'>{successMsg}</p>}
+                {errorMsg && <p className='error-message' style={{color:'red'}}>{errorMsg}</p>}
+                {successMsg && <p className='success-message' style={{color:'green'}}>{successMsg}</p>}
             </div>
           </form>
         </div>

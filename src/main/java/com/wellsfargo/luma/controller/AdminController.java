@@ -357,7 +357,7 @@ public class AdminController {
 
                     return new ResponseEntity<>(map,HttpStatus.CREATED);
                 }
-
+                map.put("Reason", "Item ID exists already")    ;
                 map.put("Success",false);
 
                 return new ResponseEntity<>(map,HttpStatus.CONFLICT);
@@ -428,7 +428,7 @@ public class AdminController {
 
     }
 
-    @PutMapping("/deleteItem/{id}")
+    @DeleteMapping("/deleteItem/{id}")
     public ResponseEntity<Map<String,Object>> deleteItem(@PathVariable(value = "id") String tId, @RequestHeader("Authorization") String authHeader){
         Map<String, Object> map = new HashMap<String, Object>();
         log.info("hello");

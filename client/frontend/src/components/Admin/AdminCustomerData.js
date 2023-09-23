@@ -4,6 +4,9 @@ import { Form, Button, Container, Accordion, Row, Col } from 'react-bootstrap'
 import { useState } from 'react'
 import axios from 'axios'
 const AdminCustomerData = () => {
+    const [errorMsg, setErrorMsg] = useState('');
+    const [successMsg, setSuccessMsg] = useState('');
+    const [errorDeleteMsg, setErrorDeleteMsg] = useState('');
     const [customers, setCustomers] = useState([])
 
     function getCustomerData() {
@@ -32,7 +35,6 @@ const AdminCustomerData = () => {
     // const [gender, setGender] = useState('')
     // const [designation, setDesignation] = useState('')
     // const [department, setDepartment] = useState('')
-
     const handleSubmit = async e => {
         e.preventDefault()
         const formData = new FormData(e.target)
@@ -47,7 +49,7 @@ const AdminCustomerData = () => {
         let department = fromDataObj["department"]
         let confpassword = fromDataObj["passwordconf"]
         if (password != confpassword) {
-            alert("Password and Confirm Password do not match")
+            setErrorMsg("Password and Confirm Password do not match")
             return
         }
         const user = { name, dob, doj, password, gender, designation, department }
@@ -62,39 +64,82 @@ const AdminCustomerData = () => {
         console.log(json);
         if (json["EmplyeeDetails"].name) {
             // Save the auth token and redirect
-            alert("User added successfully")
+            setErrorMsg("")
+            setSuccessMsg("Employee added successfully")
+            setTimeout(() => {
+                setSuccessMsg("")
+            }, 3000)
             getCustomerData();
+            e.target.reset();
         }
         else {
-            alert("User not added")
+            setSuccessMsg("")
+            setErrorMsg("Employee not added since : " + json["Reason"])
         }
 
     }
 
 
+
+    function deleteEmployee(empId) {
+        fetch(`http://localhost:9191/admin/deleteEmployee/${empId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+            }
+        }).then(response => {
+            return response.json()
+        }).then(data => {
+            console.log(data)
+            if (!data["Data deleted"]) {
+                setErrorDeleteMsg("Employee is already availed!")
+                setTimeout(() => {
+                    setErrorDeleteMsg("")
+                }, 3000)
+
+            }
+            getCustomerData()
+        })
+    }
+
+    function editEmployee(empId) {
+        console.log(empId)
+        fetch(`http://localhost:9191/admin/editItem/${empId}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+            }
+        }).then(response => {
+            return response.json()
+        }).then(data => {
+            console.log(data)
+            editEmployee()
+        })
+    }
     return (
         <div>
+            <h1 style={{ verticalAlign: "middle", textAlign: 'center', marginTop: '15px' }}>Employee Data Management</h1>
             <Accordion style={{ margin: "20px" }} alwaysOpen>
                 <Accordion.Item eventKey="0">
-                    <Accordion.Header>Register New Customer</Accordion.Header>
+                    <Accordion.Header>Register New Employee</Accordion.Header>
                     <Accordion.Body>
+                        <h2 style={{ verticalAlign: "middle", textAlign: 'center' }}>Register New Employee</h2>
                         {/* <Register /> */}
                         <Container style={{ width: "80%", margin: "10px auto", justifyContent: "center" }}>
-                            <h1 style={{ verticalAlign: "middle", textAlign: 'center' }}>Customer Data Management</h1>
                             <Form onSubmit={handleSubmit}>
                                 {/* Name and Date of Birth*/}
                                 <Row className="">
                                     <Col>
                                         <Form.Group className="" controlId="formBasicName">
-                                            <Form.Label>Name</Form.Label>
-                                            <Form.Control name='name' type="text" placeholder="Enter Name" />
+                                            <Form.Label style={{ marginTop: "10px" }}>Name</Form.Label>
+                                            <Form.Control name='name' type="text" required placeholder="Enter Name" />
                                         </Form.Group>
                                     </Col>
                                     <Col>
                                         {/* Date of birth */}
                                         <Form.Group className="" controlId="formBasicDOB">
-                                            <Form.Label>Date of Birth</Form.Label>
-                                            <Form.Control name='dob' type="date" placeholder="Enter Date of Birth" />
+                                            <Form.Label style={{ marginTop: "10px" }}>Date of Birth</Form.Label>
+                                            <Form.Control name='dob' type="date" required placeholder="Enter Date of Birth" />
                                         </Form.Group>
                                     </Col>
                                 </Row>
@@ -104,14 +149,14 @@ const AdminCustomerData = () => {
                                     <Col>
                                         {/* Department */}
                                         <Form.Group className="" controlId="formBasicDepartment">
-                                            <Form.Label>Department</Form.Label>
-                                            <Form.Control name='department' type="text" placeholder="Enter Department" />
+                                            <Form.Label style={{ marginTop: "10px" }}>Department</Form.Label>
+                                            <Form.Control name='department' type="text" required placeholder="Enter Department" />
                                         </Form.Group>
                                     </Col>
                                     <Col>
                                         {/* Gender */}
                                         <Form.Group className="" controlId="formBasicGender">
-                                            <Form.Label>Gender</Form.Label>
+                                            <Form.Label style={{ marginTop: "10px" }}>Gender</Form.Label>
                                             {/* DropDown for gender */}
                                             <Form.Select name='gender' aria-label="Default select example">
                                                 <option>Open this select menu</option>
@@ -127,15 +172,15 @@ const AdminCustomerData = () => {
                                     <Col>
                                         {/* Date of joining */}
                                         <Form.Group className="" controlId="formBasicDOJ">
-                                            <Form.Label>Date of Joining</Form.Label>
-                                            <Form.Control name='doj' type="date" placeholder="Enter Date of Joining" />
+                                            <Form.Label style={{ marginTop: "10px" }}>Date of Joining</Form.Label>
+                                            <Form.Control name='doj' type="date" required placeholder="Enter Date of Joining" />
                                         </Form.Group>
                                     </Col>
                                     <Col>
                                         {/* Designation */}
                                         <Form.Group className="" controlId="formBasicDesignation">
-                                            <Form.Label>Designation</Form.Label>
-                                            <Form.Control name='designation' type="text" placeholder="Enter Designation" />
+                                            <Form.Label style={{ marginTop: "10px" }}>Designation</Form.Label>
+                                            <Form.Control name='designation' type="text" required placeholder="Enter Designation" />
                                         </Form.Group>
 
                                     </Col>
@@ -144,28 +189,32 @@ const AdminCustomerData = () => {
                                     {/* Password */}
                                     <Col>
                                         <Form.Group className="" controlId="formBasicPassword">
-                                            <Form.Label>Password</Form.Label>
-                                            <Form.Control name='password' type="password" placeholder="Password" />
+                                            <Form.Label style={{ marginTop: "10px" }}>Password</Form.Label>
+                                            <Form.Control name='password' type="password" required placeholder="Password" />
                                         </Form.Group>
                                     </Col>
                                     {/* Confirm Password */}
                                     <Col>
                                         <Form.Group className="" controlId="formBasicConfirmPassword">
-                                            <Form.Label>Confirm Password</Form.Label>
-                                            <Form.Control name='passwordconf' type="password" placeholder="Confirm Password" />
+                                            <Form.Label style={{ marginTop: "10px" }}>Confirm Password</Form.Label>
+                                            <Form.Control name='passwordconf' type="password" required placeholder="Confirm Password" />
                                         </Form.Group>
                                     </Col>
                                 </Row>
-                                <Button variant="primary" type="submit">
+                                <Button variant="primary" style={{ marginTop: '15px' }} type="submit">
                                     Submit
                                 </Button>
+                                {errorMsg && <p className='error-message' style={{ color: 'red', marginTop: '10px' }}>{errorMsg}</p>}
+                                {successMsg && <p className='success-message' style={{ color: 'green', marginTop: '10px' }}>{successMsg}</p>}
                             </Form>
                         </Container>
                     </Accordion.Body>
                 </Accordion.Item>
                 <Accordion.Item eventKey="1">
-                    <Accordion.Header>Customer Data Table</Accordion.Header>
-                    <Accordion.Body>
+                    <Accordion.Header>Employee Data Table</Accordion.Header>
+                    <Accordion.Body style={{ textAlign: 'center' }}>
+                        <h2 style={{ verticalAlign: "middle", textAlign: 'center', margin: "15px auto" }}>Existing Employee Data</h2>
+                        {errorDeleteMsg && <p className='error-message' style={{ color: 'red', marginTop: '10px' }}>{errorDeleteMsg}</p>}
                         <div style={{ textAlign: "center", justifyContent: "center" }}>
                             <table className="table table-success w-auto" style={{ margin: "auto" }}>
                                 <thead>
@@ -193,6 +242,15 @@ const AdminCustomerData = () => {
                                                 <td> {cust.doj} </td>
                                                 <td>{cust.gender}</td>
                                                 <td>{cust.role}</td>
+                                                <td>
+                                                    <button className='btn btn-success' onClick={() => editEmployee(cust.employeeId)}>
+
+                                                    </button>
+                                                    &nbsp;
+                                                    <button className='btn btn-danger' onClick={() => deleteEmployee(cust.employeeId)}>
+
+                                                    </button>
+                                                </td>
                                             </tr>
                                     )}
                                 </tbody>

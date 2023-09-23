@@ -25,7 +25,7 @@
     margin-bottom: 1rem;
     margin-top:1rem;
     border:1px solid rgb(206, 205, 205);
-    border-radius: 3px;
+    border-radius:10px;
 }
 
 .user-dashboard-card-title {
@@ -36,14 +36,13 @@
     /* height: 3rem; */
     /* background-color: #f5f5f5; */
     border-bottom: 1px solid grey;
-}
+    padding-bottom: 5px;
 
-.user-dashboard-card-title{
     font-size: 1.5rem;
     font-weight: 500;
     color: #333;
     margin-bottom: 15px;
-    padding: 0;
+
 }
 
 .user-dashboard-card-body {

@@ -4,6 +4,9 @@ import { Accordion, Button, Container, Form, Row, Col } from 'react-bootstrap'
 
 const AdminItemData = () => {
   const [items, setItems] = useState([])
+  const [errorMsg, setErrorMsg] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
+  const [errorDeleteMsg, setErrorDeleteMsg] = useState('');
   useEffect(() => {
     getItemData()
     // console.log(items)
@@ -13,13 +16,13 @@ const AdminItemData = () => {
     e.preventDefault()
     const data = new FormData(e.target)
     const item = Object.fromEntries(data.entries())
-    console.log("TEST", item)
     let itemId = item.itemId
     let category = item.category
     let description = item.description
     let value = item.value
     let make = item.make
     let itemData = { itemId, category, description, value, make }
+    // console.log("TEST", item)
     const response = await fetch('http://localhost:9191/admin/addItem', {
       method: 'POST',
       headers: {
@@ -29,14 +32,20 @@ const AdminItemData = () => {
       body: JSON.stringify(itemData)
     })
     const responseData = await response.json()
-    console.log(responseData.Success)
+    console.log(responseData)
 
     if (responseData.Success) {
-      alert("Item added successfully")
+      setErrorMsg("")
+      setSuccessMsg("Item added successfully")
+      setTimeout(() => {
+        setSuccessMsg("")
+      }, 3000)
       getItemData()
+      e.target.reset();
     }
     else {
-      alert("Item not added")
+      setSuccessMsg("")
+      setErrorMsg("Item not added since : " + responseData.Reason)
     }
   }
 
@@ -58,17 +67,56 @@ const AdminItemData = () => {
   }
 
   function statuscheck(status) {
-    return status == false ? "N" : "Y"
+    return status == false ? "Unavailed" : "Availed"
   }
+
+  function editItem(itemId) {
+    console.log(itemId)
+    fetch(`http://localhost:9191/admin/editItem/${itemId}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+      }
+    }).then(response => {
+      return response.json()
+    }).then(data => {
+      console.log(data)
+      getItemData()
+    })
+  }
+
+  // delete function 
+  function deleteItem(itemId) {
+    fetch(`http://localhost:9191/admin/deleteItem/${itemId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+      }
+    }).then(response => {
+      return response.json()
+    }).then(data => {
+      console.log(data)
+      if (!data["Data deleted"]) {
+        setErrorDeleteMsg("Item is already availed!")
+        setTimeout(() => {
+          setErrorDeleteMsg("")
+        }, 3000)
+
+      }
+      getItemData()
+    })
+  }
+
   return (
     <div>
+      <h1 style={{ verticalAlign: "middle", textAlign: 'center', margin: '10px auto' }}>Item Data Management</h1>
       <Accordion style={{ margin: "20px" }} alwaysOpen>
         <Accordion.Item eventKey="0">
           <Accordion.Header>Add a new Item</Accordion.Header>
           <Accordion.Body>
+            <h2 style={{ verticalAlign: "middle", textAlign: 'center' }}>Add a new Item</h2>
             {/* <Register /> */}
             <Container style={{ width: "80%", margin: "10px auto", justifyContent: "center" }}>
-              <h1 style={{ verticalAlign: "middle", textAlign: 'center' }}>Item Data Management</h1>
               <Form onSubmit={handleSubmit}>
 
                 {/* Item ID and Item Category  */}
@@ -76,22 +124,23 @@ const AdminItemData = () => {
                   <Col>
                     {/* Item ID */}
                     <Form.Group className="" controlId="formBasicItemID">
-                      <Form.Label>Item ID</Form.Label>
-                      <Form.Control name='itemId' type="text" placeholder="Enter Item ID" />
+                      <Form.Label style={{ marginTop: "10px" }}>Item ID</Form.Label>
+                      <Form.Control name='itemId' type="text" required placeholder="Enter Item ID" />
                     </Form.Group>
                   </Col>
                   <Col>
                     {/* Item Category */}
                     <Form.Group className="" controlId="formBasicItemCategory">
-                      <Form.Label>Item Category</Form.Label>
+                      <Form.Label style={{ marginTop: "10px" }}>Item Category</Form.Label>
+                      {/* Normal text input */}
+                      <Form.Control name='category' type="text" required placeholder="Enter Item Category" />
                       {/* DropDown for Item Category */}
-                      <Form.Select name='category' aria-label="Default select example">
+                      {/* <Form.Select name='category' aria-label="Default select example">
                         <option>Open this select menu</option>
-                        {/* Furniture crockery and stationary */}
                         <option value="Furniture">Furniture</option>
                         <option value="Crockery">Crockery</option>
                         <option value="Stationary">Stationary</option>
-                      </Form.Select>
+                      </Form.Select> */}
                     </Form.Group>
                   </Col>
                 </Row>
@@ -100,16 +149,16 @@ const AdminItemData = () => {
                   <Col>
                     {/* Item Description */}
                     <Form.Group className="" controlId="formBasicItemDescription">
-                      <Form.Label>Item Description</Form.Label>
-                      <Form.Control name='description' type="text" placeholder="Enter Item Description" />
+                      <Form.Label style={{ marginTop: "10px" }}>Item Description</Form.Label>
+                      <Form.Control name='description' type="text" required placeholder="Enter Item Description" />
                     </Form.Group>
                   </Col>
                   <Col>
 
                     {/* Item Cost */}
                     <Form.Group className="" controlId="formBasicItemCost">
-                      <Form.Label>Item Cost</Form.Label>
-                      <Form.Control name='value' type="text" placeholder="Enter Item Cost" />
+                      <Form.Label style={{ marginTop: "10px" }}>Item Cost</Form.Label>
+                      <Form.Control name='value' type="number" required placeholder="Enter Item Cost" />
                     </Form.Group>
                   </Col>
                 </Row>
@@ -119,15 +168,17 @@ const AdminItemData = () => {
 
                     {/* Item Make */}
                     <Form.Group className="" controlId="formBasicItemMake">
-                      <Form.Label>Item Make</Form.Label>
+                      <Form.Label style={{ marginTop: "10px" }}>Item Make</Form.Label>
+                      {/* Normal Text Input */}
+                      <Form.Control name='make' type="text" required placeholder="Enter Item Make" />
                       {/* Dropdown with wood, glass, plastic, paper */}
-                      <Form.Select name='make' aria-label="Default select example">
+                      {/* <Form.Select name='make' aria-label="Default select example">
                         <option>Open this select menu</option>
                         <option value="Wood">Wood</option>
                         <option value="Glass">Glass</option>
                         <option value="Plastic">Plastic</option>
                         <option value="Paper">Paper</option>
-                      </Form.Select>
+                      </Form.Select> */}
                     </Form.Group>
                   </Col>
                   <Col>
@@ -137,13 +188,17 @@ const AdminItemData = () => {
                 <Button className="mt-3" variant="primary" type="submit">
                   Submit
                 </Button>
+                {errorMsg && <p className='error-message' style={{ color: 'red', marginTop: '10px' }}>{errorMsg}</p>}
+                {successMsg && <p className='success-message' style={{ color: 'green', marginTop: '10px' }}>{successMsg}</p>}
               </Form>
             </Container>
           </Accordion.Body>
         </Accordion.Item>
         <Accordion.Item eventKey="1">
           <Accordion.Header>Item Data Table</Accordion.Header>
-          <Accordion.Body>
+          <Accordion.Body style={{ textAlign: 'center' }}>
+            <h2 style={{ color: 'black', marginTop: '10px', marginBottom: '10px' }}>Existing Item Data</h2>
+            {errorDeleteMsg && <p className='error-message' style={{ color: 'red', marginTop: '10px' }}>{errorDeleteMsg}</p>}
             <div style={{ textAlign: "center", justifyContent: "center" }}>
               <table className="table table-success w-auto" style={{ margin: "auto" }}>
                 <thead>
@@ -167,6 +222,15 @@ const AdminItemData = () => {
                         <td> {item.make} </td>
                         <td> {item.category} </td>
                         <td> {item.value} </td>
+                        <td>
+                          <button className='btn btn-success' onClick={() => editItem(item.itemId)}>
+
+                          </button>
+                          &nbsp;
+                          <button className='btn btn-danger' onClick={() => deleteItem(item.itemId)}>
+
+                          </button>
+                        </td>
                       </tr>)}
                 </tbody>
               </table>
