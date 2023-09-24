@@ -2,6 +2,7 @@ package com.wellsfargo.luma.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wellsfargo.luma.model.Employee;
+import com.wellsfargo.luma.model.Item;
 import com.wellsfargo.luma.model.Loan;
 import com.wellsfargo.luma.repository.EmployeeRepository;
 import com.wellsfargo.luma.repository.LoanRepository;
@@ -41,10 +42,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.Date;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 
 import static net.bytebuddy.matcher.ElementMatchers.is;
@@ -116,6 +114,8 @@ class AdminControllerTest {
 
     public Loan loan;
 
+    public Item item;
+
 
     @BeforeEach
     public void setup(){
@@ -136,6 +136,15 @@ class AdminControllerTest {
                 .status(false)
                 .id(1L)
                 .build();
+
+        item = new Item();
+        item.setStatus(false);
+        item.setId(1L);
+        item.setItemId("I001");
+        item.setMake("Wood");
+        item.setCategory("Furniture");
+        item.setValue(5000L);
+        item.setDescription("Diner Table");
 
         when(employeeService.addEmployee(any(Employee.class),any(String.class))).thenReturn(emp);
         when(employeeService.findByName(any(String.class))).thenReturn(Optional.of(emp));
@@ -370,9 +379,38 @@ class AdminControllerTest {
         ResponseEntity<Map<String,Object>> response = adminController.deleteLoan(loan.getLoanId(),"Bearer "+empResponse.getBody().get("authtoken").toString());
 
         assertEquals(HttpStatus.OK,response.getStatusCode());
+    }
 
+    @Test
+    void viewLoanCards(){
 
+        Loan loan1 = Loan.builder()
+                .loanId("L002")
+                .duration(4)
+                .type("Grocery")
+                .status(false)
+                .id(2L)
+                .build();
 
+        List<Loan> loanList = new ArrayList<Loan>();
+
+        loanList.add(loan);
+        loanList.add(loan1);
+
+        when(loanService.getLoanCards()).thenReturn(loanList);
+
+        ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
+        log.info(empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
+
+        ResponseEntity<Map<String,Object>> response = adminController.viewLoanCards("Bearer "+empResponse.getBody().get("authtoken").toString());
+        List<Loan> loans = (List<Loan>) response.getBody().get("LoanCards");
+        assertEquals(HttpStatus.OK,response.getStatusCode());
+        assertEquals(2,loans.size());
+        assertEquals("L001",loans.get(0).getLoanId());
+        assertEquals("L002",loans.get(1).getLoanId());
 
     }
+
+
 }
