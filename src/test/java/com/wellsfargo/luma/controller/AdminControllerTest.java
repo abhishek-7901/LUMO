@@ -52,6 +52,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.*;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -352,6 +353,26 @@ class AdminControllerTest {
         assertNotNull(response.getBody().get("LoanDetails"));
 
         assertEquals("Grocery",newLoan.getType());
+
+    }
+
+    @Test
+    void deleteLoanCard(){
+
+        when(loanService.findLoanByLoanId(any(String.class))).thenReturn(loan);
+        doNothing().when(loanService).deleteById(any(Long.class));
+
+        ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
+        log.info(empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
+
+
+        ResponseEntity<Map<String,Object>> response = adminController.deleteLoan(loan.getLoanId(),"Bearer "+empResponse.getBody().get("authtoken").toString());
+
+        assertEquals(HttpStatus.OK,response.getStatusCode());
+
+
+
 
     }
 }
