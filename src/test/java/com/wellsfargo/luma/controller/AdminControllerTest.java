@@ -136,7 +136,19 @@ class AdminControllerTest {
                 .id(1L)
                 .build();
 
+        when(employeeService.addEmployee(any(Employee.class),any(String.class))).thenReturn(emp);
+        when(employeeService.findByName(any(String.class))).thenReturn(Optional.of(emp));
 
+        token =jwtService1.generateToken(emp.getName(),emp.getPassword());
+        when(jwtService.generateToken(any(String.class),any(String.class))).thenReturn(jwtService1.generateToken(emp.getName(),emp.getPassword()));
+        when(jwtService.extractUsername(any(String.class))).thenReturn(emp.getName());
+
+    }
+
+    @AfterEach
+    void cleanUp(){
+        emp=null;
+        loan=null;
     }
 
 
@@ -261,8 +273,8 @@ class AdminControllerTest {
     @Test
     void addLoanCard(){
         // Create an ArgumentCaptor to capture the Employee.class parameter
-        ArgumentCaptor<String> userNameCaptor = ArgumentCaptor.forClass(String.class);
-        ArgumentCaptor<String> passwordCaptor = ArgumentCaptor.forClass(String.class);
+//        ArgumentCaptor<String> userNameCaptor = ArgumentCaptor.forClass(String.class);
+//        ArgumentCaptor<String> passwordCaptor = ArgumentCaptor.forClass(String.class);
         // Specify behavior for the mock
 
 //        Employee emp = new Employee();
@@ -285,11 +297,9 @@ class AdminControllerTest {
         //Employee newEmp = employeeService1.addEmployee(emp,"ADMIN");
         //log.info(newEmp.getName());
         //token =jwtService1.generateToken(emp.getName(),emp.getPassword());
-        token =jwtService1.generateToken(emp.getName(),emp.getPassword());
-        when(loanService.addLoanCard(any(Loan.class))).thenReturn(loan);
-        when(employeeService.addEmployee(any(Employee.class),any(String.class))).thenReturn(emp);
-        when(jwtService.generateToken(any(String.class),any(String.class))).thenReturn(jwtService1.generateToken(emp.getName(),emp.getPassword()));
-        when(jwtService.extractUsername(any(String.class))).thenReturn(emp.getName());
+
+
+
 //        when(jwtService.generateToken(userNameCaptor.capture(),passwordCaptor.capture())).thenAnswer(invocationOnMock -> {
 //            Object[] args = invocationOnMock.getArguments();
 //            log.info(args.toString());
@@ -302,19 +312,46 @@ class AdminControllerTest {
 //            String str = (String) args[0];
 //            return str;
 //        });
-        when(employeeService.findByName(any(String.class))).thenReturn(Optional.of(emp));
+
         when(loanService.findLoanByLoanId(any(String.class))).thenReturn(null);
+        when(loanService.addLoanCard(any(Loan.class))).thenReturn(loan);
         //ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
+
         ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
         log.info(empResponse.getBody().toString());
         assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
+
         //log.info(passwordEncoder.encode(emp.getPassword()));
         //token =jwtService1.generateToken(emp.getName(),emp.getPassword());
         log.info(empResponse.getBody().get("authtoken").toString());
+
         ResponseEntity<Map<String,Object>> response = adminController.addLoanCard(loan,"Bearer "+empResponse.getBody().get("authtoken").toString());
+        Loan newLoan = (Loan) response.getBody().get("LoanDetails");
 
         assertEquals(HttpStatus.CREATED,response.getStatusCode());
+        assertNotNull(response.getBody().get("LoanDetails"));
+        assertEquals("L001",newLoan.getLoanId());
+    }
 
+    @Test
+    void editLoanCard(){
+
+        when(loanService.findLoanByLoanId(any(String.class))).thenReturn(loan);
+        when(loanService.addLoanCard(any(Loan.class))).thenReturn(loan);
+
+        ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
+        log.info(empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
+
+        loan.setType("Grocery");
+
+        ResponseEntity<Map<String,Object>> response = adminController.editLoan(loan.getLoanId(),loan,"Bearer "+empResponse.getBody().get("authtoken").toString());
+        Loan newLoan = (Loan) response.getBody().get("LoanDetails");
+
+        assertEquals(HttpStatus.CREATED,response.getStatusCode());
+        assertNotNull(response.getBody().get("LoanDetails"));
+
+        assertEquals("Grocery",newLoan.getType());
 
     }
 }
