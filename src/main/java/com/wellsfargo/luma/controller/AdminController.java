@@ -4,10 +4,7 @@ import com.wellsfargo.luma.dto.LoginRequest;
 import com.wellsfargo.luma.model.Employee;
 import com.wellsfargo.luma.model.Item;
 import com.wellsfargo.luma.model.Loan;
-import com.wellsfargo.luma.service.EmployeeService;
-import com.wellsfargo.luma.service.ItemService;
-import com.wellsfargo.luma.service.JwtService;
-import com.wellsfargo.luma.service.LoanService;
+import com.wellsfargo.luma.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -38,6 +34,9 @@ public class AdminController {
 
     @Autowired
     private ItemService itemService;
+
+    @Autowired
+    private DeleteEmployeeService deleteEmpService ;
 
     @PostMapping("/new")
     public Map<String, Object> addEmployee(@RequestBody Employee employee) {
@@ -472,7 +471,7 @@ public class AdminController {
         }
     }
 
-    @DeleteMapping("/deleteUser/{id}")
+    @DeleteMapping("/deleteEmployee/{id}")
     public ResponseEntity<Map<String, Object>> deleteUser(@PathVariable(value = "id") Long eId,
                                                           @RequestHeader("Authorization") String authHeader){
         Map<String, Object> map = new HashMap<String, Object>() ;
@@ -491,8 +490,8 @@ public class AdminController {
                 Optional<Employee> oldEmp = employeeService.findById(eId);
 
                 if (oldEmp.isPresent()) {
-
                     employeeService.deleteById(eId);
+                    deleteEmpService.deleteIssueCards(eId);
                     map.put("deleted", true) ;
                     return new ResponseEntity<>(map, HttpStatus.OK) ;
                 } else {

@@ -17,6 +17,10 @@ public class IssuedCardService {
         return issuedCardRepository.save(issuedCard);
     }
 
+    public void deleteById(Long id){
+        issuedCardRepository.deleteById(id);
+    }
+
     public List<IssuedCard> findIssuedCardByEmpId(Long id){
         return issuedCardRepository.findIssuedCardByEmpId(id);
     }
