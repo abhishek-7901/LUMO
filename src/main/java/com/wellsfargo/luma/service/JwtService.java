@@ -5,8 +5,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
@@ -14,7 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-@Component
+@Service
+@Slf4j
 public class JwtService {
 
 
@@ -22,6 +24,7 @@ public class JwtService {
 
 
     public String extractUsername(String token) {
+        log.info("Helo");
         return extractClaim(token, Claims::getSubject);
     }
     public String extractId(String token) {
@@ -34,6 +37,7 @@ public class JwtService {
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
+        log.info(claims.getSubject());
         return claimsResolver.apply(claims);
     }
 
@@ -56,7 +60,8 @@ public class JwtService {
     }
 
 
-    public String generateToken(String userName,String id){
+    public String generateToken(String userName, String id){
+        log.info("HELLO");
         Map<String,Object> claims=new HashMap<>();
         return createToken(claims,userName,id);
     }

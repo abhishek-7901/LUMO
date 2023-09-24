@@ -24,10 +24,10 @@ public class AdminController {
     @Autowired
     private EmployeeService employeeService;
     @Autowired
-    private JwtService jwtService;
+    public JwtService jwtService;
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    public AuthenticationManager authenticationManager;
 
     @Autowired
     private LoanService loanService;
@@ -39,13 +39,23 @@ public class AdminController {
     private DeleteEmployeeService deleteEmpService ;
 
     @PostMapping("/new")
-    public Map<String, Object> addEmployee(@RequestBody Employee employee) {
+    public ResponseEntity<Map<String, Object>>  addEmployee(@RequestBody Employee employee) {
         Map<String, Object> map = new HashMap<String, Object>();
-        Employee newEmployee = employeeService.addEmployee(employee, "ADMIN");
-        String token = jwtService.generateToken(employee.getName(), employee.getEmployeeId().toString());
-        map.put("authtoken", token);
-        map.put("EmplyeeDetails", newEmployee);
-        return map;
+        try {
+            log.info(employee.toString());
+            Employee newEmployee = employeeService.addEmployee(employee,"ADMIN");
+            log.info(newEmployee.getEmployeeId().toString());
+            String token = jwtService.generateToken(employee.getName(), newEmployee.getEmployeeId().toString());
+            map.put("authtoken", token);
+            map.put("EmplyeeDetails", newEmployee);
+            return new ResponseEntity<>(map,HttpStatus.CREATED);
+        }catch (Exception e){
+            log.info(e.getMessage());
+            map.put("success" , false);
+            map.put("Reason", "Error Adding Employee to DB");
+            return new ResponseEntity<>(map,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
     @PostMapping("/auth")
@@ -94,13 +104,18 @@ public class AdminController {
                 map.put("message","Error Fetching User. No User Found");
                 return new ResponseEntity<>(map,HttpStatus.NOT_FOUND);
             }
+            log.info("Testing");
             String name = jwtService.extractUsername(token);
+            //if(name == null){name = "Ayush Paul";}
+            log.info(name);
             Optional<Employee> employee = employeeService.findByName(name);
+            log.info(employee.get().getName());
             if(Objects.equals("ADMIN",employee.get().getRole())){
                 // Check that if theere is any loan card with the same loanId or not
                 // if there is , then we just loanService.getLoanbyLoanId
                 // we need to delete the already
                 Loan oldLoan = loanService.findLoanByLoanId(loan.getLoanId());
+                //log.info(oldLoan.toString());
                 if(oldLoan == null)
                 {
                     map.put("before adding", loan) ;
@@ -121,7 +136,7 @@ public class AdminController {
                 return new ResponseEntity<>(map, HttpStatus.UNAUTHORIZED);
             }
         }catch (Exception e){
-            log.info(e.getStackTrace().toString());
+            log.info(e.getMessage());
             map.put("success",false);
             map.put("Reason","Check Credentials");
             return ResponseEntity.internalServerError().body(map);
@@ -231,15 +246,21 @@ public class AdminController {
     public ResponseEntity<Map<String,Object>> viewLoanCards(@RequestHeader("Authorization") String authHeader){
         Map<String, Object> map = new HashMap<String, Object>();
         try {
+            log.info(authHeader);
             String token = authHeader.substring(7);
+            log.info(token);
             if(token == null)
             {
                 map.put("success" , false);
                 map.put("message","Error Fetching User. No User Found");
                 return new ResponseEntity<>(map,HttpStatus.NOT_FOUND);
             }
+
+
             String name = jwtService.extractUsername(token);
+            log.info(name);
             Optional<Employee> employee = employeeService.findByName(name);
+            log.info(employee.get().getName());
             if(Objects.equals("ADMIN",employee.get().getRole())){
                 List<Loan> loanList = loanService.getLoanCards();
                 map.put("Success",true);
