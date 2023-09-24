@@ -471,4 +471,46 @@ public class AdminController {
             return ResponseEntity.internalServerError().body(map);
         }
     }
+
+    @DeleteMapping("/deleteUser/{id}")
+    public ResponseEntity<Map<String, Object>> deleteUser(@PathVariable(value = "id") Long eId,
+                                                          @RequestHeader("Authorization") String authHeader){
+        Map<String, Object> map = new HashMap<String, Object>() ;
+
+        try {
+            String token = authHeader.substring(7);
+            if (token == null) {
+                map.put("success", false);
+                map.put("message", "Error fetching user. No user found");
+                return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
+            }
+            String name = jwtService.extractUsername(token);
+            Optional<Employee> employee = employeeService.findByName(name);
+
+            if (Objects.equals("ADMIN", employee.get().getRole())) {
+                Optional<Employee> oldEmp = employeeService.findById(eId);
+
+                if (oldEmp.isPresent()) {
+
+                    employeeService.deleteById(eId);
+                    map.put("deleted", true) ;
+                    return new ResponseEntity<>(map, HttpStatus.OK) ;
+                } else {
+                    map.put("Employee Id doesn't exist", false);
+                    return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
+                }
+            } else {
+                map.put("success", false) ;
+                map.put("You are not authorized", false);
+                return new ResponseEntity<>(map, HttpStatus.UNAUTHORIZED);
+            }
+        } catch (Exception e){
+            log.info(e.getStackTrace().toString());
+            map.put("success",false);
+            map.put("Reason","Check Credentials");
+            return ResponseEntity.internalServerError().body(map);
+        }
+    }
+
+
 }

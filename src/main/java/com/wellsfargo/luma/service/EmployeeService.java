@@ -40,6 +40,12 @@ public class EmployeeService {
         return employeeRepository.findByName(username);
     }
 
+    public void deleteById(Long id){
+        employeeRepository.deleteById(id);
+    }
+    public Optional<Employee> findById(Long id){
+        return employeeRepository.findById(id) ;
+    }
     public List<Employee> findAll(){
         return employeeRepository.findAll();
     }
