@@ -159,6 +159,7 @@ class AdminControllerTest {
     void cleanUp(){
         emp=null;
         loan=null;
+        item = null;
     }
 
 
@@ -409,6 +410,39 @@ class AdminControllerTest {
         assertEquals(2,loans.size());
         assertEquals("L001",loans.get(0).getLoanId());
         assertEquals("L002",loans.get(1).getLoanId());
+
+    }
+
+    @Test
+    void viewUsers(){
+
+        Employee emp1 = new Employee();
+        emp1.setPassword("secret123");
+        emp1.setName("Prabhat");
+        emp1.setRole("USER");
+        emp1.setDob(new Date());
+        emp1.setDepartment("TCOO");
+        emp1.setDoj(new Date());
+        emp1.setDesignation("Program Associate");
+        emp1.setEmployeeId(2L);
+
+        List<Employee> employeeList = new ArrayList<Employee>();
+
+        employeeList.add(emp);
+        employeeList.add(emp1);
+
+        when(employeeService.findAll()).thenReturn(employeeList);
+
+        ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
+        log.info(empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
+
+        ResponseEntity<Map<String,Object>> response = adminController.viewUsers("Bearer "+empResponse.getBody().get("authtoken").toString());
+        List<Employee> employees = (List<Employee>) response.getBody().get("EmployeeList");
+        assertEquals(HttpStatus.OK,response.getStatusCode());
+        assertEquals(2,employees.size());
+        assertEquals(1L, employees.get(0).getEmployeeId());
+        assertEquals(2L, employees.get(1).getEmployeeId());
 
     }
 
