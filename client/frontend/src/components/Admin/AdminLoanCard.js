@@ -1,12 +1,14 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { Accordion, Button, Container, Form, Row, Col } from 'react-bootstrap'
+import AdminEdit from './AdminEdit'
 
 const AdminLoanCard = () => {
   const [loanCards, setLoanCards] = useState([])
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
   const [errorDeleteMsg, setErrorDeleteMsg] = useState('');
+  const [showEditModal, setShowEditModal] = useState(false);
   useEffect(() => {
     // console.log("WELCOME to loan card")
     getLoanCardData()
@@ -71,19 +73,32 @@ const AdminLoanCard = () => {
     return status == false ? "Unavailed" : "Availed"
   }
   function editLoanCard(loanId) {
-    fetch(`http://localhost:9191/admin/editLoanCard/${loanId}`, {
-      method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
-      }
-    }).then(response => {
-      return response.json()
-    }).then(data => {
-      console.log(data)
-      getLoanCardData()
-    })
+    setShowEditModal(true);
+
+    // fetch(`http://localhost:9191/admin/editLoanCard/${loanId}`, {
+    //   method: 'PUT',
+    //   headers: {
+    //     'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+    //   }
+    // }).then(response => {
+    //   return response.json()
+    // }).then(data => {
+    //   console.log(data)
+    //   getLoanCardData()
+    // })
 
   }
+
+  const dataToEdit = {
+    field1 : loanCards.duration,
+    field2 : loanCards.loan_id,
+    field3 : loanCards.type
+  };
+
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+  };
+
   function deleteLoanCard(loanId) {
     fetch(`http://localhost:9191/admin/deleteLoanCard/${loanId}`, {
       method: 'DELETE',
@@ -191,9 +206,13 @@ const AdminLoanCard = () => {
                         <td>{loanCard.duration}</td>
                         <td>{statuscheck(loanCard.status)}</td>
                         <td>
-                          <button className='btn btn-success' onClick={() => editLoanCard(loanCard.loanId)}>
-
+                          <button className='btn btn-success' onClick={() => editLoanCard}>
                           </button>
+                          <AdminEdit
+                            show={showEditModal}
+                            onClose={handleCloseEditModal}
+                            data={dataToEdit}
+                          />
                           &nbsp;
                           <button className='btn btn-danger' onClick={() => deleteLoanCard(loanCard.loanId)}>
 
