@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+
 import '../../styles/ViewLoan.css'
 
 const ViewItem = () => {
@@ -65,6 +66,7 @@ const ViewItem = () => {
     </div>
     </div>
     
+
   )
 }
 

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import '../../styles/ViewLoan.css'
+// import '../../styles/ViewLoan.css'
 
 const ViewLoan = () => {
+
 
   const [loans,setLoans] = useState([]);
 
@@ -25,9 +26,9 @@ const ViewLoan = () => {
         // console.log(customers)
     })
 }
+
   return (
-    <div>
-      <br/>
+
 
       <h2 className="text-success">Loan Management Application</h2>
       <br/>
@@ -60,6 +61,7 @@ const ViewLoan = () => {
           </tbody>
         </table>
     </div>
+
     </div>
     
   )
