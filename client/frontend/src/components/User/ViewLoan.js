@@ -3,52 +3,65 @@ import React, { useEffect, useState } from 'react'
 
 const ViewLoan = () => {
 
-  const [viewLoans, setViewLoan] = useState([])
-  useEffect(() => {
-    console.log("WELCOME to view loans")
-    getViewLoan()
+
+  const [loans,setLoans] = useState([]);
+
+ useEffect(() => {
+  getLoanData()
   }, [])
 
-  function getViewLoan() {
+
+  function getLoanData() {
     fetch('http://localhost:9191/employee/viewLoans', {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
-      }
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+        }
     }).then(response => {
-      return response.json()
+        //console.log(response)
+        return response.json()
     }).then(data => {
-      setViewLoan(data["ViewLoans"])
-      
+        console.log(data)
+        setLoans(data["LoanList"])
+        // console.log(customers)
     })
-  }
+}
 
   return (
 
-    
-    <div style={{ textAlign: "center", justifyContent: "center" }}>
-      <table className="table table-success w-auto" style={{ margin: "auto" }}>
-        <thead>
-          <tr className="table-danger">
-            <th>Loan ID</th>
-            <th>Loan Type</th>
-            <th>Loan Duration</th>
-            {/* <th>Card Issue Date</th> */}
-          </tr>
-        </thead>
-        <tbody>
-          {viewLoans?.map(
-            viewLoan =>
-              <tr key={viewLoan.id}>
-                <td>{viewLoan.loanId}</td>
-                <td>{viewLoan.type}</td>
-                <td>{viewLoan.duration}</td>
-                {/* <td>{viewLoan.date}</td> */}
-              </tr>
-          )}
 
-        </tbody>
-      </table>
+      <h2 className="text-success">Loan Management Application</h2>
+      <br/>
+      <h3>Loan Cards Availed</h3>
+      <br/>
+        <div className="row justify-content-center"></div>
+      <br/>
+      <div className="row justify-content-center">
+        <table className="table table-success w-auto">
+          <thead>
+            <tr>
+              <th>Loan id </th>
+              <th>Loan type </th>
+              <th>Duration </th>
+              {/* <th>Card Issue date </th> */}
+            </tr>
+          </thead>
+          <tbody>
+            {loans.map((loan) => {
+              return(
+                <tr>
+                  <td>{loan.loanId}</td>
+                  <td>{loan.type}</td>
+                  <td>{loan.duration}</td>
+                  {/* <td>{loan.cardIssueDate}</td> */}
+                </tr>
+              )
+            })}
+            
+          </tbody>
+        </table>
+    </div>
+
     </div>
     
   )

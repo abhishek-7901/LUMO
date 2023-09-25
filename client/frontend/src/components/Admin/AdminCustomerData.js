@@ -62,7 +62,7 @@ const AdminCustomerData = () => {
         })
         const json = await response.json()
         console.log(json);
-        if (json["EmplyeeDetails"].name) {
+        if (json["success"]) {
             // Save the auth token and redirect
             setErrorMsg("")
             setSuccessMsg("Employee added successfully")
@@ -75,6 +75,9 @@ const AdminCustomerData = () => {
         else {
             setSuccessMsg("")
             setErrorMsg("Employee not added since : " + json["Reason"])
+            setTimeout(() => {
+                setErrorMsg("")
+            }, 3000)
         }
 
     }
@@ -111,7 +114,7 @@ const AdminCustomerData = () => {
     //     })
     // }
 
-
+   
     function deleteEmployee(empId) {
         fetch(`http://localhost:9191/admin/deleteEmployee/${empId}`, {
             method: 'DELETE',
@@ -122,8 +125,8 @@ const AdminCustomerData = () => {
             return response.json()
         }).then(data => {
             console.log(data)
-            if (!data["Data deleted"]) {
-                setErrorDeleteMsg("Employee is already availed!")
+            if (!data["deleted"]) {
+                setErrorDeleteMsg("Employee does not exist !")
                 setTimeout(() => {
                     setErrorDeleteMsg("")
                 }, 3000)

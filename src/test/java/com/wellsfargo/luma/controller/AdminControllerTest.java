@@ -1,63 +1,31 @@
 package com.wellsfargo.luma.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wellsfargo.luma.model.Employee;
 import com.wellsfargo.luma.model.Item;
 import com.wellsfargo.luma.model.Loan;
-import com.wellsfargo.luma.repository.EmployeeRepository;
-import com.wellsfargo.luma.repository.LoanRepository;
-import com.wellsfargo.luma.service.*;
+import com.wellsfargo.luma.service.EmployeeService;
+import com.wellsfargo.luma.service.ItemService;
+import com.wellsfargo.luma.service.JwtService;
+import com.wellsfargo.luma.service.LoanService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.*;
 
-
-import static net.bytebuddy.matcher.ElementMatchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.jupiter.api.Assertions.*;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 //@ExtendWith(MockitoExtension.class)
 //
@@ -445,6 +413,65 @@ class AdminControllerTest {
         assertEquals(2L, employees.get(1).getEmployeeId());
 
     }
+
+    @Test
+    void addItem(){
+
+        when(itemService.findItemByItemId(any(String.class))).thenReturn(null);
+        when(itemService.addItem(any(Item.class))).thenReturn(item);
+
+        ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
+        log.info(empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
+
+        ResponseEntity<Map<String,Object>> response = adminController.addItem(item,"Bearer "+empResponse.getBody().get("authtoken").toString());
+        Item newItem = (Item) response.getBody().get("ItemDetails");
+
+        assertEquals(HttpStatus.CREATED,response.getStatusCode());
+        assertNotNull(response.getBody().get("ItemDetails"));
+
+        assertEquals("I001",newItem.getItemId());
+
+    }
+
+    @Test
+    void editItem(){
+        when(itemService.findItemByItemId(any(String.class))).thenReturn(item);
+        when(itemService.addItem(any(Item.class))).thenReturn(item);
+
+        ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
+        log.info(empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
+
+        item.setCategory("Grocery");
+
+        ResponseEntity<Map<String,Object>> response = adminController.editItem(item.getItemId(),item,"Bearer "+empResponse.getBody().get("authtoken").toString());
+        Item newItem = (Item) response.getBody().get("Item details");
+
+        assertEquals(HttpStatus.CREATED,response.getStatusCode());
+        assertNotNull(response.getBody().get("Item details"));
+
+        assertEquals("Grocery",newItem.getCategory());
+
+    }
+
+    @Test
+    void deleteItem(){
+        when(itemService.findItemByItemId(any(String.class))).thenReturn(item);
+        doNothing().when(itemService).deleteById(any(Long.class));
+
+        ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
+        log.info(empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
+
+
+        ResponseEntity<Map<String,Object>> response = adminController.deleteItem(item.getItemId(),"Bearer "+empResponse.getBody().get("authtoken").toString());
+
+
+        assertEquals(HttpStatus.CREATED,response.getStatusCode());
+
+    }
+
 
 
 }
