@@ -414,5 +414,25 @@ class AdminControllerTest {
 
     }
 
+    @Test
+    void addItem(){
+
+        when(itemService.findItemByItemId(any(String.class))).thenReturn(null);
+        when(itemService.addItem(any(Item.class))).thenReturn(item);
+
+        ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
+        log.info(empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
+
+        ResponseEntity<Map<String,Object>> response = adminController.addItem(item,"Bearer "+empResponse.getBody().get("authtoken").toString());
+        Item newItem = (Item) response.getBody().get("ItemDetails");
+
+        assertEquals(HttpStatus.CREATED,response.getStatusCode());
+        assertNotNull(response.getBody().get("ItemDetails"));
+
+        assertEquals("I001",newItem.getItemId());
+
+    }
+
 
 }
