@@ -434,5 +434,28 @@ class AdminControllerTest {
 
     }
 
+    @Test
+    void editItem(){
+        when(itemService.findItemByItemId(any(String.class))).thenReturn(item);
+        when(itemService.addItem(any(Item.class))).thenReturn(item);
+
+        ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
+        log.info(empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
+
+        item.setCategory("Grocery");
+
+        ResponseEntity<Map<String,Object>> response = adminController.editItem(item.getItemId(),item,"Bearer "+empResponse.getBody().get("authtoken").toString());
+        Item newItem = (Item) response.getBody().get("Item details");
+
+        assertEquals(HttpStatus.CREATED,response.getStatusCode());
+        assertNotNull(response.getBody().get("Item details"));
+
+        assertEquals("Grocery",newItem.getCategory());
+
+
+
+    }
+
 
 }
