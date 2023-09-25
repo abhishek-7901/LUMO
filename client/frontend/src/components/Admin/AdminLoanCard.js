@@ -2,6 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { Accordion, Button, Container, Form, Row, Col } from 'react-bootstrap'
 import AdminEdit from './AdminEdit'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const AdminLoanCard = () => {
   const [loanCards, setLoanCards] = useState([])
@@ -12,7 +13,6 @@ const AdminLoanCard = () => {
   useEffect(() => {
     // console.log("WELCOME to loan card")
     getLoanCardData()
-    // console.log(items)
   }, [])
 
   const handleSubmit = async e => {
@@ -68,6 +68,40 @@ const AdminLoanCard = () => {
       // console.log(customers)
     })
   }
+
+  const editLoanCard = (id) => {
+    fetch('http://localhost:9191/admin/editLoanCard/${id}', {
+        method: 'PUT',
+        headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+        },
+        body: JSON.stringify(loanCards),
+    }).then(response => {
+        return response.json()
+    }).then(data => {
+      // console.log(data["ItemList"])
+      setLoanCards(data["LoanCards"])
+      getLoanCardData()
+        // console.log(items)
+    })
+  }
+  
+  const deleteLoanCard = (id) => {
+    fetch('http://localhost:9191/admin/deleteLoanCard/${id}', {
+      method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+        }
+    }).then(response => {
+        console.log(response)
+        return response.json()
+    }).then(data => {
+      setLoanCards(data["LoanCards"])
+      getLoanCardData()
+    })
+}
 
   function statuscheck(status) {
     return status == false ? "Unavailed" : "Availed"

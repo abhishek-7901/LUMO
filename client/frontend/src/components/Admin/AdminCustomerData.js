@@ -79,6 +79,37 @@ const AdminCustomerData = () => {
 
     }
 
+    // const editCustomer = (id) => {
+    //     fetch('http://localhost:9191/admin/viewUsers', {
+    //         method: 'GET',
+    //         headers: {
+    //             'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+    //         }
+    //     }).then(response => {
+    //         //console.log(response)
+    //         return response.json()
+    //     }).then(data => {
+    //         console.log(data["EmployeeList"])
+    //         setCustomers(data["EmployeeList"])
+    //         console.log(customers)
+    //     })
+    // }
+
+    // const deleteCustomer = (id) => {
+    //     fetch('http://localhost:9191/admin/viewUsers', {
+    //         method: 'GET',
+    //         headers: {
+    //             'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+    //         }
+    //     }).then(response => {
+    //         //console.log(response)
+    //         return response.json()
+    //     }).then(data => {
+    //         console.log(data["EmployeeList"])
+    //         setCustomers(data["EmployeeList"])
+    //         console.log(customers)
+    //     })
+    // }
 
 
     function deleteEmployee(empId) {
@@ -256,6 +287,7 @@ const AdminCustomerData = () => {
                                 </tbody>
                             </table>
                         </div>
+                        {/* {message && <div className='alert alert-success'>{message}</div>} */}
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>
