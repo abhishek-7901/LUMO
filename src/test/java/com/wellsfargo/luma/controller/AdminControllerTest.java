@@ -453,9 +453,25 @@ class AdminControllerTest {
 
         assertEquals("Grocery",newItem.getCategory());
 
+    }
 
+    @Test
+    void deleteItem(){
+        when(itemService.findItemByItemId(any(String.class))).thenReturn(item);
+        doNothing().when(itemService).deleteById(any(Long.class));
+
+        ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
+        log.info(empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
+
+
+        ResponseEntity<Map<String,Object>> response = adminController.deleteItem(item.getItemId(),"Bearer "+empResponse.getBody().get("authtoken").toString());
+
+
+        assertEquals(HttpStatus.CREATED,response.getStatusCode());
 
     }
+
 
 
 }
