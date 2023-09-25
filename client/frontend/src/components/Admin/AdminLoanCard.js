@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { Accordion, Button, Container, Form, Row, Col } from 'react-bootstrap'
-import AdminEdit from './AdminEdit'
+import AdminEdit from './AdminEditLoan'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const AdminLoanCard = () => {
@@ -26,6 +26,7 @@ const AdminLoanCard = () => {
     let type = loanCard.type
 
     let loanCardData = { loanId, type, duration }
+    console.log(loanCardData)
     const response = await fetch('http://localhost:9191/admin/addLoanCard', {
       method: 'POST',
       headers: {
@@ -35,7 +36,7 @@ const AdminLoanCard = () => {
       body: JSON.stringify(loanCardData)
     })
     const responseData = await response.json()
-    console.log(responseData)
+    console.log(response)
     console.log(responseData.Success)
 
     if (responseData.Success) {
@@ -69,64 +70,17 @@ const AdminLoanCard = () => {
     })
   }
 
-  const editLoanCard = (id) => {
-    fetch('http://localhost:9191/admin/editLoanCard/${id}', {
-        method: 'PUT',
-        headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
-        },
-        body: JSON.stringify(loanCards),
-    }).then(response => {
-        return response.json()
-    }).then(data => {
-      // console.log(data["ItemList"])
-      setLoanCards(data["LoanCards"])
-      getLoanCardData()
-        // console.log(items)
-    })
-  }
-  
-  const deleteLoanCard = (id) => {
-    fetch('http://localhost:9191/admin/deleteLoanCard/${id}', {
-      method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
-        }
-    }).then(response => {
-        console.log(response)
-        return response.json()
-    }).then(data => {
-      setLoanCards(data["LoanCards"])
-      getLoanCardData()
-    })
-}
-
   function statuscheck(status) {
     return status == false ? "Unavailed" : "Availed"
   }
-  function editLoanCard(loanId) {
+  function editLoanCard() {
     setShowEditModal(true);
-
-    // fetch(`http://localhost:9191/admin/editLoanCard/${loanId}`, {
-    //   method: 'PUT',
-    //   headers: {
-    //     'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
-    //   }
-    // }).then(response => {
-    //   return response.json()
-    // }).then(data => {
-    //   console.log(data)
-    //   getLoanCardData()
-    // })
-
   }
 
   const dataToEdit = {
-    field1 : loanCards.duration,
-    field2 : loanCards.loan_id,
-    field3 : loanCards.type
+    duration : loanCards.duration,
+    status : loanCards.status,
+    type : loanCards.type
   };
 
   const handleCloseEditModal = () => {
@@ -240,12 +194,13 @@ const AdminLoanCard = () => {
                         <td>{loanCard.duration}</td>
                         <td>{statuscheck(loanCard.status)}</td>
                         <td>
-                          <button className='btn btn-success' onClick={() => editLoanCard}>
+                          <button className='btn btn-success' onClick={() => {editLoanCard()
+                          console.log(loanCard.loanId)}}>
                           </button>
                           <AdminEdit
                             show={showEditModal}
                             onClose={handleCloseEditModal}
-                            data={dataToEdit}
+                            data={[{"loanId":loanCard.loanId},{"duration":loanCard.duration},{"status":loanCard.status},{"type":loanCard.type}]}
                           />
                           &nbsp;
                           <button className='btn btn-danger' onClick={() => deleteLoanCard(loanCard.loanId)}>
