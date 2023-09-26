@@ -1,8 +1,8 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { Accordion, Button, Container, Form, Row, Col } from 'react-bootstrap'
-import AdminEdit from './AdminEditLoan'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import AdminEditLoan from './AdminEditLoan'
 
 const AdminLoanCard = () => {
   const [loanCards, setLoanCards] = useState([])
@@ -62,11 +62,7 @@ const AdminLoanCard = () => {
     }).then(response => {
       return response.json()
     }).then(data => {
-      // console.log(data["ItemList"])
       setLoanCards(data["LoanCards"])
-      // console.log(items)
-      // setCustomers(data["EmployeeList"])
-      // console.log(customers)
     })
   }
 
@@ -77,13 +73,8 @@ const AdminLoanCard = () => {
     setShowEditModal(true);
   }
 
-  const dataToEdit = {
-    duration : loanCards.duration,
-    status : loanCards.status,
-    type : loanCards.type
-  };
-
-  const handleCloseEditModal = () => {
+  function handleCloseEditModal() {
+    getLoanCardData();
     setShowEditModal(false);
   };
 
@@ -102,7 +93,6 @@ const AdminLoanCard = () => {
         setTimeout(() => {  
           setErrorDeleteMsg("")
         },3000)
-
       }
       getLoanCardData()
     })
@@ -197,9 +187,12 @@ const AdminLoanCard = () => {
                           <button className='btn btn-success' onClick={() => {editLoanCard()
                           console.log(loanCard.loanId)}}>
                           </button>
-                          <AdminEdit
+                          <AdminEditLoan
                             show={showEditModal}
-                            onClose={handleCloseEditModal}
+                            onClose={() => {
+                              handleCloseEditModal()
+                              getLoanCardData()
+                            }}
                             data={[{"loanId":loanCard.loanId},{"duration":loanCard.duration},{"status":loanCard.status},{"type":loanCard.type}]}
                           />
                           &nbsp;

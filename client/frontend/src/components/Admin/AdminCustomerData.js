@@ -3,11 +3,14 @@ import Register from '../Register'
 import { Form, Button, Container, Accordion, Row, Col } from 'react-bootstrap'
 import { useState } from 'react'
 import axios from 'axios'
+import AdminEditEmployee from './AdminEditEmployee'
+
 const AdminCustomerData = () => {
     const [errorMsg, setErrorMsg] = useState('');
     const [successMsg, setSuccessMsg] = useState('');
     const [errorDeleteMsg, setErrorDeleteMsg] = useState('');
     const [customers, setCustomers] = useState([])
+    const [showEditModal, setShowEditModal] = useState(false);
 
     function getCustomerData() {
         fetch('http://localhost:9191/admin/viewUsers', {
@@ -16,12 +19,9 @@ const AdminCustomerData = () => {
                 'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
             }
         }).then(response => {
-            //console.log(response)
             return response.json()
         }).then(data => {
-            console.log(data["EmployeeList"])
             setCustomers(data["EmployeeList"])
-            console.log(customers)
         })
     }
 
@@ -79,38 +79,6 @@ const AdminCustomerData = () => {
 
     }
 
-    // const editCustomer = (id) => {
-    //     fetch('http://localhost:9191/admin/viewUsers', {
-    //         method: 'GET',
-    //         headers: {
-    //             'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
-    //         }
-    //     }).then(response => {
-    //         //console.log(response)
-    //         return response.json()
-    //     }).then(data => {
-    //         console.log(data["EmployeeList"])
-    //         setCustomers(data["EmployeeList"])
-    //         console.log(customers)
-    //     })
-    // }
-
-    // const deleteCustomer = (id) => {
-    //     fetch('http://localhost:9191/admin/viewUsers', {
-    //         method: 'GET',
-    //         headers: {
-    //             'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
-    //         }
-    //     }).then(response => {
-    //         //console.log(response)
-    //         return response.json()
-    //     }).then(data => {
-    //         console.log(data["EmployeeList"])
-    //         setCustomers(data["EmployeeList"])
-    //         console.log(customers)
-    //     })
-    // }
-
 
     function deleteEmployee(empId) {
         fetch(`http://localhost:9191/admin/deleteEmployee/${empId}`, {
@@ -133,20 +101,27 @@ const AdminCustomerData = () => {
         })
     }
 
-    function editEmployee(empId) {
-        console.log(empId)
-        fetch(`http://localhost:9191/admin/editItem/${empId}`, {
-            method: 'PUT',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
-            }
-        }).then(response => {
-            return response.json()
-        }).then(data => {
-            console.log(data)
-            editEmployee()
-        })
+    function editEmployee() {
+        setShowEditModal(true);
+        // console.log(empId)
+        // fetch(`http://localhost:9191/admin/editItem/${empId}`, {
+        //     method: 'PUT',
+        //     headers: {
+        //         'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+        //     }
+        // }).then(response => {
+        //     return response.json()
+        // }).then(data => {
+        //     console.log(data)
+        //     editEmployee()
+        // })
     }
+
+    function handleCloseEditModal() {
+        getCustomerData();
+        setShowEditModal(false);
+    };
+
     return (
         <div>
             <h1 style={{ verticalAlign: "middle", textAlign: 'center', marginTop: '15px' }}>Employee Data Management</h1>
@@ -274,9 +249,18 @@ const AdminCustomerData = () => {
                                                 <td>{cust.gender}</td>
                                                 <td>{cust.role}</td>
                                                 <td>
-                                                    <button className='btn btn-success' onClick={() => editEmployee(cust.employeeId)}>
-
+                                                    <button className='btn btn-success' onClick={() => {editEmployee()
+                                                    console.log(cust.employeeId)}}>
                                                     </button>
+                                                    <AdminEditEmployee
+                                                        show={showEditModal}
+                                                        onClose={() => {
+                                                        handleCloseEditModal()
+                                                        getCustomerData()
+                                                        }}
+                                                        data={[{ "employeeId": cust.employeeId }, { "name": cust.name }, { "department": cust.department }, { "designation": cust.designation },
+                                                        { "dob": cust.dob }, { "doj": cust.doj }, { "gender": cust.gender }, { "role": cust.role }]}
+                                                    />
                                                     &nbsp;
                                                     <button className='btn btn-danger' onClick={() => deleteEmployee(cust.employeeId)}>
 
