@@ -1,55 +1,72 @@
 import React, { useEffect, useState } from 'react'
 
+import '../../styles/ViewLoan.css'
 
 const ViewItem = () => {
 
-  const [viewItems, setViewItem] = useState([])
-  useEffect(() => {
-    console.log("WELCOME to view Items")
-    getViewItem()
+  const [items,setItems] = useState([]);
+
+ useEffect(() => {
+  getItemData()
   }, [])
 
-  function getViewItem() {
+
+  function getItemData() {
     fetch('http://localhost:9191/employee/viewItems', {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
-      }
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+        }
     }).then(response => {
-      return response.json()
+        //console.log(response)
+        return response.json()
     }).then(data => {
-      setViewItem(data["ViewItems"])
-      // console.log(items)
+        console.log(data)
+        setItems(data["ItemList"])
+        // console.log(customers)
     })
-  }
-
+}
   return (
-    <div style={{ textAlign: "center", justifyContent: "center" }}>
-      <table className="table table-success w-auto" style={{ margin: "auto" }}>
-        <thead>
-          <tr className="table-danger">
-            <th>Item ID</th>
-            <th>Category</th>
-            <th>Description</th>
-            <th>Make</th>
-            <th>Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          {viewItems?.map(
-            viewitem =>
-              <tr key={viewitem.id}>
-                <td>{viewitem.item_id}</td>
-                <td>{viewitem.category}</td>
-                <td>{viewitem.description}</td>
-                <td>{viewitem.make}</td>
-                <td>{viewitem.value}</td>
-              </tr>
-          )}
+    <div>
+      <br/>
 
-        </tbody>
-      </table>
+      <h2 className="text-success">Loan Management Application</h2>
+      <br/>
+      <h3>Items Availed</h3>
+      <br/>
+        <div className="row justify-content-center"></div>
+      <br/>
+      <div className="row justify-content-center">
+        <table className="table table-success w-auto">
+          <thead>
+            <tr>
+              <th>Item id </th>
+              <th>Category </th>
+              <th>Description</th>
+              <th>Make</th>
+              <th>Cost</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((item) => {
+              return(
+                <tr>
+                  <td>{item.itemId}</td>
+                  <td>{item.category}</td>
+                  <td>{item.description}</td>
+                  <td>{item.make}</td>
+                  <td>{item.value}</td>
+
+                </tr>
+              )
+            })}
+            
+          </tbody>
+        </table>
     </div>
+    </div>
+    
+
   )
 }
 
