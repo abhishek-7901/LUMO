@@ -519,4 +519,26 @@ class AdminControllerTest {
 
     }
 
+    @Test
+    void editEmployee(){
+
+        when(employeeService.findById(any(Long.class))).thenReturn(Optional.of(emp));
+        when(employeeService.addEmployee(any(Employee.class),any(String.class))).thenReturn(emp);
+
+        ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
+        log.info(empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
+
+        emp.setDesignation("SDE");
+
+        ResponseEntity<Map<String,Object>> response = adminController.editUser(emp.getEmployeeId(),emp,"Bearer "+empResponse.getBody().get("authtoken").toString());
+
+        Employee employee = (Employee) response.getBody().get("employee");
+
+        assertEquals(HttpStatus.OK,response.getStatusCode());
+        assertEquals("SDE",employee.getDesignation());
+
+
+    }
+
 }
