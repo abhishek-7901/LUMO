@@ -473,5 +473,35 @@ class AdminControllerTest {
     }
 
 
+    @Test
+    void viewItems(){
+        Item item1 = new Item();
+        item1.setCategory("Grocery");
+        item1.setItemId("I002");
+        item1.setId(2L);
+        item1.setMake("Wood");
+        item1.setValue(5000L);
+        item1.setStatus(false);
+        item1.setDescription("Milk");
+
+
+        List<Item> itemList = new ArrayList<Item>();
+
+        itemList.add(item);
+        itemList.add(item1);
+
+        when(itemService.getItems()).thenReturn(itemList);
+
+        ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
+        log.info(empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
+
+        ResponseEntity<Map<String,Object>> response = adminController.viewItems("Bearer "+empResponse.getBody().get("authtoken").toString());
+        List<Item> items = (List<Item>) response.getBody().get("ItemList");
+        assertEquals(HttpStatus.OK,response.getStatusCode());
+        assertEquals(2,items.size());
+        assertEquals("I001", items.get(0).getItemId());
+        assertEquals("I002", items.get(1).getItemId());
+    }
 
 }
