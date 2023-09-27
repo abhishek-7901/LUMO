@@ -4,52 +4,52 @@ import '../../styles/ViewLoan.css'
 
 const ViewItem = () => {
 
-  const [items,setItems] = useState([]);
+  const [items, setItems] = useState([]);
 
- useEffect(() => {
-  getItemData()
+  useEffect(() => {
+    getItemData()
   }, [])
 
 
   function getItemData() {
     fetch('http://localhost:9191/employee/viewItems', {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
-        }
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+      }
     }).then(response => {
-        //console.log(response)
-        return response.json()
+      //console.log(response)
+      return response.json()
     }).then(data => {
-        console.log(data)
-        setItems(data["ItemList"])
-        // console.log(customers)
+      console.log(data)
+      setItems(data["ItemList"])
+      // console.log(customers)
     })
-}
+  }
   return (
     <div>
-      <br/>
+      <br />
 
       <h2 className="text-success">Loan Management Application</h2>
-      <br/>
+      <br />
       <h3>Items Purchased</h3>
-      <br/>
-        <div className="row justify-content-center"></div>
-      <br/>
+      <br />
+      <div className="row justify-content-center"></div>
+      <br />
       <div className="row justify-content-center">
-        <table className="table table-success w-auto">
+        <table className=" w-auto">
           <thead>
-            <tr className="table-danger">
-              <th>Item id </th>
-              <th>Category </th>
-              <th>Description</th>
-              <th>Make</th>
-              <th>Cost</th>
-            </tr>
+
+            <th>Item id </th>
+            <th>Category </th>
+            <th>Description</th>
+            <th>Make</th>
+            <th>Cost</th>
+
           </thead>
           <tbody>
             {items.map((item) => {
-              return(
+              return (
                 <tr>
                   <td>{item.itemId}</td>
                   <td>{item.category}</td>
@@ -60,12 +60,12 @@ const ViewItem = () => {
                 </tr>
               )
             })}
-            
+
           </tbody>
         </table>
+      </div>
     </div>
-    </div>
-    
+
 
   )
 }

@@ -2,8 +2,8 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { Accordion, Button, Container, Form, Row, Col } from 'react-bootstrap'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {BiSolidEditAlt} from 'react-icons/bi'
-import {BsTrash} from 'react-icons/bs'
+import { BiSolidEditAlt } from 'react-icons/bi'
+import { BsTrash } from 'react-icons/bs'
 import AdminEditItem from './AdminEditItem'
 
 
@@ -17,11 +17,11 @@ const AdminItemData = () => {
     getItemData()
     // console.log(items)
   }, [])
-  
+
   //Calls item data after the edit modal is closed, and the items are updated.
-  useEffect(()=>{
+  useEffect(() => {
     getItemData()
-  },[items])
+  }, [items])
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -200,17 +200,15 @@ const AdminItemData = () => {
             <h2 style={{ color: 'black', marginTop: '10px', marginBottom: '10px' }}>Existing Item Data</h2>
             {errorDeleteMsg && <p className='error-message' style={{ color: 'red', marginTop: '10px' }}>{errorDeleteMsg}</p>}
             <div style={{ textAlign: "center", justifyContent: "center" }}>
-              <table className="table table-success w-auto" style={{ margin: "auto" }}>
+              <table className="w-auto" style={{ margin: "auto" }}>
                 <thead>
-                  <tr className="table-danger">
-                    <th>Item ID</th>
-                    <th>Description</th>
-                    <th>Status</th>
-                    <th>Make</th>
-                    <th>Category</th>
-                    <th>Value</th>
-                    <th>Actions</th>
-                  </tr>
+                  <th>Item ID</th>
+                  <th>Description</th>
+                  <th>Status</th>
+                  <th>Make</th>
+                  <th>Category</th>
+                  <th>Value</th>
+                  <th>Actions</th>
                 </thead>
                 <tbody>
                   {items.map(
@@ -223,10 +221,11 @@ const AdminItemData = () => {
                         <td> {item.category} </td>
                         <td> {item.value} </td>
                         <td>
-                          <button className='btn btn-success' onClick={() => {editItem()
+                          <button className='btn btn-success' onClick={() => {
+                            editItem()
                             console.log(item.value + " nm")
                           }}>
-                            <BiSolidEditAlt styles={{color:"black"}}/> 
+                            <BiSolidEditAlt styles={{ color: "black" }} />
                           </button>
                           <AdminEditItem
                             show={showEditModal}
@@ -234,11 +233,11 @@ const AdminItemData = () => {
                               handleCloseEditModal()
                               getItemData()
                             }}
-                            data={[{"itemId":item.itemId},{"description":item.description},{"status":item.status},{"make":item.make},{"value":item.value},{"category":item.category}]}
+                            data={[{ "itemId": item.itemId }, { "description": item.description }, { "status": item.status }, { "make": item.make }, { "value": item.value }, { "category": item.category }]}
                           />
                           &nbsp; &nbsp;
                           <button className='btn btn-danger' onClick={() => deleteItem(item.itemId)}>
-                          <BsTrash /> 
+                            <BsTrash />
                           </button>
                         </td>
                       </tr>)}

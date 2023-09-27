@@ -4,8 +4,8 @@ import { Form, Button, Container, Accordion, Row, Col } from 'react-bootstrap'
 import { useState } from 'react'
 import axios from 'axios'
 import AdminEditEmployee from './AdminEditEmployee'
-import {BiSolidEditAlt} from 'react-icons/bi'
-import {BsTrash} from 'react-icons/bs'
+import { BiSolidEditAlt } from 'react-icons/bi'
+import { BsTrash } from 'react-icons/bs'
 const AdminCustomerData = () => {
     const [errorMsg, setErrorMsg] = useState('');
     const [successMsg, setSuccessMsg] = useState('');
@@ -225,19 +225,19 @@ const AdminCustomerData = () => {
                         <h2 style={{ verticalAlign: "middle", textAlign: 'center', margin: "15px auto" }}>Existing Employee Data</h2>
                         {errorDeleteMsg && <p className='error-message' style={{ color: 'red', marginTop: '10px' }}>{errorDeleteMsg}</p>}
                         <div style={{ textAlign: "center", justifyContent: "center" }}>
-                            <table className="table table-success w-auto" style={{ margin: "auto" }}>
+                            <table className="w-auto" style={{ margin: "auto" }}>
                                 <thead>
-                                    <tr className="table-danger">
-                                        <th>Employee ID</th>
-                                        <th>Name</th>
-                                        <th>Department</th>
-                                        <th>Designation</th>
-                                        <th>DOB</th>
-                                        <th>DOJ</th>
-                                        <th>Gender</th>
-                                        <th>Role</th>
-                                        <th>Actions</th>
-                                    </tr>
+
+                                    <th>Employee ID</th>
+                                    <th>Name</th>
+                                    <th>Department</th>
+                                    <th>Designation</th>
+                                    <th>DOB</th>
+                                    <th>DOJ</th>
+                                    <th>Gender</th>
+                                    <th>Role</th>
+                                    <th>Actions</th>
+
                                 </thead>
                                 <tbody>
                                     {customers.map(
@@ -252,22 +252,24 @@ const AdminCustomerData = () => {
                                                 <td>{cust.gender}</td>
                                                 <td>{cust.role}</td>
                                                 <td>
-                                                    <button className='btn btn-success' onClick={() => {editEmployee()
-                                                    console.log(cust.employeeId)}}>
-                                                     <BiSolidEditAlt styles={{color:"black"}}/> 
+                                                    <button className='btn btn-success' onClick={() => {
+                                                        editEmployee()
+                                                        console.log(cust.employeeId)
+                                                    }}>
+                                                        <BiSolidEditAlt styles={{ color: "black" }} />
                                                     </button>
                                                     <AdminEditEmployee
                                                         show={showEditModal}
                                                         onClose={() => {
-                                                        handleCloseEditModal()
-                                                        getCustomerData()
+                                                            handleCloseEditModal()
+                                                            getCustomerData()
                                                         }}
                                                         data={[{ "employeeId": cust.employeeId }, { "name": cust.name }, { "department": cust.department }, { "designation": cust.designation },
                                                         { "dob": cust.dob }, { "doj": cust.doj }, { "gender": cust.gender }, { "role": cust.role }]}
                                                     />
                                                     &nbsp;&nbsp;
                                                     <button className='btn btn-danger' onClick={() => deleteEmployee(cust.employeeId)}>
-                                                    <BsTrash />
+                                                        <BsTrash />
                                                     </button>
                                                 </td>
                                             </tr>

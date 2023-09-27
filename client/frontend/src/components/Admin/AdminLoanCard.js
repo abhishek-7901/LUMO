@@ -1,8 +1,8 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { Accordion, Button, Container, Form, Row, Col } from 'react-bootstrap'
-import {BiSolidEditAlt} from 'react-icons/bi'
-import {BsTrash} from 'react-icons/bs'
+import { BiSolidEditAlt } from 'react-icons/bi'
+import { BsTrash } from 'react-icons/bs'
 import AdminEditLoan from './AdminEditLoan'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -21,7 +21,7 @@ const AdminLoanCard = () => {
   useEffect(() => {
     getLoanCardData()
   }, [loanCards])
-  
+
   const handleSubmit = async e => {
     e.preventDefault()
     const data = new FormData(e.target)
@@ -97,11 +97,11 @@ const AdminLoanCard = () => {
       return response.json()
     }).then(data => {
       console.log(data)
-      if(!data["Data deleted"]){
+      if (!data["Data deleted"]) {
         setErrorDeleteMsg("Loan Card already availed!")
-        setTimeout(() => {  
+        setTimeout(() => {
           setErrorDeleteMsg("")
-        },3000)
+        }, 3000)
       }
       getLoanCardData()
     })
@@ -170,32 +170,34 @@ const AdminLoanCard = () => {
 
         <Accordion.Item eventKey="1">
           <Accordion.Header>Loan Card Table</Accordion.Header>
-          <Accordion.Body style={{textAlign:'center'}}>
+          <Accordion.Body style={{ textAlign: 'center' }}>
             <h2 style={{ color: 'black', marginTop: '10px', marginBottom: '10px' }}>Existing Loan Cards</h2>
             {errorDeleteMsg && <p className='error-message' style={{ color: 'red', marginTop: '10px' }}>{errorDeleteMsg}</p>}
             <div style={{ textAlign: "center", justifyContent: "center" }}>
-              <table className="table table-success w-auto" style={{ margin: "auto" }}>
+              <table className="table-hover w-auto" style={{ margin: "auto" }}>
                 <thead>
-                  <tr className="table-danger">
-                    <th>Loan Card ID</th>
-                    <th>Loan Type</th>
-                    <th>Loan Duration</th>
-                    <th>Loan Status</th>
-                    <th>Actions</th>
-                  </tr>
+
+                  <th>Loan Card ID</th>
+                  <th>Loan Type</th>
+                  <th>Loan Duration</th>
+                  <th>Loan Status</th>
+                  <th>Actions</th>
+
                 </thead>
                 <tbody>
                   {loanCards.map(
                     loanCard =>
-                      <tr key={loanCard.id} styles={{justifyContent:"center",alignItem:"center"}}>
+                      <tr key={loanCard.id} styles={{ justifyContent: "center", alignItem: "center" }}>
                         <td >{loanCard.loanId}</td>
                         <td>{loanCard.type}</td>
                         <td>{loanCard.duration}</td>
                         <td>{statuscheck(loanCard.status)}</td>
                         <td>
-                          <button className='btn btn-success' onClick={() => {editLoanCard()
-                          console.log(loanCard.loanId)}}>
-                            <BiSolidEditAlt styles={{color:"black"}}/> 
+                          <button className='btn btn-success' onClick={() => {
+                            editLoanCard()
+                            console.log(loanCard.loanId)
+                          }}>
+                            <BiSolidEditAlt styles={{ color: "black" }} />
                           </button>
                           <AdminEditLoan
                             show={showEditModal}
@@ -203,7 +205,7 @@ const AdminLoanCard = () => {
                               handleCloseEditModal()
                               getLoanCardData()
                             }}
-                            data={[{"loanId":loanCard.loanId},{"duration":loanCard.duration},{"status":loanCard.status},{"type":loanCard.type}]}
+                            data={[{ "loanId": loanCard.loanId }, { "duration": loanCard.duration }, { "status": loanCard.status }, { "type": loanCard.type }]}
                           />
                           &nbsp;&nbsp;
                           <button className='btn btn-danger' onClick={() => deleteLoanCard(loanCard.loanId)}>

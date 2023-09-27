@@ -4,51 +4,51 @@ import React, { useEffect, useState } from 'react'
 const ViewLoan = () => {
 
 
-  const [loans,setLoans] = useState([]);
+  const [loans, setLoans] = useState([]);
 
- useEffect(() => {
-  getLoanData()
+  useEffect(() => {
+    getLoanData()
   }, [])
 
 
   function getLoanData() {
     fetch('http://localhost:9191/employee/viewLoans', {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
-        }
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+      }
     }).then(response => {
-        //console.log(response)
-        return response.json()
+      //console.log(response)
+      return response.json()
     }).then(data => {
-        console.log(data)
-        setLoans(data["LoanList"])
-        // console.log(customers)
+      console.log(data)
+      setLoans(data["LoanList"])
+      // console.log(customers)
     })
-}
+  }
 
   return (
-<div>
-
-      <h2 className="text-success">Loan Management Application</h2>
-      <br/>
+    <div>
+      <br />
+      <h2 className=" text-success">Loan Management Application</h2>
+      <br />
       <h3>Loan Cards Availed</h3>
-      <br/>
-        <div className="row justify-content-center"></div>
-      <br/>
+      <br />
+      <div className="row justify-content-center"></div>
+      <br />
       <div className="row justify-content-center">
-        <table className="table table-success w-auto">
+        <table className=" w-auto">
           <thead>
-          <tr className="table-danger">
-              <th>Loan id </th>
-              <th>Loan type </th>
-              <th>Duration </th>
-              {/* <th>Card Issue date </th> */}
-            </tr>
+
+            <th>Loan id </th>
+            <th>Loan type </th>
+            <th>Duration </th>
+            {/* <th>Card Issue date </th> */}
+
           </thead>
           <tbody>
             {loans.map((loan) => {
-              return(
+              return (
                 <tr>
                   <td>{loan.loanId}</td>
                   <td>{loan.type}</td>
@@ -57,13 +57,13 @@ const ViewLoan = () => {
                 </tr>
               )
             })}
-            
+
           </tbody>
         </table>
-    </div>
+      </div>
 
     </div>
-    
+
   )
 }
 
