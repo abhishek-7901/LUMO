@@ -28,7 +28,7 @@ const ViewLoan = () => {
 }
 
   return (
-
+<div>
 
       <h2 className="text-success">Loan Management Application</h2>
       <br/>
