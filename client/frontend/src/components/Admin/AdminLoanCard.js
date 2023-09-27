@@ -1,7 +1,8 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { Accordion, Button, Container, Form, Row, Col } from 'react-bootstrap'
-
+import {BiSolidEditAlt} from 'react-icons/bi'
+import {BsTrash} from 'react-icons/bs'
 import AdminEditLoan from './AdminEditLoan'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -186,14 +187,15 @@ const AdminLoanCard = () => {
                 <tbody>
                   {loanCards.map(
                     loanCard =>
-                      <tr key={loanCard.id}>
-                        <td>{loanCard.loanId}</td>
+                      <tr key={loanCard.id} styles={{justifyContent:"center",alignItem:"center"}}>
+                        <td >{loanCard.loanId}</td>
                         <td>{loanCard.type}</td>
                         <td>{loanCard.duration}</td>
                         <td>{statuscheck(loanCard.status)}</td>
                         <td>
                           <button className='btn btn-success' onClick={() => {editLoanCard()
                           console.log(loanCard.loanId)}}>
+                            <BiSolidEditAlt styles={{color:"black"}}/> 
                           </button>
                           <AdminEditLoan
                             show={showEditModal}
@@ -203,9 +205,9 @@ const AdminLoanCard = () => {
                             }}
                             data={[{"loanId":loanCard.loanId},{"duration":loanCard.duration},{"status":loanCard.status},{"type":loanCard.type}]}
                           />
-                          &nbsp;
+                          &nbsp;&nbsp;
                           <button className='btn btn-danger' onClick={() => deleteLoanCard(loanCard.loanId)}>
-
+                            <BsTrash />
                           </button>
                         </td>
                       </tr>

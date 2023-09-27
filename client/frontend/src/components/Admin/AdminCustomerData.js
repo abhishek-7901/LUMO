@@ -4,7 +4,8 @@ import { Form, Button, Container, Accordion, Row, Col } from 'react-bootstrap'
 import { useState } from 'react'
 import axios from 'axios'
 import AdminEditEmployee from './AdminEditEmployee'
-
+import {BiSolidEditAlt} from 'react-icons/bi'
+import {BsTrash} from 'react-icons/bs'
 const AdminCustomerData = () => {
     const [errorMsg, setErrorMsg] = useState('');
     const [successMsg, setSuccessMsg] = useState('');
@@ -253,6 +254,7 @@ const AdminCustomerData = () => {
                                                 <td>
                                                     <button className='btn btn-success' onClick={() => {editEmployee()
                                                     console.log(cust.employeeId)}}>
+                                                     <BiSolidEditAlt styles={{color:"black"}}/> 
                                                     </button>
                                                     <AdminEditEmployee
                                                         show={showEditModal}
@@ -263,9 +265,9 @@ const AdminCustomerData = () => {
                                                         data={[{ "employeeId": cust.employeeId }, { "name": cust.name }, { "department": cust.department }, { "designation": cust.designation },
                                                         { "dob": cust.dob }, { "doj": cust.doj }, { "gender": cust.gender }, { "role": cust.role }]}
                                                     />
-                                                    &nbsp;
+                                                    &nbsp;&nbsp;
                                                     <button className='btn btn-danger' onClick={() => deleteEmployee(cust.employeeId)}>
-
+                                                    <BsTrash />
                                                     </button>
                                                 </td>
                                             </tr>

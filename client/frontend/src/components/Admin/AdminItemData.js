@@ -2,7 +2,8 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { Accordion, Button, Container, Form, Row, Col } from 'react-bootstrap'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
+import {BiSolidEditAlt} from 'react-icons/bi'
+import {BsTrash} from 'react-icons/bs'
 import AdminEditItem from './AdminEditItem'
 
 
@@ -225,6 +226,7 @@ const AdminItemData = () => {
                           <button className='btn btn-success' onClick={() => {editItem()
                             console.log(item.value + " nm")
                           }}>
+                            <BiSolidEditAlt styles={{color:"black"}}/> 
                           </button>
                           <AdminEditItem
                             show={showEditModal}
@@ -234,9 +236,9 @@ const AdminItemData = () => {
                             }}
                             data={[{"itemId":item.itemId},{"description":item.description},{"status":item.status},{"make":item.make},{"value":item.value},{"category":item.category}]}
                           />
-                          &nbsp;
+                          &nbsp; &nbsp;
                           <button className='btn btn-danger' onClick={() => deleteItem(item.itemId)}>
-
+                          <BsTrash /> 
                           </button>
                         </td>
                       </tr>)}
