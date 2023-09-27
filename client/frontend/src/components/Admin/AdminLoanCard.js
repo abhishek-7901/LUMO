@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { Accordion, Button, Container, Form, Row, Col } from 'react-bootstrap'
-import AdminEdit from './AdminEditLoan'
+import AdminEditLoan from './AdminEditLoan'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const AdminLoanCard = () => {
@@ -57,6 +57,7 @@ const AdminLoanCard = () => {
       setErrorMsg("Item not added due to same loan ID")
     }
   }
+
   function getLoanCardData() {
     fetch('http://localhost:9191/admin/viewLoanCards', {
       method: 'GET',
@@ -77,6 +78,7 @@ const AdminLoanCard = () => {
   function statuscheck(status) {
     return status == false ? "Unavailed" : "Availed"
   }
+
   function editLoanCard() {
     setShowEditModal(true);
   }
@@ -201,7 +203,7 @@ const AdminLoanCard = () => {
                           <button className='btn btn-success' onClick={() => {editLoanCard()
                           console.log(loanCard.loanId)}}>
                           </button>
-                          <AdminEdit
+                          <AdminEditLoan
                             show={showEditModal}
                             onClose={handleCloseEditModal}
                             data={[{"loanId":loanCard.loanId},{"duration":loanCard.duration},{"status":loanCard.status},{"type":loanCard.type}]}
