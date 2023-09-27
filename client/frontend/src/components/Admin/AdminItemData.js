@@ -2,7 +2,9 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { Accordion, Button, Container, Form, Row, Col } from 'react-bootstrap'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import AdminEditItem from './AdminEditItem'
+
 
 const AdminItemData = () => {
   const [items, setItems] = useState([])
@@ -14,6 +16,11 @@ const AdminItemData = () => {
     getItemData()
     // console.log(items)
   }, [])
+  
+  //Calls item data after the edit modal is closed, and the items are updated.
+  useEffect(()=>{
+    getItemData()
+  },[items])
 
   const handleSubmit = async e => {
     e.preventDefault()

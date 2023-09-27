@@ -1,8 +1,10 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { Accordion, Button, Container, Form, Row, Col } from 'react-bootstrap'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import AdminEditLoan from './AdminEditLoan'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 
 const AdminLoanCard = () => {
   const [loanCards, setLoanCards] = useState([])
@@ -15,6 +17,10 @@ const AdminLoanCard = () => {
     getLoanCardData()
   }, [])
 
+  useEffect(() => {
+    getLoanCardData()
+  }, [loanCards])
+  
   const handleSubmit = async e => {
     e.preventDefault()
     const data = new FormData(e.target)
@@ -53,6 +59,7 @@ const AdminLoanCard = () => {
       setErrorMsg("Item not added due to same loan ID")
     }
   }
+
   function getLoanCardData() {
     fetch('http://localhost:9191/admin/viewLoanCards', {
       method: 'GET',
@@ -69,6 +76,7 @@ const AdminLoanCard = () => {
   function statuscheck(status) {
     return status == false ? "Unavailed" : "Availed"
   }
+
   function editLoanCard() {
     setShowEditModal(true);
   }

@@ -21,3 +21,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# avoid including application.properties in repository 
+src/main/resources/application.properties

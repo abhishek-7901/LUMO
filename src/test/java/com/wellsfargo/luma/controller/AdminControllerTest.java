@@ -3,10 +3,7 @@ package com.wellsfargo.luma.controller;
 import com.wellsfargo.luma.model.Employee;
 import com.wellsfargo.luma.model.Item;
 import com.wellsfargo.luma.model.Loan;
-import com.wellsfargo.luma.service.EmployeeService;
-import com.wellsfargo.luma.service.ItemService;
-import com.wellsfargo.luma.service.JwtService;
-import com.wellsfargo.luma.service.LoanService;
+import com.wellsfargo.luma.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -59,6 +56,8 @@ class AdminControllerTest {
     private ItemService itemService;
     @MockBean
     private EmployeeService employeeService;
+    @MockBean
+    private DeleteEmployeeService deleteEmployeeService;
 //
 //    @MockBean
 //    private EmployeeDetailsService employeeDetailsService;
@@ -473,5 +472,73 @@ class AdminControllerTest {
     }
 
 
+    @Test
+    void viewItems(){
+        Item item1 = new Item();
+        item1.setCategory("Grocery");
+        item1.setItemId("I002");
+        item1.setId(2L);
+        item1.setMake("Wood");
+        item1.setValue(5000L);
+        item1.setStatus(false);
+        item1.setDescription("Milk");
+
+
+        List<Item> itemList = new ArrayList<Item>();
+
+        itemList.add(item);
+        itemList.add(item1);
+
+        when(itemService.getItems()).thenReturn(itemList);
+
+        ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
+        log.info(empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
+
+        ResponseEntity<Map<String,Object>> response = adminController.viewItems("Bearer "+empResponse.getBody().get("authtoken").toString());
+        List<Item> items = (List<Item>) response.getBody().get("ItemList");
+        assertEquals(HttpStatus.OK,response.getStatusCode());
+        assertEquals(2,items.size());
+        assertEquals("I001", items.get(0).getItemId());
+        assertEquals("I002", items.get(1).getItemId());
+    }
+
+    @Test
+    void deleteEmployee(){
+        when(employeeService.findById(any(Long.class))).thenReturn(Optional.of(emp));
+        doNothing().when(deleteEmployeeService).deleteIssueCards(any(Long.class));
+        doNothing().when(employeeService).deleteById(any(Long.class));
+
+        ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
+        log.info(empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
+
+        ResponseEntity<Map<String,Object>> response = adminController.deleteUser(emp.getEmployeeId(),"Bearer "+empResponse.getBody().get("authtoken").toString());
+
+        assertEquals(HttpStatus.OK,response.getStatusCode());
+
+    }
+
+    @Test
+    void editEmployee(){
+
+        when(employeeService.findById(any(Long.class))).thenReturn(Optional.of(emp));
+        when(employeeService.addEmployee(any(Employee.class),any(String.class))).thenReturn(emp);
+
+        ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
+        log.info(empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
+
+        emp.setDesignation("SDE");
+
+        ResponseEntity<Map<String,Object>> response = adminController.editUser(emp.getEmployeeId(),emp,"Bearer "+empResponse.getBody().get("authtoken").toString());
+
+        Employee employee = (Employee) response.getBody().get("employee");
+
+        assertEquals(HttpStatus.OK,response.getStatusCode());
+        assertEquals("SDE",employee.getDesignation());
+
+
+    }
 
 }
