@@ -1,9 +1,9 @@
-.user-dashboard-header{
+.user-dashboard-header {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 1rem;
-    margin-top:1rem;
+    margin-top: 1rem;
 }
 
 
@@ -12,7 +12,7 @@
     align-items: center;
     display: flex;
     flex-direction: column;
-    width:90%;
+    width: 90%;
     margin: 0 auto;
 }
 
@@ -23,9 +23,9 @@
     flex-direction: row;
     width: 100%;
     margin-bottom: 1rem;
-    margin-top:1rem;
-    border:1px solid rgb(206, 205, 205);
-    border-radius:10px;
+    margin-top: 1rem;
+    border: 1px solid rgb(206, 205, 205);
+    border-radius: 10px;
 }
 
 .user-dashboard-card-title {

@@ -224,7 +224,7 @@ const AdminCustomerData = () => {
                     <Accordion.Body style={{ textAlign: 'center' }}>
                         <h2 style={{ verticalAlign: "middle", textAlign: 'center', margin: "15px auto" }}>Existing Employee Data</h2>
                         {errorDeleteMsg && <p className='error-message' style={{ color: 'red', marginTop: '10px' }}>{errorDeleteMsg}</p>}
-                        <div style={{ textAlign: "center", justifyContent: "center" }}>
+                        <div className="row justify-content-center">
                             <table className="w-auto" style={{ margin: "auto" }}>
                                 <thead>
 

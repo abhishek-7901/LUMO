@@ -33,12 +33,12 @@ const ApplyLoan = () => {
   useEffect(() => {
     console.log("category changed, so make change")
     setSelectedMake("")
-  },[selectedCategory])
+  }, [selectedCategory])
   useEffect(() => {
     console.log("category changed, so description change")
     setSelectedDescription("")
     setSelectedMake("")
-  },[selectedCategory])
+  }, [selectedCategory])
 
   // useffect to load the items into the drop down menu when the category is selected
   useEffect(() => {
@@ -56,9 +56,9 @@ const ApplyLoan = () => {
   // useffect to load the value of the item into the state when the description is selected
   useEffect(() => {
     getItemValue()
-    console.log("UEF value",value)
+    console.log("UEF value", value)
     // console.log("fourth")
-  }, [selectedDescription,selectedMake,  selectedCategory])//Dependency array, this useeffect is called when the page renders and state of selectedDescription changes
+  }, [selectedDescription, selectedMake, selectedCategory])//Dependency array, this useeffect is called when the page renders and state of selectedDescription changes
 
   // Gets all the unique categories from the Items state and sets it into the category state.
   function getCategories() {
@@ -147,15 +147,15 @@ const ApplyLoan = () => {
       body: JSON.stringify(item)
     })
     const responseData = await response.json()
-    if(responseData.success){
+    if (responseData.success) {
       alert("Loan applied successfully")
       navigate('/employee/dashboard')
-      
+
     }
-    else{
+    else {
       alert("Loan not applied due to : " + responseData['Reason'])
     }
-    console.log(responseData.Reason," +++",responseData["Reason"])
+    console.log(responseData.Reason, " +++", responseData["Reason"])
     console.log(responseData.success)
   }
 
@@ -176,94 +176,98 @@ const ApplyLoan = () => {
   }
 
   return (
-    <div className="container" style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
-      
+    <div className="" style={{ height: '100vh' }} >
+      <br />
 
-      <Container style={{ width: "80%", margin: "10px auto", justifyContent: "center" }}>
-        <h1 style={{ verticalAlign: "middle", textAlign: 'center' }}>Loan Card Management</h1>
+      <h2 className="text">Loan Management Application</h2>
+      <div className="" style={{ width: "80%", textAlign: 'center', backgroundColor: 'white', minHeight: '80%', border: "1px solid grey", borderRadius: "10px", margin: "15px auto" }}>
+        <br />
+        <Container style={{ width: "80%", margin: "10px auto", justifyContent: "center" }}>
+          <h3 style={{ verticalAlign: "middle", textAlign: 'center' }}>Apply for Loan</h3>
 
-        <Form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit}>
 
-          {/* Employee ID  */}
-          <Row className="">
-            <Col>
-              <Form.Group className="" controlId="formBasicEmployeeID">
-                <Form.Label style={{ marginTop: '5px' }}>Employee ID</Form.Label>
-                <Form.Control name='employeeId' type="text" placeholder={localStorage.getItem('empId')} disabled />
-              </Form.Group>
-            </Col>
+            {/* Employee ID  */}
+            <Row className="">
+              <Col>
+                <Form.Group className="" controlId="formBasicEmployeeID">
+                  <Form.Label style={{ marginTop: '5px' }}>Employee ID</Form.Label>
+                  <Form.Control name='employeeId' type="text" placeholder={localStorage.getItem('empId')} disabled />
+                </Form.Group>
+              </Col>
 
-            {/* Item Category */}
-            <Col>
-              {/* Item Category Dropdown menu which calls function getCategories and gets all the data from that call.  */}
-              <Form.Group className="" controlId="formBasicItemCategory">
-                <Form.Label style={{ marginTop: '5px' }}>Item Category</Form.Label>
-                {/* On change, set the option chosen as the selected category */}
-                <Form.Select name='category' aria-label="Default select example" onChange={() => { setSelectedCategory(document.getElementById('formBasicItemCategory').value) }}>
-                  <option>Select Item Category</option>
-                  {categories.map((item, index) => {
-                    return (
-                      <option key={index} value={item} >{item}</option>
-                    )
-                  })}
-                </Form.Select>
-              </Form.Group>
-            </Col>
-          </Row>
+              {/* Item Category */}
+              <Col>
+                {/* Item Category Dropdown menu which calls function getCategories and gets all the data from that call.  */}
+                <Form.Group className="" controlId="formBasicItemCategory">
+                  <Form.Label style={{ marginTop: '5px' }}>Item Category</Form.Label>
+                  {/* On change, set the option chosen as the selected category */}
+                  <Form.Select name='category' aria-label="Default select example" onChange={() => { setSelectedCategory(document.getElementById('formBasicItemCategory').value) }}>
+                    <option>Select Item Category</option>
+                    {categories.map((item, index) => {
+                      return (
+                        <option key={index} value={item} >{item}</option>
+                      )
+                    })}
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+            </Row>
 
-          {/* Item Make  */}
-          <Row className="">
-            <Col>
-              {/* Item Make Dropdown menu which calls function getMakes and gets all the data from that call.  */}
-              <Form.Group className="" controlId="formBasicItemMake">
-                <Form.Label style={{ marginTop: '5px' }}>Item Make</Form.Label>
-                {/* On change, set the option chosen as the selected make */}
-                <Form.Select name='make' aria-label="Default select example" onChange={() => { setSelectedMake(document.getElementById('formBasicItemMake').value) }}>
-                  <option>Select Item Make</option>
-                  {makes.map((item, index) => {
-                    return (
-                      <option key={index} value={item}>{item}</option>
-                    )
-                  })}
-                </Form.Select>
-              </Form.Group>
-            </Col>
-            {/* Item Description */}
-            <Col>
-              {/* Item Description Dropdown menu which calls function getDescriptions and gets all the data from that call.  */}
-              <Form.Group className="" controlId="formBasicItemDescription">
-                <Form.Label style={{ marginTop: '5px' }}>Item Description</Form.Label>
-                {/* On change, set the option chosen as the selected description */}
-                <Form.Select name='description' aria-label="Default select example" onChange={() => { setSelectedDescription(document.getElementById('formBasicItemDescription').value) }}>
-                  <option>Select Item Description</option>
-                  {descriptions.map((item, index) => {
-                    return (
-                      <option key={index} value={item}>{item}</option>
-                    )
-                  })}
-                </Form.Select>
-              </Form.Group>
-            </Col>
-          </Row>
+            {/* Item Make  */}
+            <Row className="">
+              <Col>
+                {/* Item Make Dropdown menu which calls function getMakes and gets all the data from that call.  */}
+                <Form.Group className="" controlId="formBasicItemMake">
+                  <Form.Label style={{ marginTop: '5px' }}>Item Make</Form.Label>
+                  {/* On change, set the option chosen as the selected make */}
+                  <Form.Select name='make' aria-label="Default select example" onChange={() => { setSelectedMake(document.getElementById('formBasicItemMake').value) }}>
+                    <option>Select Item Make</option>
+                    {makes.map((item, index) => {
+                      return (
+                        <option key={index} value={item}>{item}</option>
+                      )
+                    })}
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+              {/* Item Description */}
+              <Col>
+                {/* Item Description Dropdown menu which calls function getDescriptions and gets all the data from that call.  */}
+                <Form.Group className="" controlId="formBasicItemDescription">
+                  <Form.Label style={{ marginTop: '5px' }}>Item Description</Form.Label>
+                  {/* On change, set the option chosen as the selected description */}
+                  <Form.Select name='description' aria-label="Default select example" onChange={() => { setSelectedDescription(document.getElementById('formBasicItemDescription').value) }}>
+                    <option>Select Item Description</option>
+                    {descriptions.map((item, index) => {
+                      return (
+                        <option key={index} value={item}>{item}</option>
+                      )
+                    })}
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+            </Row>
 
-          {/* Item Value */}
-          <Row className="">
-            <Col>
-              {/* Item Value */}
-              <Form.Group className="" controlId="formBasicItemValue">
-                <Form.Label style={{ marginTop: '5px' }}>Item Value</Form.Label>
-                <Form.Control name='value' type="text" placeholder={value} disabled />
-              </Form.Group>
-            </Col>
-          </Row>
-          {/* Submit Button */}
+            {/* Item Value */}
+            <Row className="">
+              <Col>
+                {/* Item Value */}
+                <Form.Group className="" controlId="formBasicItemValue">
+                  <Form.Label style={{ marginTop: '5px' }}>Item Value</Form.Label>
+                  <Form.Control name='value' type="text" placeholder={value} disabled />
+                </Form.Group>
+              </Col>
+            </Row>
+            {/* Submit Button */}
 
 
-          <Button className="mt-3" variant="primary" type="submit">
-            Submit
-          </Button>
-        </Form>
-      </Container>
+            <Button className="mt-3" variant="primary" type="submit">
+              Submit
+            </Button>
+          </Form>
+        </Container>
+      </div>
     </div>
   )
 }

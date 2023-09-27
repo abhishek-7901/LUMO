@@ -1,18 +1,17 @@
 import React from 'react'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-const AdminProtected = ({children}) => {
+const AdminProtected = ({ children }) => {
     let navigate = useNavigate();
-    useEffect(()=>{
-        if(localStorage.getItem('role')!='ADMIN')
-        {
+    useEffect(() => {
+        if (localStorage.getItem('role') != 'ADMIN') {
             navigate('/admin/login')
             alert("You are not authorized to access this page")
             localStorage.removeItem('token');
             localStorage.removeItem('pass');
         }
-    },[])
-  return children
+    }, [])
+    return children
 }
 
 export default AdminProtected

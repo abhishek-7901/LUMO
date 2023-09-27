@@ -109,7 +109,7 @@ const AdminItemData = () => {
 
   return (
     <div>
-      <h1 style={{ verticalAlign: "middle", textAlign: 'center', margin: '10px auto' }}>Item Data Management</h1>
+      <h1 style={{ verticalAlign: "middle", textAlign: 'center', margin: '15px auto' }}>Item Data Management</h1>
       <Accordion style={{ margin: "20px" }} alwaysOpen>
         <Accordion.Item eventKey="0">
           <Accordion.Header>Add a new Item</Accordion.Header>
@@ -199,7 +199,7 @@ const AdminItemData = () => {
           <Accordion.Body style={{ textAlign: 'center' }}>
             <h2 style={{ color: 'black', marginTop: '10px', marginBottom: '10px' }}>Existing Item Data</h2>
             {errorDeleteMsg && <p className='error-message' style={{ color: 'red', marginTop: '10px' }}>{errorDeleteMsg}</p>}
-            <div style={{ textAlign: "center", justifyContent: "center" }}>
+            <div className="row justify-content-center">
               <table className="w-auto" style={{ margin: "auto" }}>
                 <thead>
                   <th>Item ID</th>

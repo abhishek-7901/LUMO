@@ -27,42 +27,41 @@ const ViewItem = () => {
     })
   }
   return (
-    <div>
+    <div className="" style={{ height: '100vh' }} >
       <br />
 
-      <h2 className="text-success">Loan Management Application</h2>
-      <br />
-      <h3>Items Purchased</h3>
-      <br />
-      <div className="row justify-content-center"></div>
-      <br />
-      <div className="row justify-content-center">
-        <table className=" w-auto">
-          <thead>
+      <h2 className="text">Loan Management Application</h2>
+      <div className="" style={{ width: "80%", minHeight: '80%', backgroundColor: 'white', border: "1px solid grey", borderRadius: "10px", margin: "15px auto" }}>
+        <br />
+        <h3>Items Purchased</h3>
+        <br />
+        <br />
+        <div className="row justify-content-center">
+          <table className="w-auto">
+            <thead>
+              <th>Item id </th>
+              <th>Category </th>
+              <th>Description</th>
+              <th>Make</th>
+              <th>Cost</th>
+            </thead>
+            <tbody>
+              {items.map((item) => {
+                return (
+                  <tr>
+                    <td>{item.itemId}</td>
+                    <td>{item.category}</td>
+                    <td>{item.description}</td>
+                    <td>{item.make}</td>
+                    <td>{item.value}</td>
 
-            <th>Item id </th>
-            <th>Category </th>
-            <th>Description</th>
-            <th>Make</th>
-            <th>Cost</th>
+                  </tr>
+                )
+              })}
 
-          </thead>
-          <tbody>
-            {items.map((item) => {
-              return (
-                <tr>
-                  <td>{item.itemId}</td>
-                  <td>{item.category}</td>
-                  <td>{item.description}</td>
-                  <td>{item.make}</td>
-                  <td>{item.value}</td>
-
-                </tr>
-              )
-            })}
-
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 

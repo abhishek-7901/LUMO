@@ -109,8 +109,8 @@ const AdminLoanCard = () => {
 
   return (
     <div>
-      <h1 style={{ verticalAlign: "middle", textAlign: 'center', marginTop: '20px' }}>Loan Card Management</h1>
-      <Accordion style={{ margin: "20px" }} alwaysOpen>
+      <h1 style={{ verticalAlign: "middle", textAlign: 'center', marginTop: '15px' }}>Loan Card Management</h1>
+      <Accordion style={{ margin: "20px",borderRadius:'15px' }} alwaysOpen>
         <Accordion.Item eventKey="0">
           <Accordion.Header>Add a new loan card</Accordion.Header>
           <Accordion.Body>
@@ -173,7 +173,7 @@ const AdminLoanCard = () => {
           <Accordion.Body style={{ textAlign: 'center' }}>
             <h2 style={{ color: 'black', marginTop: '10px', marginBottom: '10px' }}>Existing Loan Cards</h2>
             {errorDeleteMsg && <p className='error-message' style={{ color: 'red', marginTop: '10px' }}>{errorDeleteMsg}</p>}
-            <div style={{ textAlign: "center", justifyContent: "center" }}>
+            <div className="row justify-content-center">
               <table className="table-hover w-auto" style={{ margin: "auto" }}>
                 <thead>
 

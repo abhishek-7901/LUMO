@@ -58,12 +58,12 @@ const AdminLogin = () => {
               <div className="form-group">
 
                 <label htmlFor="userName">Username</label>
-                <input type="text" className='login-input' name="userName"
+                <input type="text"  style={{textAlign:'center'}} className='login-input' name="userName"
                   onChange={handleUsernameChange} autoFocus required />
                 <br></br>
 
                 <label htmlFor="Password">Password</label>
-                <input type="password" name="password" className='login-input' onChange={e => setPassword(e.target.value)} required /> {/*type, name ->arg*/}
+                <input type="password" name="password" className='login-input'  style={{textAlign:'center'}} onChange={e => setPassword(e.target.value)} required /> {/*type, name ->arg*/}
                 <br></br>
 
                 <Link to='/login' style={{ textDecoration: "none",display:"block",marginBottom:'5px' }}>Are you an Employee?</Link>
