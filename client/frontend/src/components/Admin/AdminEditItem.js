@@ -3,21 +3,23 @@ import { Modal, Button, Form } from 'react-bootstrap';
 
 function AdminEditItem(props) {
   const [itemId, setItemId] = useState(props.data[0]["itemId"]);
-  const [category, setCategory] = useState(props.data[1]["category"]);
-  const [description, setDescription] = useState(props.data[2]["description"]);
-  const [cost, setCost] = useState(props.data[3]["cost"]);
-  const [make, setMake] = useState(props.data[4]["make"]);
+  const [description, setDescription] = useState(props.data[1]["description"]);
+  const [status, setStatus] = useState(props.data[2]["status"]);
+  const [make, setMake] = useState(props.data[3]["make"]);
+  const [value, setValue] = useState(props.data[4]["value"]);
+  const [category, setCategory] = useState(props.data[5]["category"]);
     
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    let sendData = { itemId, category, description, cost, make}
+    let sendData = { itemId, description, status, make, value, category}
     console.log(JSON.stringify(sendData))
 
     fetch(`http://localhost:9191/admin/editItem/${itemId}`, {
       method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
       },
       body: JSON.stringify(sendData)
     }).then(response => {
@@ -29,28 +31,41 @@ function AdminEditItem(props) {
     props.onClose();
   };
 
-  return (
+    return (
     <Modal show={props.show} onHide={props.onClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Edit Loan Card</Modal.Title>
+        <Modal.Title>Edit Item</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleFormSubmit}>
 
           <Form.Group controlId="Input1">
-            <Form.Label>Id</Form.Label>
+            <Form.Label>Item Id</Form.Label>
             <Form.Control
               type="text"
-              name="loanId"
-              value={loanId || ''}
+              name="itemId"
+              value={itemId || ''}
               disabled
+            />
+            </Form.Group>
+                  
+            <Form.Group controlId="Input2">
+            <Form.Label>Description</Form.Label>
+            <Form.Control
+              type="text"
+              name="description"
+              value={description || ''}
+              onChange={(e) => {
+                setDescription(e.target.value)
+                console.log(description + " afterchange")
+              }}
             />
           </Form.Group>
 
-          <Form.Group controlId="Input2">
+          <Form.Group controlId="Input3">
             <Form.Label>Status</Form.Label>
             <Form.Control
-              type="text"
+              type="boolean"
               name="status"
               value={status || ''}
               onChange={(e) => {
@@ -60,28 +75,41 @@ function AdminEditItem(props) {
             />
           </Form.Group>
 
-          <Form.Group controlId="Input3">
-            <Form.Label>Type</Form.Label>
+          <Form.Group controlId="Input4">
+            <Form.Label>Make </Form.Label>
             <Form.Control
               type="text"
-              name="type"
-              value={type || ''}
+              name="make"
+              value={make || ''}
               onChange={(e) => {
-                setType(e.target.value)
-                console.log(type + " afterchange")
+                setMake(e.target.value)
+                console.log(make + " afterchange")
               }}
             />
-          </Form.Group>
-
-          <Form.Group controlId="Input4">
-            <Form.Label>Duration</Form.Label>
+            </Form.Group>
+                  
+            <Form.Group controlId="Input5">
+            <Form.Label>Category</Form.Label>
             <Form.Control
               type="text"
-              name="duration"
-              value={duration || ''}
+              name="category"
+              value={category || ''}
               onChange={(e) => {
-                setDuration(e.target.value)
-                console.log(duration + " afterchange")
+                setCategory(e.target.value)
+                console.log(category + " afterchange")
+              }}
+            />
+            </Form.Group>
+                  
+            <Form.Group controlId="Input6">
+            <Form.Label>Value</Form.Label>
+            <Form.Control
+              type="number"
+              name="value"
+              value={value || ''}
+              onChange={(e) => {
+                setValue(e.target.value)
+                console.log(value + " afterchange")
               }}
             />
           </Form.Group>

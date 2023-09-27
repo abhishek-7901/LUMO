@@ -10,7 +10,7 @@ function AdminEditLoan(props) {
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    let sendData = { "LoanId":loanId, type, duration}
+    let sendData = { loanId, type, duration}
     console.log(JSON.stringify(sendData))
 
     fetch(`http://localhost:9191/admin/editLoanCard/${loanId}`, {
@@ -24,7 +24,7 @@ function AdminEditLoan(props) {
       console.log(JSON.stringify(response) + " res")
       return response
     }).then(data => {
-      console.log(data)
+      console.log(data.ok)
     })
     props.onClose();
   };

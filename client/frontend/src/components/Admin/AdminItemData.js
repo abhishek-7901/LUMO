@@ -3,11 +3,15 @@ import { useState, useEffect } from 'react'
 import { Accordion, Button, Container, Form, Row, Col } from 'react-bootstrap'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+import AdminEditItem from './AdminEditItem'
+
+
 const AdminItemData = () => {
   const [items, setItems] = useState([])
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
   const [errorDeleteMsg, setErrorDeleteMsg] = useState('');
+  const [showEditModal, setShowEditModal] = useState(false);
   useEffect(() => {
     getItemData()
     // console.log(items)
@@ -28,7 +32,6 @@ const AdminItemData = () => {
     let value = item.value
     let make = item.make
     let itemData = { itemId, category, description, value, make }
-    // console.log("TEST", item)
     const response = await fetch('http://localhost:9191/admin/addItem', {
       method: 'POST',
       headers: {
@@ -64,11 +67,7 @@ const AdminItemData = () => {
     }).then(response => {
       return response.json()
     }).then(data => {
-      // console.log(data["ItemList"])
       setItems(data["ItemList"])
-      // console.log(items)
-      // setCustomers(data["EmployeeList"])
-      // console.log(customers)
     })
   }
 
@@ -76,20 +75,14 @@ const AdminItemData = () => {
     return status == false ? "Unavailed" : "Availed"
   }
 
-  function editItem(itemId) {
-    console.log(itemId)
-    fetch(`http://localhost:9191/admin/editItem/${itemId}`, {
-      method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
-      }
-    }).then(response => {
-      return response.json()
-    }).then(data => {
-      console.log(data)
-      getItemData()
-    })
+  function editItem() {
+    setShowEditModal(true);
   }
+
+  function handleCloseEditModal() {
+    getItemData();
+    setShowEditModal(false);
+  };
 
   // delete function 
   function deleteItem(itemId) {
@@ -229,9 +222,18 @@ const AdminItemData = () => {
                         <td> {item.category} </td>
                         <td> {item.value} </td>
                         <td>
-                          <button className='btn btn-success' onClick={() => editItem(item.itemId)}>
-
+                          <button className='btn btn-success' onClick={() => {editItem()
+                            console.log(item.value + " nm")
+                          }}>
                           </button>
+                          <AdminEditItem
+                            show={showEditModal}
+                            onClose={() => {
+                              handleCloseEditModal()
+                              getItemData()
+                            }}
+                            data={[{"itemId":item.itemId},{"description":item.description},{"status":item.status},{"make":item.make},{"value":item.value},{"category":item.category}]}
+                          />
                           &nbsp;
                           <button className='btn btn-danger' onClick={() => deleteItem(item.itemId)}>
 
