@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
-
+import { Row, Col } from 'react-bootstrap';
 function AdminEditEmployee(props) {
   const [employeeId, setEmployeeId] = useState(props.data[0]["employeeId"]);
   const [name, setName] = useState(props.data[1]["name"]);
@@ -40,9 +40,10 @@ function AdminEditEmployee(props) {
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleFormSubmit}>
-
+<Row>
+  <Col>
           <Form.Group controlId="Input1">
-            <Form.Label>Id</Form.Label>
+            <Form.Label className="mt-1">Id</Form.Label>
             <Form.Control
               type="text"
               name="employeeId"
@@ -50,9 +51,10 @@ function AdminEditEmployee(props) {
               disabled
             />
           </Form.Group>
-
+</Col>
+<Col>
           <Form.Group controlId="Input2">
-            <Form.Label>Name</Form.Label>
+            <Form.Label className="mt-1">Name</Form.Label>
             <Form.Control
               type="text"
               name="name"
@@ -63,9 +65,12 @@ function AdminEditEmployee(props) {
               }}
             />
           </Form.Group>
-
+</Col>
+</Row>
+<Row>
+  <Col>
           <Form.Group controlId="Input3">
-            <Form.Label>Department</Form.Label>
+            <Form.Label className="mt-1">Department</Form.Label>
             <Form.Control
               type="text"
               name="department"
@@ -76,9 +81,11 @@ function AdminEditEmployee(props) {
               }}
             />
           </Form.Group>
+          </Col>
+          <Col>
 
           <Form.Group controlId="Input4">
-            <Form.Label>Designation</Form.Label>
+            <Form.Label className="mt-1">Designation</Form.Label>
             <Form.Control
               type="text"
               name="designation"
@@ -89,9 +96,12 @@ function AdminEditEmployee(props) {
               }}
             />
           </Form.Group>
-
+          </Col>
+          </Row>
+<Row>
+  <Col>
           <Form.Group controlId="Input5">
-            <Form.Label>Dob</Form.Label>
+            <Form.Label className="mt-1">DOB</Form.Label>
             <Form.Control
               type="date"
               name="dob"
@@ -102,9 +112,11 @@ function AdminEditEmployee(props) {
               }}
             />
           </Form.Group>
-
+          </Col>
+          <Col>
+          
           <Form.Group controlId="Input6">
-            <Form.Label>Doj</Form.Label>
+            <Form.Label className="mt-1">DOJ</Form.Label>
             <Form.Control
               type="date"
               name="doj"
@@ -115,9 +127,13 @@ function AdminEditEmployee(props) {
               }}
             />
           </Form.Group>
-
+          </Col>
+          </Row>
+          <Row>
+            
+            <Col>
           <Form.Group controlId="Input7">
-            <Form.Label>Gender</Form.Label>
+            <Form.Label className="mt-1">Gender</Form.Label>
             <Form.Select
               name='gender' aria-label="Default select example"
               value={gender || ''}
@@ -129,9 +145,10 @@ function AdminEditEmployee(props) {
               <option value="F">Female</option>
             </Form.Select>
             </Form.Group>
-
+            </Col>
+            <Col>
           <Form.Group controlId="Input8">
-            <Form.Label>Role</Form.Label>
+            <Form.Label className="mt-1">Role</Form.Label>
             <Form.Select
               name='role' aria-label="Default select example"
               value={role || ''}
@@ -143,8 +160,9 @@ function AdminEditEmployee(props) {
               <option value="EMP">EMP</option>
             </Form.Select>
           </Form.Group>
-
-          <Button variant="primary" type="submit">
+          </Col>
+          </Row>
+          <Button variant="primary" className="mt-3" type="submit">
             Save Changes
           </Button>
         </Form>
