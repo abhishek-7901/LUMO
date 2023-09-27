@@ -221,7 +221,7 @@ const AdminItemData = () => {
                         <td> {item.category} </td>
                         <td> {item.value} </td>
                         <td>
-                          <button className='btn btn-success' onClick={() => {
+                          <button className='btn btn-success' disabled={item.status} onClick={() => {
                             editItem()
                             console.log(item.value + " nm")
                           }}>
@@ -236,7 +236,7 @@ const AdminItemData = () => {
                             data={[{ "itemId": item.itemId }, { "description": item.description }, { "status": item.status }, { "make": item.make }, { "value": item.value }, { "category": item.category }]}
                           />
                           &nbsp; &nbsp;
-                          <button className='btn btn-danger' onClick={() => deleteItem(item.itemId)}>
+                          <button className='btn btn-danger' disabled={item.status} onClick={() => deleteItem(item.itemId)}>
                             <BsTrash />
                           </button>
                         </td>

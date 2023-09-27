@@ -193,7 +193,7 @@ const AdminLoanCard = () => {
                         <td>{loanCard.duration}</td>
                         <td>{statuscheck(loanCard.status)}</td>
                         <td>
-                          <button className='btn btn-success' onClick={() => {
+                          <button className='btn btn-success' disabled={loanCard.status} onClick={() => {
                             editLoanCard()
                             console.log(loanCard.loanId)
                           }}>
@@ -208,7 +208,7 @@ const AdminLoanCard = () => {
                             data={[{ "loanId": loanCard.loanId }, { "duration": loanCard.duration }, { "status": loanCard.status }, { "type": loanCard.type }]}
                           />
                           &nbsp;&nbsp;
-                          <button className='btn btn-danger' onClick={() => deleteLoanCard(loanCard.loanId)}>
+                          <button className='btn btn-danger' disabled={loanCard.status} onClick={() => deleteLoanCard(loanCard.loanId)}>
                             <BsTrash />
                           </button>
                         </td>

@@ -106,18 +106,6 @@ const AdminCustomerData = () => {
 
     function editEmployee() {
         setShowEditModal(true);
-        // console.log(empId)
-        // fetch(`http://localhost:9191/admin/editItem/${empId}`, {
-        //     method: 'PUT',
-        //     headers: {
-        //         'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
-        //     }
-        // }).then(response => {
-        //     return response.json()
-        // }).then(data => {
-        //     console.log(data)
-        //     editEmployee()
-        // })
     }
 
     function handleCloseEditModal() {
