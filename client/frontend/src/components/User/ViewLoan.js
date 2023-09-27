@@ -39,7 +39,7 @@ const ViewLoan = () => {
       <div className="row justify-content-center">
         <table className="table table-success w-auto">
           <thead>
-            <tr>
+          <tr className="table-danger">
               <th>Loan id </th>
               <th>Loan type </th>
               <th>Duration </th>

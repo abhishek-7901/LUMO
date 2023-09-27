@@ -32,14 +32,14 @@ const ViewItem = () => {
 
       <h2 className="text-success">Loan Management Application</h2>
       <br/>
-      <h3>Items Availed</h3>
+      <h3>Items Purchased</h3>
       <br/>
         <div className="row justify-content-center"></div>
       <br/>
       <div className="row justify-content-center">
         <table className="table table-success w-auto">
           <thead>
-            <tr>
+            <tr className="table-danger">
               <th>Item id </th>
               <th>Category </th>
               <th>Description</th>
