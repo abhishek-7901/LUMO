@@ -15,6 +15,10 @@ const AdminLoanCard = () => {
     getLoanCardData()
   }, [])
 
+  useEffect(() => {
+    getLoanCardData()
+  }, [loanCards])
+  
   const handleSubmit = async e => {
     e.preventDefault()
     const data = new FormData(e.target)
