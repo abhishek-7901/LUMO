@@ -55,7 +55,7 @@ const Navbar = () => {
             return (
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                     <li className="nav-item">
-                        <Link className='nav-link' to='/'>Home&nbsp;<BiHomeAlt2 /></Link>
+                        <Link className='nav-link' to='/'>Home</Link>
                     </li>
                 </ul>
             )

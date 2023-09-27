@@ -51,7 +51,7 @@ const AdminLogin = () => {
     <div className='bgfull'>
       <div className='login-body'>
         {/* Login Card */}
-        <div className="login-card container" style={{ marginTop: '18vh', marginBottom: '15vh' }}>
+        <div className="login-card container" style={{ marginTop: '10vh' }}>
           <div className="login-card-body">
             <h5 className="login-card-title" style={{ paddingTop: '15px' }}>Admin Login</h5>
             <form onSubmit={handleSubmit} autoComplete="on">
