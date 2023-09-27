@@ -12,6 +12,11 @@ const AdminItemData = () => {
     getItemData()
     // console.log(items)
   }, [])
+  
+  //Calls item data after the edit modal is closed, and the items are updated.
+  useEffect(()=>{
+    getItemData()
+  },[items])
 
   const handleSubmit = async e => {
     e.preventDefault()
