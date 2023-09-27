@@ -113,6 +113,9 @@ const AdminCustomerData = () => {
         setShowEditModal(false);
     };
 
+    useEffect(() => {
+    document.title = 'Admin Customer Data'
+  }, [])
     return (
         <div>
             <h1 style={{ verticalAlign: "middle", textAlign: 'center', marginTop: '15px' }}>Employee Data Management</h1>

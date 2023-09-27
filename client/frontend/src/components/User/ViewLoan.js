@@ -27,6 +27,10 @@ const ViewLoan = () => {
     })
   }
 
+  useEffect(() => {
+    document.title = 'Employee View Loans'
+  }, [])
+
   return (
     <div className="" style={{ height: '100vh' }} >
       <br />

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../styles/Register.css'
+import { useEffect } from 'react';
 const Register = () => {
 
   const [email, setEmail] = useState('') //userName->variabe, setter function 
@@ -57,6 +58,9 @@ const Register = () => {
     }
   }
 
+  useEffect(() => {
+    document.title = 'Signup'
+  }, [])
   return (
     <div className='login-body bgfull' style={{ paddingTop: "5vh" }}>
       {/* Register register-card */}

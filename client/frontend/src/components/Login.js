@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import '../styles/Login.css'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -45,7 +45,10 @@ const Login = () => {
       setErrorMsg('Invalid Credentials');
     }
   }
-
+  useEffect(() => {
+    document.title = 'Login'
+  }, [])
+  
   const handleUsernameChange = (argu) => {  //arrow function, handle.. holds value of function
     // console.log(argu)  //print
     setUserName(argu.target.value)

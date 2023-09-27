@@ -107,6 +107,9 @@ const AdminItemData = () => {
     })
   }
 
+  useEffect(() => {
+    document.title = 'Admin Item Data'
+  }, [])
   return (
     <div>
       <h1 style={{ verticalAlign: "middle", textAlign: 'center', margin: '15px auto' }}>Item Data Management</h1>

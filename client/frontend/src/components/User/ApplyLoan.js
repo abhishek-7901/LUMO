@@ -174,6 +174,9 @@ const ApplyLoan = () => {
       setItems(data["LoanCards"])
     })
   }
+  useEffect(() => {
+    document.title = 'Employee Apply Loan'
+  }, [])
 
   return (
     <div className="" style={{ height: '100vh' }} >

@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 const UserDashboard = () => {
+  useEffect(() => {
+    document.title = 'Employee Dashboard'
+  }, [])
   return (
     <div>
       <div className='user-dashboard-header'>

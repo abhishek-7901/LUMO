@@ -2,7 +2,7 @@ import React from 'react'
 import '../../styles/Login.css'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-
+import { useEffect } from 'react';
 const AdminLogin = () => {
   const [userName, setUserName] = useState('') //userName->variabe, setter function 
   const [password, setPassword] = useState('') //state->changes rerendered
@@ -47,6 +47,9 @@ const AdminLogin = () => {
     // console.log(argu)  //print
     setUserName(argu.target.value)
   }
+  useEffect(() => {
+    document.title = 'Admin Login'
+  }, [])
   return (
     <div className='bgfull'>
       <div className='login-body'>

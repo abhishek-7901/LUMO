@@ -26,6 +26,9 @@ const ViewItem = () => {
       // console.log(customers)
     })
   }
+  useEffect(() => {
+    document.title = 'Employee View Items'
+  }, [])
   return (
     <div className="" style={{ height: '100vh' }} >
       <br />

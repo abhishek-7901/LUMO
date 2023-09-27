@@ -106,7 +106,9 @@ const AdminLoanCard = () => {
       getLoanCardData()
     })
   }
-
+  useEffect(() => {
+    document.title = 'Admin Loan Card'
+  }, [])
   return (
     <div>
       <h1 style={{ verticalAlign: "middle", textAlign: 'center', marginTop: '15px' }}>Loan Card Management</h1>

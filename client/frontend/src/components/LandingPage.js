@@ -3,7 +3,11 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import '../styles/LandingPage.css'
 import image from "./download.jpeg"
+import { useEffect } from 'react';
 function LandingPage() {
+  useEffect(() => {
+    document.title = 'Home'
+  }, [])
   return (
     <div style={{ backgroundImage: `url(${image})`, backgroundSize: 'contains', padding: '10px' }}>
       <div id="landingPageMainDiv" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', textAlign: 'center', margin: '3em 5em', border: '3px solid grey', borderRadius: '5px', backgroundColor: '#FAFAFA' }}>
