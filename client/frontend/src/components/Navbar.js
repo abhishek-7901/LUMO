@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
-
+import { BiLogIn, BiLogOut, BiLogInCircle, BiHomeAlt2 } from 'react-icons/bi';
 
 const Navbar = () => {
     let location = useLocation();
@@ -51,13 +51,13 @@ const Navbar = () => {
                 </ul>
             )
         }
-        else{
-            return(
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                <li className="nav-item">
-                    <Link className='nav-link' to='/'>Home</Link>
+        else {
+            return (
+                <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li className="nav-item">
+                        <Link className='nav-link' to='/'>Home&nbsp;<BiHomeAlt2 /></Link>
                     </li>
-            </ul>
+                </ul>
             )
         }
 
@@ -77,12 +77,12 @@ const Navbar = () => {
 
                         {!localStorage.getItem('token') ?
                             <form className="d-flex ">
-                                <Link className="btn btn-primary mx-1" to="/login" role="button">Login</Link>
-                                <Link className="btn btn-primary mx-1" to="/register" role="button">Signup</Link>
+                                <Link className="btn btn-primary mx-1" to="/login" role="button">Login&nbsp;<BiLogIn /></Link>
+                                <Link className="btn btn-primary mx-1" to="/register" role="button">Signup&nbsp;<BiLogInCircle /></Link>
                             </form> :
                             <div style={{ display: "flex", flexDirection: "row" }}>
-                                <Link to={(localStorage.getItem('role')=='ADMIN')?"/admin/dashboard":"/employee/dashboard"} style={{ textDecoration: 'none', color: 'grey', margin: "auto" }}><b>{(localStorage.getItem('role')=='ADMIN')?"Admin":"Employee"}</b> {localStorage.getItem('user')}</Link>
-                                <button onClick={handleLogout} className='btn btn-primary mx-2'>Logout</button>
+                                <Link to={(localStorage.getItem('role') == 'ADMIN') ? "/admin/dashboard" : "/employee/dashboard"} style={{ textDecoration: 'none', color: 'grey', margin: "auto" }}><b>{(localStorage.getItem('role') == 'ADMIN') ? "Admin" : "Employee"}</b> {localStorage.getItem('user')}</Link>
+                                <button onClick={handleLogout} className='btn btn-primary mx-2'>Logout&nbsp; <BiLogOut /></button>
                             </div>}
                     </div>
                 </div>

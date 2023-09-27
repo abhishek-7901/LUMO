@@ -1,7 +1,7 @@
 import React from 'react'
 import '../../styles/Login.css'
 import { useState } from 'react'
-import { Link,useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const AdminLogin = () => {
   const [userName, setUserName] = useState('') //userName->variabe, setter function 
@@ -35,10 +35,10 @@ const AdminLogin = () => {
       }, 2000);
 
     }
-    else if(json.Reason==="Check Credentials") {
-     setErrorMsg('Invalid Credentials');
+    else if (json.Reason === "Check Credentials") {
+      setErrorMsg('Invalid Credentials');
     }
-    else{
+    else {
       setErrorMsg('Not an authorized Admin');
     }
   }
@@ -51,26 +51,26 @@ const AdminLogin = () => {
     <div className='bgfull'>
       <div className='login-body'>
         {/* Login Card */}
-        <div className="login-card container"  style={{marginTop:'18vh',marginBottom:'15vh'}}>
+        <div className="login-card container" style={{ marginTop: '18vh', marginBottom: '15vh' }}>
           <div className="login-card-body">
-            <h5 className="login-card-title" style={{paddingTop:'15px'}}>Admin Login</h5>
+            <h5 className="login-card-title" style={{ paddingTop: '15px' }}>Admin Login</h5>
             <form onSubmit={handleSubmit} autoComplete="on">
               <div className="form-group">
 
                 <label htmlFor="userName">Username</label>
-                <input type="text"  style={{textAlign:'center'}} className='login-input' name="userName"
+                <input type="text" style={{ textAlign: 'center' }} className='login-input' name="userName"
                   onChange={handleUsernameChange} autoFocus required />
                 <br></br>
 
                 <label htmlFor="Password">Password</label>
-                <input type="password" name="password" className='login-input'  style={{textAlign:'center'}} onChange={e => setPassword(e.target.value)} required /> {/*type, name ->arg*/}
+                <input type="password" name="password" className='login-input' style={{ textAlign: 'center' }} onChange={e => setPassword(e.target.value)} required /> {/*type, name ->arg*/}
                 <br></br>
 
-                <Link to='/login' style={{ textDecoration: "none",display:"block",marginBottom:'5px' }}>Are you an Employee?</Link>
+                <Link to='/login' style={{ textDecoration: "none", display: "block", marginBottom: '5px' }}>Are you an Employee?</Link>
 
-                <input type="submit" value="Login" className='login-input' style={{backgroundColor:'#ff7d00',color:'#fff',fontSize:'20px'}}/>
-                {errorMsg && <p className='error-message' style={{color:'red'}}>{errorMsg}</p>}
-                {successMsg && <p className='success-message' style={{color:'green'}}>{successMsg}</p>}
+                <input type="submit" value="Login" className='login-input' style={{ backgroundColor: '#ff7d00', color: '#fff', fontSize: '20px' }} />
+                {errorMsg && <p className='error-message' style={{ color: 'red' }}>{errorMsg}</p>}
+                {successMsg && <p className='success-message' style={{ color: 'green' }}>{successMsg}</p>}
               </div>
             </form>
           </div>

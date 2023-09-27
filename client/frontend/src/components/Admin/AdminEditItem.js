@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
-import {Row,Col} from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
 function AdminEditItem(props) {
   const [itemId, setItemId] = useState(props.data[0]["itemId"]);
   const [description, setDescription] = useState(props.data[1]["description"]);

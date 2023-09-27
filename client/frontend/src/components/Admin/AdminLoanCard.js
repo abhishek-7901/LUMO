@@ -110,7 +110,7 @@ const AdminLoanCard = () => {
   return (
     <div>
       <h1 style={{ verticalAlign: "middle", textAlign: 'center', marginTop: '15px' }}>Loan Card Management</h1>
-      <Accordion style={{ margin: "20px",borderRadius:'15px' }} alwaysOpen>
+      <Accordion style={{ margin: "20px", borderRadius: '15px' }} alwaysOpen>
         <Accordion.Item eventKey="0">
           <Accordion.Header>Add a new loan card</Accordion.Header>
           <Accordion.Body>

@@ -1,15 +1,14 @@
 import React from 'react'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-const Protected = ({children}) => {
+const Protected = ({ children }) => {
     let navigate = useNavigate();
-    useEffect(()=>{
-        if(!localStorage.getItem('token'))
-        {
+    useEffect(() => {
+        if (!localStorage.getItem('token')) {
             navigate('/login')
         }
-    },[])
-  return children
+    }, [])
+    return children
 }
 
 export default Protected

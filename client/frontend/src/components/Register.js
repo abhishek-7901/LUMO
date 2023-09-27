@@ -58,7 +58,7 @@ const Register = () => {
   }
 
   return (
-    <div className='login-body bgfull' style={{paddingTop:"5vh"}}>
+    <div className='login-body bgfull' style={{ paddingTop: "5vh" }}>
       {/* Register register-card */}
       <div className="login-card">
         <div className="login-card-body">
@@ -78,15 +78,15 @@ const Register = () => {
               <span id='message'></span>
               <br></br>
 
-              Date of Birth: <input type="date" name="dob"  className='login-input' onChange={e => setDob(e.target.value)} required />
+              Date of Birth: <input type="date" name="dob" className='login-input' onChange={e => setDob(e.target.value)} required />
               <br></br>
               Date of Joining: <input type="date" name="doj" className='login-input' onChange={e => setDoj(e.target.value)} required />
               <br></br>
               Gender (M or F): <input type="text" name="dob" className='login-input' onChange={e => setGender(e.target.value)} required />
-              
+
               <br></br>
 
-              <input type="submit" className='login-input' style={{backgroundColor:'#ff7d00',color:'#fff',fontSize:'20px'}} value="Submit" />
+              <input type="submit" className='login-input' style={{ backgroundColor: '#ff7d00', color: '#fff', fontSize: '20px' }} value="Submit" />
               {errorMsg && <p className='error-message'>{errorMsg}</p>}
               {successMsg && <p className='success-message'>{successMsg}</p>}
             </div>
