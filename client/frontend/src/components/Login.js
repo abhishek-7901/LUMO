@@ -71,7 +71,7 @@ const Login = () => {
 
                 <Link to='/admin/login' style={{ textDecoration: "none", display: "block", marginBottom: '5px' }}>Are you an Admin?</Link>
 
-                <input type="submit" value="Login" className='login-input' style={{ backgroundColor: '#ff7d00', color: '#fff', fontSize: '20px' }} />
+                <input type="submit" value="Login" className='login-input-btn'/>
                 {errorMsg && <p className='error-message' style={{ color: 'red' }}>{errorMsg}</p>}
                 {successMsg && <p className='success-message' style={{ color: 'green' }}>{successMsg}</p>}
               </div>

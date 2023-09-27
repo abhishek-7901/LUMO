@@ -77,12 +77,12 @@ const Navbar = () => {
 
                         {!localStorage.getItem('token') ?
                             <form className="d-flex ">
-                                <Link className="btn btn-primary mx-1" to="/login" role="button">Login&nbsp;<BiLogIn /></Link>
-                                <Link className="btn btn-primary mx-1" to="/register" role="button">Signup&nbsp;<BiLogInCircle /></Link>
+                                <Link className="btn btn-primary mx-1" to="/login" role="button" style={{display:'flex',alignItems:'center'}}>Login&nbsp;<BiLogIn /></Link>
+                                <Link className="btn btn-primary mx-1" to="/register" role="button" style={{display:'flex',alignItems:'center'}}>Signup&nbsp;<BiLogInCircle /></Link>
                             </form> :
                             <div style={{ display: "flex", flexDirection: "row" }}>
                                 <Link to={(localStorage.getItem('role') == 'ADMIN') ? "/admin/dashboard" : "/employee/dashboard"} style={{ textDecoration: 'none', color: 'grey', margin: "auto" }}><b>{(localStorage.getItem('role') == 'ADMIN') ? "Admin" : "Employee"}</b> {localStorage.getItem('user')}</Link>
-                                <button onClick={handleLogout} className='btn btn-primary mx-2'>Logout&nbsp; <BiLogOut /></button>
+                                <button onClick={handleLogout} className='btn btn-primary mx-2' style={{display:'flex',alignItems:'center'}}>Logout&nbsp; <BiLogOut /></button>
                             </div>}
                     </div>
                 </div>

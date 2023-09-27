@@ -13,6 +13,8 @@ html,body{
  
   margin:auto;
 }
+
+
  .login-card {
   width: 400px;
   margin: 30px auto;
@@ -52,6 +54,25 @@ html,body{
     transition: all 0.3s ease-in-out;
     
 } 
+
+.login-input-btn{
+  width: 100%;
+  height: 50px;
+  margin-bottom: 25px;
+  padding: 0 15px;
+  background-color: #ff7d00;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Dosis', sans-serif;
+  font-size:20px;
+  color: #fff;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.login-input-btn:hover {
+  background-color: #d56904;
+}
 
 input:focus {
   background-color: #ccc;

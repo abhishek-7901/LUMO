@@ -86,7 +86,7 @@ const Register = () => {
 
               <br></br>
 
-              <input type="submit" className='login-input' style={{ backgroundColor: '#ff7d00', color: '#fff', fontSize: '20px' }} value="Submit" />
+              <input type="submit" className='login-input-btn'  value="Submit" />
               {errorMsg && <p className='error-message'>{errorMsg}</p>}
               {successMsg && <p className='success-message'>{successMsg}</p>}
             </div>
