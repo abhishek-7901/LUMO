@@ -7,7 +7,7 @@ function LandingPage() {
   return (
     <div style={{backgroundImage:`url(${image})` ,backgroundSize:'contains', padding:'10px'}}>
     <div id="landingPageMainDiv" style={{display:'flex',flexDirection:'column',justifyContent:'center', textAlign:'center',margin:'3em 5em',border:'3px solid grey',borderRadius:'5px',backgroundColor:'#FAFAFA'}}>
-      <h2 className='mt-3'>MAPAP</h2>
+      <h2 className='mt-3'>LoanPhilia</h2>
       <div className='mt-2'>
         Welcome to your one stop solution for all of your shopping needs, also clubbed with the power of easy loans from your employer. Designed specially for your needs. 
       </div>

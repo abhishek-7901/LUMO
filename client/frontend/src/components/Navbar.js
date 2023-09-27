@@ -21,7 +21,7 @@ const Navbar = () => {
                         <Link className='nav-link' to='/admin/dashboard'>Dashboard</Link>
                     </li>
                     <li className="nav-item">
-                        <Link className='nav-link' to='/admin/customerData'>Customer Data</Link>
+                        <Link className='nav-link' to='/admin/customerData'>Employee Data</Link>
                     </li>
                     <li className="nav-item">
                         <Link className='nav-link' to='/admin/loanCard'>Loan Card</Link>
@@ -67,7 +67,7 @@ const Navbar = () => {
         <div>
             <nav className={`navbar navbar-expand-lg navbar-${localStorage.getItem('role') == 'ADMIN' ? 'light' : 'dark'} bg-${localStorage.getItem('role') == 'ADMIN' ? 'light' : 'dark'}`}>
                 <div className="container-fluid">
-                    <Link className="navbar-brand" to="/" style={{ fontWeight: "35px" }}>MAPAP</Link>
+                    <Link className="navbar-brand" to="/" style={{ fontWeight: "35px" }}>LoanPhilia</Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
