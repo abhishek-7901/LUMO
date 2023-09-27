@@ -114,7 +114,7 @@ const AdminCustomerData = () => {
     };
 
     useEffect(() => {
-    document.title = 'Admin Customer Data'
+    document.title = 'Admin Employee Data'
   }, [])
     return (
         <div>
