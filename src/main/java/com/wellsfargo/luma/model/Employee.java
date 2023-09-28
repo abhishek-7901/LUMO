@@ -23,10 +23,9 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long employeeId;
 
-    @Column(nullable=false)
     private String password;
 
-    @Column(nullable=false)
+
     private String name;
 
     private String designation;

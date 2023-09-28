@@ -548,12 +548,44 @@ public class AdminController {
             String name = jwtService.extractUsername(token);
             Optional<Employee> employee = employeeService.findByName(name);
 
+
+            log.info( newEmp.getDesignation());
+            log.info( newEmp.getRole());
+            log.info(newEmp.getDepartment());
+
             if (Objects.equals("ADMIN", employee.get().getRole())) {
 
                 Optional<Employee> oldEmp = employeeService.findById(eId);
 
                 if (oldEmp.isPresent()) {
+                    map.put("new emmp at the begin", newEmp) ;
+                    if (newEmp.getPassword() == null){
+                        newEmp.setPassword(oldEmp.get().getPassword());
+                    }
+                    if (newEmp.getName() == null){
+                        newEmp.setName(oldEmp.get().getName());
+                    }
+                    if(newEmp.getDesignation() == null){
+                        newEmp.setDesignation(oldEmp.get().getDesignation());
+                    }
+                    if(newEmp.getDepartment() == null){
+                        newEmp.setDepartment(oldEmp.get().getDepartment());
+                    }
+                    if(newEmp.getGender() == '\0'){
+                        newEmp.setGender(oldEmp.get().getGender());
+                    }
+                    if (newEmp.getDob() == null){
+                        newEmp.setDob(oldEmp.get().getDob());
+                    }
+                    if (newEmp.getDoj() == null){
+                        newEmp.setDoj(oldEmp.get().getDoj());
+                    }
+                    if (newEmp.getRole() == null){
+                        newEmp.setRole(oldEmp.get().getRole());
+                    }
                     newEmp.setEmployeeId(oldEmp.get().getEmployeeId());
+
+                    map.put("new emmp at the end", newEmp) ;
                     Employee emp = employeeService.addEmployee(newEmp, "EMP") ;
                     map.put("employee", emp) ;
                     map.put("success", true) ;
