@@ -11,7 +11,7 @@ function AdminEditLoan(props) {
     e.preventDefault();
 
     let sendData = { loanId, type, duration }
-    console.log(JSON.stringify(sendData))
+    // console.log(JSON.stringify(sendData))
 
     fetch(`http://localhost:9191/admin/editLoanCard/${loanId}`, {
       method: 'PUT',
@@ -21,7 +21,7 @@ function AdminEditLoan(props) {
       },
       body: JSON.stringify(sendData)
     }).then(response => {
-      console.log(JSON.stringify(response) + " res")
+      // console.log(JSON.stringify(response) + " res")
       return response
     }).then(data => {
       console.log(data.ok)
@@ -58,7 +58,7 @@ function AdminEditLoan(props) {
                   value={status || ''}
                   onChange={(e) => {
                     setStatus(e.target.value)
-                    console.log(status + " afterchange")
+                    // console.log(status + " afterchange")
                   }}
                 />
               </Form.Group>
@@ -74,7 +74,7 @@ function AdminEditLoan(props) {
                   value={type || ''}
                   onChange={(e) => {
                     setType(e.target.value)
-                    console.log(type + " afterchange")
+                    // console.log(type + " afterchange")
                   }}
                 />
               </Form.Group>
@@ -89,7 +89,7 @@ function AdminEditLoan(props) {
                   value={duration || ''}
                   onChange={(e) => {
                     setDuration(e.target.value)
-                    console.log(duration + " afterchange")
+                    // console.log(duration + " afterchange")
                   }}
                 />
               </Form.Group>

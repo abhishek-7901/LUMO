@@ -15,7 +15,7 @@ function AdminEditEmployee(props) {
     e.preventDefault();
 
     let sendData = { employeeId, name, department, designation, dob, doj, gender, role }
-    console.log(JSON.stringify(sendData))
+    // console.log(JSON.stringify(sendData))
 
     fetch(`http://localhost:9191/admin/editEmployee/${employeeId}`, {
       method: 'PUT',
@@ -25,7 +25,7 @@ function AdminEditEmployee(props) {
       },
       body: JSON.stringify(sendData)
     }).then(response => {
-      console.log(JSON.stringify(response) + " res")
+      // console.log(JSON.stringify(response) + " res")
       return response
     }).then(data => {
       console.log(data.ok)
@@ -61,7 +61,7 @@ function AdminEditEmployee(props) {
                   value={name || ''}
                   onChange={(e) => {
                     setName(e.target.value)
-                    console.log(name + " afterchange")
+                    // console.log(name + " afterchange")
                   }}
                 />
               </Form.Group>
@@ -77,7 +77,7 @@ function AdminEditEmployee(props) {
                   value={department || ''}
                   onChange={(e) => {
                     setDepartment(e.target.value)
-                    console.log(department + " afterchange")
+                    // console.log(department + " afterchange")
                   }}
                 />
               </Form.Group>
@@ -92,7 +92,7 @@ function AdminEditEmployee(props) {
                   value={designation || ''}
                   onChange={(e) => {
                     setDesignation(e.target.value)
-                    console.log(designation + " afterchange")
+                    // console.log(designation + " afterchange")
                   }}
                 />
               </Form.Group>
@@ -108,7 +108,7 @@ function AdminEditEmployee(props) {
                   value={dob || ''}
                   onChange={(e) => {
                     setDob(e.target.value)
-                    console.log(dob + " afterchange")
+                    // console.log(dob + " afterchange")
                   }}
                 />
               </Form.Group>
@@ -123,7 +123,7 @@ function AdminEditEmployee(props) {
                   value={doj || ''}
                   onChange={(e) => {
                     setDoj(e.target.value)
-                    console.log(doj + " afterchange")
+                    // console.log(doj + " afterchange")
                   }}
                 />
               </Form.Group>
@@ -139,7 +139,7 @@ function AdminEditEmployee(props) {
                   value={gender || ''}
                   onChange={(e) => {
                     setGender(e.target.value)
-                    console.log(gender + " afterchange")
+                    // console.log(gender + " afterchange")
                   }}>
                   <option value="M">Male</option>
                   <option value="F">Female</option>
@@ -154,7 +154,7 @@ function AdminEditEmployee(props) {
                   value={role || ''}
                   onChange={(e) => {
                     setRole(e.target.value)
-                    console.log(role + " afterchange")
+                    // console.log(role + " afterchange")
                   }}>
                   <option value="ADMIN">ADMIN</option>
                   <option value="EMP">EMP</option>

@@ -226,7 +226,7 @@ const AdminItemData = () => {
                         <td>
                           <button className='btn btn-success' disabled={item.status} onClick={() => {
                             editItem()
-                            console.log(item.value + " nm")
+                            // console.log(item.value + " nm")
                           }}>
                             <BiSolidEditAlt styles={{ color: "black" }} />
                           </button>

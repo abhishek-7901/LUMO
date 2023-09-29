@@ -28,19 +28,13 @@ const AdminCustomerData = () => {
 
     useEffect(() => {
         getCustomerData();
-    }, [])
+    }, [customers])
 
-    // const [dob, setDob] = useState('')
-    // const [doj, setDoj] = useState('')
-    // const [password, setPassword] = useState('')
-    // const [gender, setGender] = useState('')
-    // const [designation, setDesignation] = useState('')
-    // const [department, setDepartment] = useState('')
     const handleSubmit = async e => {
         e.preventDefault()
         const formData = new FormData(e.target)
         const fromDataObj = Object.fromEntries(formData.entries())
-        console.log(fromDataObj["name"])
+        // console.log(fromDataObj["name"])
         let name = fromDataObj["name"]
         let dob = fromDataObj["dob"]
         let doj = fromDataObj["doj"]
@@ -245,7 +239,7 @@ const AdminCustomerData = () => {
                                                 <td>
                                                     <button className='btn btn-success' onClick={() => {
                                                         editEmployee()
-                                                        console.log(cust.employeeId)
+                                                        // console.log(cust.employeeId)
                                                     }}>
                                                         <BiSolidEditAlt styles={{ color: "black" }} />
                                                     </button>

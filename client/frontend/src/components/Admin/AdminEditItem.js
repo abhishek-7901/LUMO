@@ -13,7 +13,7 @@ function AdminEditItem(props) {
     e.preventDefault();
 
     let sendData = { itemId, description, status, make, value, category }
-    console.log(JSON.stringify(sendData))
+    // console.log(JSON.stringify(sendData))
 
     fetch(`http://localhost:9191/admin/editItem/${itemId}`, {
       method: 'PUT',
@@ -23,7 +23,7 @@ function AdminEditItem(props) {
       },
       body: JSON.stringify(sendData)
     }).then(response => {
-      console.log(JSON.stringify(response) + " res")
+      // console.log(JSON.stringify(response) + " res")
       return response
     }).then(data => {
       console.log(data)
@@ -60,7 +60,7 @@ function AdminEditItem(props) {
                   value={description || ''}
                   onChange={(e) => {
                     setDescription(e.target.value)
-                    console.log(description + " afterchange")
+                    // console.log(description + " afterchange")
                   }}
                 />
               </Form.Group>
@@ -76,7 +76,7 @@ function AdminEditItem(props) {
                   value={status || ''}
                   onChange={(e) => {
                     setStatus(e.target.value)
-                    console.log(status + " afterchange")
+                    // console.log(status + " afterchange")
                   }}
                 />
               </Form.Group>
@@ -91,7 +91,7 @@ function AdminEditItem(props) {
                   value={make || ''}
                   onChange={(e) => {
                     setMake(e.target.value)
-                    console.log(make + " afterchange")
+                    // console.log(make + " afterchange")
                   }}
                 />
               </Form.Group>
@@ -107,7 +107,7 @@ function AdminEditItem(props) {
                   value={category || ''}
                   onChange={(e) => {
                     setCategory(e.target.value)
-                    console.log(category + " afterchange")
+                    // console.log(category + " afterchange")
                   }}
                 />
               </Form.Group>
@@ -122,7 +122,7 @@ function AdminEditItem(props) {
                   value={value || ''}
                   onChange={(e) => {
                     setValue(e.target.value)
-                    console.log(value + " afterchange")
+                    // console.log(value + " afterchange")
                   }}
                 />
               </Form.Group>

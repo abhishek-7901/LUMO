@@ -13,10 +13,10 @@ const AdminLoanCard = () => {
   const [successMsg, setSuccessMsg] = useState('');
   const [errorDeleteMsg, setErrorDeleteMsg] = useState('');
   const [showEditModal, setShowEditModal] = useState(false);
-  useEffect(() => {
-    // console.log("WELCOME to loan card")
-    getLoanCardData()
-  }, [])
+  // useEffect(() => {
+  //   // console.log("WELCOME to loan card")
+  //   getLoanCardData()
+  // }, [])
 
   useEffect(() => {
     getLoanCardData()
@@ -197,7 +197,7 @@ const AdminLoanCard = () => {
                         <td>
                           <button className='btn btn-success' disabled={loanCard.status} onClick={() => {
                             editLoanCard()
-                            console.log(loanCard.loanId)
+                            // console.log(loanCard.loanId)
                           }}>
                             <BiSolidEditAlt styles={{ color: "black" }} />
                           </button>
