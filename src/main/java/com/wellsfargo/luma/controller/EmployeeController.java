@@ -52,6 +52,7 @@ public class EmployeeController {
             String token = jwtService.generateToken(employee.getName(),employee.getEmployeeId().toString());
             map.put("authtoken",token);
             map.put("EmplyeeDetails",newEmployee);
+            map.put("success",true);
             return new ResponseEntity<>(map,HttpStatus.CREATED);
         }catch (Exception e){
 
