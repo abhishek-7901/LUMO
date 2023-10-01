@@ -254,7 +254,7 @@ public class EmployeeController {
 
     }
 
-    @GetMapping("/listOfItems")
+    @GetMapping("/listOfItems") // list of all unavailed items
     public ResponseEntity<Map<String,Object>> listOfItems(@RequestHeader("Authorization") String authHeader){
         Map<String, Object> map = new HashMap<String, Object>();
         try {
