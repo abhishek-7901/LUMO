@@ -106,7 +106,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/applyLoan")
-    public ResponseEntity<Map<String,Object>> addItem(@RequestBody Item item, @RequestHeader("Authorization") String authHeader){
+    public ResponseEntity<Map<String,Object>> applyLoan(@RequestBody Item item, @RequestHeader("Authorization") String authHeader){
         Map<String, Object> map = new HashMap<String, Object>();
         try {
             String token = authHeader.substring(7);

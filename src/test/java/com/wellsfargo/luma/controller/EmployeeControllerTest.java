@@ -74,11 +74,11 @@ public class EmployeeControllerTest {
                 .loanId("L001")
                 .duration(3)
                 .type("Furniture")
-                .status(true)
+                .status(false)
                 .id(1L)
                 .build();
 
-        IssuedCard issuedCard = IssuedCard.builder()
+        issuedCard = IssuedCard.builder()
                 .empId(1L)
                 .loanId("L001")
                 .issueId(1L)
@@ -92,7 +92,7 @@ public class EmployeeControllerTest {
         item.setMake("Wood");
         item.setCategory("Furniture");
         item.setValue(5000L);
-        item.setDescription("Diner Table");
+        item.setDescription("Dinner Table");
 
 
         when(employeeService.addEmployee(any(Employee.class), any(String.class))).thenReturn(emp);
@@ -115,16 +115,8 @@ public class EmployeeControllerTest {
     @Test
     void viewLoanCards() {
 
-//        IssuedCard issuedCard1 = IssuedCard.builder()
-//                .empId(1L)
-//                .loanId("L002")
-//                .issueId(2L)
-//                .itemId("I002")
-//                .build();
-
         List<IssuedCard> issuedCardList = new ArrayList<>();
         issuedCardList.add(issuedCard);
-       // issuedCardList.add(issuedCard1);
 
         when(issuedCardService.findIssuedCardByEmpId(any(Long.class))).thenReturn(issuedCardList);
         when(loanService.findLoanByLoanId(any(String.class))).thenReturn(loan);
@@ -135,48 +127,75 @@ public class EmployeeControllerTest {
 
         ResponseEntity<Map<String, Object>> response = employeeController.viewLoanCards("Bearer " + empResponse.getBody().get("authtoken").toString());
         List<Loan> loanList = (List<Loan>) response.getBody().get("LoanList");
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(1, loanList.size());
         assertEquals("L001", loanList.get(0).getLoanId());
-       // assertEquals("L002", loanList.get(1).getLoanId());
 
     }
 
     @Test
-    void applyLoan(){
-
-//        Loan loan1 = Loan.builder()
-//                        .loanId("L002")
-//                        .duration(3)
-//                        .type("Crockery")
-//                        .status(false)
-//                        .id(2L)
-//                        .build();
+    void applyLoan() {
 
         List<Loan> unavailedLoans = new ArrayList<>();
         unavailedLoans.add(loan);
-       // unavailedLoans.add(loan1);
 
-        when(loanService.findUnavailedLoans(any(String.class), any(Boolean.class))).thenReturn(unavailedLoans );
-//        when(unavailedLoans.isEmpty()).thenReturn(false);
-        when(loanService.changeLoanStatus(any(String.class),any(Boolean.class))).thenReturn(1);
-        when(itemService.changeItemStatus(any(String.class),any(Boolean.class))).thenReturn(1);
+        when(loanService.findUnavailedLoans(any(String.class), any(Boolean.class))).thenReturn(unavailedLoans);
+        when(loanService.changeLoanStatus(any(String.class), any(Boolean.class))).thenReturn(1);
+        when(itemService.changeItemStatus(any(String.class), any(Boolean.class))).thenReturn(1);
         when(issuedCardService.addCard(any(IssuedCard.class))).thenReturn(issuedCard);
+
+        ResponseEntity<Map<String, Object>> empResponse = employeeController.addEmployee(emp);
+        log.info( empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED, empResponse.getStatusCode());
+
+        ResponseEntity<Map<String, Object>> response = employeeController.applyLoan(item, "Bearer " + empResponse.getBody().get("authtoken").toString());
+        IssuedCard newCard = (IssuedCard) response.getBody().get("CardDetails");
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals("L001", newCard.getLoanId());
+
+
+    }
+
+    @Test
+    void viewItems(){
+
+        List<IssuedCard> issuedCardList = new ArrayList<>();
+        issuedCardList.add(issuedCard);
+        when(issuedCardService.findIssuedCardByEmpId(any(Long.class))).thenReturn(issuedCardList);
+        when(itemService.findItemByItemId(any(String.class))).thenReturn(item);
 
         ResponseEntity<Map<String, Object>> empResponse = employeeController.addEmployee(emp);
         log.info(empResponse.getBody().toString());
         assertEquals(HttpStatus.CREATED, empResponse.getStatusCode());
 
-        ResponseEntity<Map<String, Object>> response = employeeController.viewLoanCards("Bearer " + empResponse.getBody().get("authtoken").toString());
-        IssuedCard newCard = (IssuedCard) response.getBody().get("CardDetails");
+        ResponseEntity<Map<String, Object>> response = employeeController.viewItems("Bearer " + empResponse.getBody().get("authtoken").toString());
+        System.out.println(response.getBody());
+        List<Item> itemList = (List<Item>) response.getBody().get("ItemList");
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("L001", newCard.getLoanId());
-
-
+        assertEquals(1,itemList.size());
+        assertEquals("I001",itemList.get(0).getItemId());
 
     }
 
+    @Test
+    void listOfItems(){
 
+        List<Item> itemList=new ArrayList<>();
+        itemList.add(item);
+
+        when(itemService.findItemByStatus(any(Boolean.class))).thenReturn(itemList);
+        ResponseEntity<Map<String, Object>> empResponse = employeeController.addEmployee(emp);
+        log.info(empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED, empResponse.getStatusCode());
+
+        ResponseEntity<Map<String, Object>> response = employeeController.listOfItems("Bearer " + empResponse.getBody().get("authtoken").toString());
+        System.out.println(response.getBody());
+        itemList = (List<Item>) response.getBody().get("LoanCards");
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(1,itemList.size());
+        assertEquals("I001",itemList.get(0).getItemId());
+
+    }
 
 
 
