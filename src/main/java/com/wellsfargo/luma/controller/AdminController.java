@@ -43,9 +43,9 @@ public class AdminController {
     public ResponseEntity<Map<String, Object>>  addEmployee(@RequestBody Employee employee) {
         Map<String, Object> map = new HashMap<String, Object>();
         try {
-            log.info(employee.toString());
+            //log.info(employee.toString());
             Employee newEmployee = employeeService.addEmployee(employee,"ADMIN");
-            log.info(newEmployee.getEmployeeId().toString());
+            //log.info(newEmployee.getEmployeeId().toString());
             String token = jwtService.generateToken(employee.getName(), newEmployee.getEmployeeId().toString());
             map.put("authtoken", token);
             map.put("EmplyeeDetails", newEmployee);
@@ -64,7 +64,7 @@ public class AdminController {
         Map<String, Object> map = new HashMap<String, Object>();
         try {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassword()));
-            log.info(authentication.toString());
+            //log.info(authentication.toString());
             if (authentication.isAuthenticated()) {
                 Optional<Employee> employee = employeeService.findByName(authRequest.getUserName());
                 String role = employee.get().getRole();
@@ -105,12 +105,12 @@ public class AdminController {
                 map.put("message","Error Fetching User. No User Found");
                 return new ResponseEntity<>(map,HttpStatus.NOT_FOUND);
             }
-            log.info("Testing");
+            //log.info("Testing");
             String name = jwtService.extractUsername(token);
             //if(name == null){name = "Ayush Paul";}
-            log.info(name);
+            //log.info(name);
             Optional<Employee> employee = employeeService.findByName(name);
-            log.info(employee.get().getName());
+            //log.info(employee.get().getName());
             if(Objects.equals("ADMIN",employee.get().getRole())){
                 // Check that if theere is any loan card with the same loanId or not
                 // if there is , then we just loanService.getLoanbyLoanId
@@ -247,9 +247,9 @@ public class AdminController {
     public ResponseEntity<Map<String,Object>> viewLoanCards(@RequestHeader("Authorization") String authHeader){
         Map<String, Object> map = new HashMap<String, Object>();
         try {
-            log.info(authHeader);
+            //log.info(authHeader);
             String token = authHeader.substring(7);
-            log.info(token);
+            //log.info(token);
             if(token == null)
             {
                 map.put("success" , false);
@@ -259,9 +259,9 @@ public class AdminController {
 
 
             String name = jwtService.extractUsername(token);
-            log.info(name);
+            //log.info(name);
             Optional<Employee> employee = employeeService.findByName(name);
-            log.info(employee.get().getName());
+            //log.info(employee.get().getName());
             if(Objects.equals("ADMIN",employee.get().getRole())){
                 List<Loan> loanList = loanService.getLoanCards();
                 map.put("Success",true);
@@ -362,7 +362,7 @@ public class AdminController {
     @PutMapping("/editItem/{id}")
     public ResponseEntity<Map<String,Object>> editItem(@PathVariable(value = "id") String tId, @RequestBody Item item, @RequestHeader("Authorization") String authHeader){
         Map<String, Object> map = new HashMap<String, Object>();
-        log.info("hello");
+        //log.info("hello");
         try {
             String token = authHeader.substring(7);
             if(token == null)
@@ -414,7 +414,7 @@ public class AdminController {
     @DeleteMapping("/deleteItem/{id}")
     public ResponseEntity<Map<String,Object>> deleteItem(@PathVariable(value = "id") String tId, @RequestHeader("Authorization") String authHeader){
         Map<String, Object> map = new HashMap<String, Object>();
-        log.info("hello");
+        //log.info("hello");
         try {
             String token = authHeader.substring(7);
             if(token == null)
@@ -549,9 +549,9 @@ public class AdminController {
             Optional<Employee> employee = employeeService.findByName(name);
 
 
-            log.info( newEmp.getDesignation());
-            log.info( newEmp.getRole());
-            log.info(newEmp.getDepartment());
+            //log.info( newEmp.getDesignation());
+            //log.info( newEmp.getRole());
+            //log.info(newEmp.getDepartment());
 
             if (Objects.equals("ADMIN", employee.get().getRole())) {
 
