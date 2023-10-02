@@ -1,13 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { Row, Col } from 'react-bootstrap'
 function AdminEditItem(props) {
-  const [itemId, setItemId] = useState(props.data[0]["itemId"]);
-  const [description, setDescription] = useState(props.data[1]["description"]);
-  const [status, setStatus] = useState(props.data[2]["status"]);
-  const [make, setMake] = useState(props.data[3]["make"]);
-  const [value, setValue] = useState(props.data[4]["value"]);
-  const [category, setCategory] = useState(props.data[5]["category"]);
+  const propData = props.data;
+  // console.log(propData);
+  const itemId = propData.itemId || "";
+  const [description, setDescription] = useState('');
+  const [status, setStatus] = useState('');
+  const [make, setMake] = useState('');
+  const [value, setValue] = useState('');
+  const [category, setCategory] = useState('');
+
+  useEffect(
+    () => {
+      setDescription(propData.description);
+      setCategory(propData.category);
+      setMake(propData.make);
+      setValue(propData.value);
+      setStatus(propData.status);
+    },
+    [propData]
+  )
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -45,7 +58,7 @@ function AdminEditItem(props) {
                 <Form.Control
                   type="text"
                   name="itemId"
-                  value={itemId || ''}
+                  value={itemId}
                   disabled
                 />
               </Form.Group>
@@ -57,7 +70,7 @@ function AdminEditItem(props) {
                 <Form.Control
                   type="text"
                   name="description"
-                  value={description || ''}
+                  value={description}
                   onChange={(e) => {
                     setDescription(e.target.value)
                     // console.log(description + " afterchange")
@@ -73,7 +86,7 @@ function AdminEditItem(props) {
                 <Form.Control
                   type="boolean"
                   name="status"
-                  value={status || ''}
+                  value={status}
                   onChange={(e) => {
                     setStatus(e.target.value)
                     // console.log(status + " afterchange")
@@ -88,7 +101,7 @@ function AdminEditItem(props) {
                 <Form.Control
                   type="text"
                   name="make"
-                  value={make || ''}
+                  value={make}
                   onChange={(e) => {
                     setMake(e.target.value)
                     // console.log(make + " afterchange")
@@ -104,7 +117,7 @@ function AdminEditItem(props) {
                 <Form.Control
                   type="text"
                   name="category"
-                  value={category || ''}
+                  value={category}
                   onChange={(e) => {
                     setCategory(e.target.value)
                     // console.log(category + " afterchange")
@@ -119,7 +132,7 @@ function AdminEditItem(props) {
                 <Form.Control
                   type="number"
                   name="value"
-                  value={value || ''}
+                  value={value}
                   onChange={(e) => {
                     setValue(e.target.value)
                     // console.log(value + " afterchange")

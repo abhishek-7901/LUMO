@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
-import Register from '../Register'
 import { Form, Button, Container, Accordion, Row, Col } from 'react-bootstrap'
 import { useState } from 'react'
-import axios from 'axios'
 import AdminEditEmployee from './AdminEditEmployee'
 import { BiSolidEditAlt } from 'react-icons/bi'
 import { BsTrash } from 'react-icons/bs'
@@ -12,6 +10,7 @@ const AdminCustomerData = () => {
     const [errorDeleteMsg, setErrorDeleteMsg] = useState('');
     const [customers, setCustomers] = useState([])
     const [showEditModal, setShowEditModal] = useState(false);
+    const [employeeToSend, setEmployeeToSend] = useState({});
 
     function getCustomerData() {
         fetch('http://localhost:9191/admin/viewUsers', {
@@ -43,7 +42,7 @@ const AdminCustomerData = () => {
         let designation = fromDataObj["designation"]
         let department = fromDataObj["department"]
         let confpassword = fromDataObj["passwordconf"]
-        if (password != confpassword) {
+        if (password !== confpassword) {
             setErrorMsg("Password and Confirm Password do not match")
             return
         }
@@ -98,18 +97,11 @@ const AdminCustomerData = () => {
         })
     }
 
-    function editEmployee() {
-        setShowEditModal(true);
-    }
-
     function handleCloseEditModal() {
         getCustomerData();
         setShowEditModal(false);
     };
 
-    useEffect(() => {
-    document.title = 'Admin Employee Data'
-  }, [])
     return (
         <div>
             <h1 style={{ verticalAlign: "middle", textAlign: 'center', marginTop: '15px' }}>Employee Data Management</h1>
@@ -212,17 +204,17 @@ const AdminCustomerData = () => {
                         <div className="row justify-content-center">
                             <table className="w-auto" style={{ margin: "auto" }}>
                                 <thead>
-
-                                    <th>Employee ID</th>
-                                    <th>Name</th>
-                                    <th>Department</th>
-                                    <th>Designation</th>
-                                    <th>DOB</th>
-                                    <th>DOJ</th>
-                                    <th>Gender</th>
-                                    <th>Role</th>
-                                    <th>Actions</th>
-
+                                    <tr>
+                                        <th>Employee ID</th>
+                                        <th>Name</th>
+                                        <th>Department</th>
+                                        <th>Designation</th>
+                                        <th>DOB</th>
+                                        <th>DOJ</th>
+                                        <th>Gender</th>
+                                        <th>Role</th>
+                                        <th>Actions</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                     {customers.map(
@@ -237,21 +229,14 @@ const AdminCustomerData = () => {
                                                 <td>{cust.gender}</td>
                                                 <td>{cust.role}</td>
                                                 <td>
-                                                    <button className='btn btn-success' onClick={() => {
-                                                        editEmployee()
-                                                        // console.log(cust.employeeId)
-                                                    }}>
+                                                    <button className='btn btn-success'
+                                                        onClick={() => {
+                                                            setEmployeeToSend(cust)
+                                                            setShowEditModal(true)
+                                                        }}>
                                                         <BiSolidEditAlt styles={{ color: "black" }} />
                                                     </button>
-                                                    <AdminEditEmployee
-                                                        show={showEditModal}
-                                                        onClose={() => {
-                                                            handleCloseEditModal()
-                                                            getCustomerData()
-                                                        }}
-                                                        data={[{ "employeeId": cust.employeeId }, { "name": cust.name }, { "department": cust.department }, { "designation": cust.designation },
-                                                        { "dob": cust.dob }, { "doj": cust.doj }, { "gender": cust.gender }, { "role": cust.role }]}
-                                                    />
+
                                                     &nbsp;&nbsp;
                                                     <button className='btn btn-danger' onClick={() => deleteEmployee(cust.employeeId)}>
                                                         <BsTrash />
@@ -261,6 +246,11 @@ const AdminCustomerData = () => {
                                     )}
                                 </tbody>
                             </table>
+                            <AdminEditEmployee
+                                show={showEditModal}
+                                onClose={handleCloseEditModal}
+                                data={employeeToSend}
+                            />
                         </div>
                         {/* {message && <div className='alert alert-success'>{message}</div>} */}
                     </Accordion.Body>

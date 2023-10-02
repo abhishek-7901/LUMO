@@ -1,15 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { Row, Col } from 'react-bootstrap';
 function AdminEditEmployee(props) {
-  const [employeeId, setEmployeeId] = useState(props.data[0]["employeeId"]);
-  const [name, setName] = useState(props.data[1]["name"]);
-  const [department, setDepartment] = useState(props.data[2]["department"]);
-  const [designation, setDesignation] = useState(props.data[3]["designation"]);
-  const [dob, setDob] = useState(props.data[4]["dob"]);
-  const [doj, setDoj] = useState(props.data[5]["doj"]);
-  const [gender, setGender] = useState(props.data[6]["gender"]);
-  const [role, setRole] = useState(props.data[7]["role"]);
+  const propData = props.data;
+
+
+  const employeeId = propData["employeeId"];
+  const [name, setName] = useState("");
+  const [department, setDepartment] = useState("");
+  const [designation, setDesignation] = useState("");
+  const [dob, setDob] = useState("");
+  const [doj, setDoj] = useState("");
+  const [gender, setGender] = useState("");
+  const [role, setRole] = useState("");
+
+  useEffect(() => {
+    setName(propData["name"]);
+    setDepartment(propData["department"]);
+    setDesignation(propData["designation"]);
+    setDob(propData["dob"]);
+    setDoj(propData["doj"]);
+    setGender(propData["gender"]);
+    setRole(propData["role"])
+  }, [propData]);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -47,7 +60,7 @@ function AdminEditEmployee(props) {
                 <Form.Control
                   type="text"
                   name="employeeId"
-                  value={employeeId || ''}
+                  value={employeeId}
                   disabled
                 />
               </Form.Group>
@@ -58,7 +71,7 @@ function AdminEditEmployee(props) {
                 <Form.Control
                   type="text"
                   name="name"
-                  value={name || ''}
+                  value={name}
                   onChange={(e) => {
                     setName(e.target.value)
                     // console.log(name + " afterchange")
@@ -74,7 +87,7 @@ function AdminEditEmployee(props) {
                 <Form.Control
                   type="text"
                   name="department"
-                  value={department || ''}
+                  value={department}
                   onChange={(e) => {
                     setDepartment(e.target.value)
                     // console.log(department + " afterchange")
@@ -89,7 +102,7 @@ function AdminEditEmployee(props) {
                 <Form.Control
                   type="text"
                   name="designation"
-                  value={designation || ''}
+                  value={designation}
                   onChange={(e) => {
                     setDesignation(e.target.value)
                     // console.log(designation + " afterchange")
@@ -105,7 +118,7 @@ function AdminEditEmployee(props) {
                 <Form.Control
                   type="date"
                   name="dob"
-                  value={dob || ''}
+                  value={dob}
                   onChange={(e) => {
                     setDob(e.target.value)
                     // console.log(dob + " afterchange")
@@ -120,7 +133,7 @@ function AdminEditEmployee(props) {
                 <Form.Control
                   type="date"
                   name="doj"
-                  value={doj || ''}
+                  value={doj}
                   onChange={(e) => {
                     setDoj(e.target.value)
                     // console.log(doj + " afterchange")
@@ -136,7 +149,7 @@ function AdminEditEmployee(props) {
                 <Form.Label className="mt-1">Gender</Form.Label>
                 <Form.Select
                   name='gender' aria-label="Default select example"
-                  value={gender || ''}
+                  value={gender}
                   onChange={(e) => {
                     setGender(e.target.value)
                     // console.log(gender + " afterchange")
@@ -151,7 +164,7 @@ function AdminEditEmployee(props) {
                 <Form.Label className="mt-1">Role</Form.Label>
                 <Form.Select
                   name='role' aria-label="Default select example"
-                  value={role || ''}
+                  value={role}
                   onChange={(e) => {
                     setRole(e.target.value)
                     // console.log(role + " afterchange")

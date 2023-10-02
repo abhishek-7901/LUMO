@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { Row, Col } from 'react-bootstrap';
 function AdminEditLoan(props) {
-  const [loanId, setLoanId] = useState(props.data[0]["loanId"]);
-  const [duration, setDuration] = useState(props.data[1]["duration"]);
-  const [status, setStatus] = useState(props.data[2]["status"]);
-  const [type, setType] = useState(props.data[3]["type"]);
+  const propData = props.data;
+  const loanId = propData["loanId"];
+  const [duration, setDuration] = useState("");
+  const [status, setStatus] = useState("");
+  const [type, setType] = useState("");
+
+  useEffect(() => {
+    setDuration(propData["duration"]);
+    setStatus(propData["status"]);
+    setType(propData["type"]);
+  }, [propData]);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -24,9 +31,9 @@ function AdminEditLoan(props) {
       // console.log(JSON.stringify(response) + " res")
       return response
     }).then(data => {
-      console.log(data.ok)
+      // console.log(data)
+      props.onClose();
     })
-    props.onClose();
   };
 
   return (
@@ -43,7 +50,7 @@ function AdminEditLoan(props) {
                 <Form.Control
                   type="text"
                   name="loanId"
-                  value={loanId || ''}
+                  value={loanId}
                   disabled
                 />
               </Form.Group>
@@ -55,7 +62,7 @@ function AdminEditLoan(props) {
                 <Form.Control
                   type="text"
                   name="status"
-                  value={status || ''}
+                  value={status}
                   onChange={(e) => {
                     setStatus(e.target.value)
                     // console.log(status + " afterchange")
@@ -71,7 +78,7 @@ function AdminEditLoan(props) {
                 <Form.Control
                   type="text"
                   name="type"
-                  value={type || ''}
+                  value={type}
                   onChange={(e) => {
                     setType(e.target.value)
                     // console.log(type + " afterchange")
@@ -86,7 +93,7 @@ function AdminEditLoan(props) {
                 <Form.Control
                   type="text"
                   name="duration"
-                  value={duration || ''}
+                  value={duration}
                   onChange={(e) => {
                     setDuration(e.target.value)
                     // console.log(duration + " afterchange")

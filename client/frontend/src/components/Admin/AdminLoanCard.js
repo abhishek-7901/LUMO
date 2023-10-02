@@ -13,14 +13,11 @@ const AdminLoanCard = () => {
   const [successMsg, setSuccessMsg] = useState('');
   const [errorDeleteMsg, setErrorDeleteMsg] = useState('');
   const [showEditModal, setShowEditModal] = useState(false);
-  // useEffect(() => {
-  //   // console.log("WELCOME to loan card")
-  //   getLoanCardData()
-  // }, [])
+  const [loanToEdit, setLoanToEdit] = useState();
 
   useEffect(() => {
-    getLoanCardData()
-  }, [loanCards])
+    getLoanCardData();
+  }, [loanCards]);
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -75,11 +72,7 @@ const AdminLoanCard = () => {
   }
 
   function statuscheck(status) {
-    return status == false ? "Unavailed" : "Availed"
-  }
-
-  function editLoanCard() {
-    setShowEditModal(true);
+    return status === false ? "Unavailed" : "Availed"
   }
 
   function handleCloseEditModal() {
@@ -106,9 +99,7 @@ const AdminLoanCard = () => {
       getLoanCardData()
     })
   }
-  useEffect(() => {
-    document.title = 'Admin Loan Card'
-  }, [])
+
   return (
     <div>
       <h1 style={{ verticalAlign: "middle", textAlign: 'center', marginTop: '15px' }}>Loan Card Management</h1>
@@ -178,13 +169,13 @@ const AdminLoanCard = () => {
             <div className="row justify-content-center">
               <table className="table-hover w-auto" style={{ margin: "auto" }}>
                 <thead>
-
-                  <th>Loan Card ID</th>
-                  <th>Loan Type</th>
-                  <th>Loan Duration</th>
-                  <th>Loan Status</th>
-                  <th>Actions</th>
-
+                  <tr>
+                    <th>Loan Card ID</th>
+                    <th>Loan Type</th>
+                    <th>Loan Duration</th>
+                    <th>Loan Status</th>
+                    <th>Actions</th>
+                  </tr>
                 </thead>
                 <tbody>
                   {loanCards.map(
@@ -195,20 +186,15 @@ const AdminLoanCard = () => {
                         <td>{loanCard.duration}</td>
                         <td>{statuscheck(loanCard.status)}</td>
                         <td>
-                          <button className='btn btn-success' disabled={loanCard.status} onClick={() => {
-                            editLoanCard()
-                            // console.log(loanCard.loanId)
-                          }}>
+                          <button className='btn btn-success' disabled={loanCard.status}
+                            onClick={() => {
+                              setLoanToEdit(loanCard)
+                              setShowEditModal(true)
+                              // console.log(loanCard.loanId)
+                            }}>
                             <BiSolidEditAlt styles={{ color: "black" }} />
                           </button>
-                          <AdminEditLoan
-                            show={showEditModal}
-                            onClose={() => {
-                              handleCloseEditModal()
-                              getLoanCardData()
-                            }}
-                            data={[{ "loanId": loanCard.loanId }, { "duration": loanCard.duration }, { "status": loanCard.status }, { "type": loanCard.type }]}
-                          />
+
                           &nbsp;&nbsp;
                           <button className='btn btn-danger' disabled={loanCard.status} onClick={() => deleteLoanCard(loanCard.loanId)}>
                             <BsTrash />
@@ -223,7 +209,12 @@ const AdminLoanCard = () => {
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
-    </div>
+      <AdminEditLoan
+        show={showEditModal}
+        onClose={handleCloseEditModal}
+        data={loanToEdit || { loanId: "", duration: "", status: "", type: "" }}
+      />
+    </div >
   )
 }
 

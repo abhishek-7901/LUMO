@@ -13,10 +13,7 @@ const AdminItemData = () => {
   const [successMsg, setSuccessMsg] = useState('');
   const [errorDeleteMsg, setErrorDeleteMsg] = useState('');
   const [showEditModal, setShowEditModal] = useState(false);
-  useEffect(() => {
-    getItemData()
-    // console.log(items)
-  }, [])
+  const [itemToSend, setItemToSend] = useState({});
 
   //Calls item data after the edit modal is closed, and the items are updated.
   useEffect(() => {
@@ -73,10 +70,11 @@ const AdminItemData = () => {
   }
 
   function statuscheck(status) {
-    return status == false ? "Unavailed" : "Availed"
+    return status === false ? "Unavailed" : "Availed"
   }
 
-  function editItem() {
+  function editItem(item) {
+    setItemToSend(item);
     setShowEditModal(true);
   }
 
@@ -107,9 +105,6 @@ const AdminItemData = () => {
     })
   }
 
-  useEffect(() => {
-    document.title = 'Admin Item Data'
-  }, [])
   return (
     <div>
       <h1 style={{ verticalAlign: "middle", textAlign: 'center', margin: '15px auto' }}>Item Data Management</h1>
@@ -205,13 +200,15 @@ const AdminItemData = () => {
             <div className="row justify-content-center">
               <table className="w-auto" style={{ margin: "auto" }}>
                 <thead>
-                  <th>Item ID</th>
-                  <th>Description</th>
-                  <th>Status</th>
-                  <th>Make</th>
-                  <th>Category</th>
-                  <th>Value</th>
-                  <th>Actions</th>
+                  <tr>
+                    <th>Item ID</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Make</th>
+                    <th>Category</th>
+                    <th>Value</th>
+                    <th>Actions</th>
+                  </tr>
                 </thead>
                 <tbody>
                   {items.map(
@@ -224,22 +221,16 @@ const AdminItemData = () => {
                         <td> {item.category} </td>
                         <td> {item.value} </td>
                         <td>
-                          <button className='btn btn-success' disabled={item.status} onClick={() => {
-                            editItem()
-                            // console.log(item.value + " nm")
-                          }}>
+                          <button className='btn btn-success' disabled={item.status}
+                            onClick={() => {
+                              console.log(item)
+                              editItem(item)
+                            }}>
                             <BiSolidEditAlt styles={{ color: "black" }} />
                           </button>
-                          <AdminEditItem
-                            show={showEditModal}
-                            onClose={() => {
-                              handleCloseEditModal()
-                              getItemData()
-                            }}
-                            data={[{ "itemId": item.itemId }, { "description": item.description }, { "status": item.status }, { "make": item.make }, { "value": item.value }, { "category": item.category }]}
-                          />
                           &nbsp; &nbsp;
-                          <button className='btn btn-danger' disabled={item.status} onClick={() => deleteItem(item.itemId)}>
+                          <button className='btn btn-danger' disabled={item.status}
+                            onClick={() => deleteItem(item.itemId)}>
                             <BsTrash />
                           </button>
                         </td>
@@ -250,6 +241,11 @@ const AdminItemData = () => {
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
+      <AdminEditItem
+        show={showEditModal}
+        onClose={handleCloseEditModal}
+        data={itemToSend}
+      />
     </div>
   )
 }
