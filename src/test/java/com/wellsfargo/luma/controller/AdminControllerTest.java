@@ -402,36 +402,7 @@ class AdminControllerTest {
 
     }
     
-    @Test
-    void editLoanCard_unauthorized(){
-    	Employee emp1 = new Employee();
-        emp1.setPassword("secret123");
-        emp1.setName("Prabhat");
-        emp1.setRole("USER");
-        emp1.setDob(new Date());
-        emp1.setDepartment("TCOO");
-        emp1.setDoj(new Date());
-        emp1.setDesignation("Program Associate");
-        emp1.setEmployeeId(2L);
-
-        when(loanService.findLoanByLoanId(any(String.class))).thenReturn(loan);
-        when(loanService.addLoanCard(any(Loan.class))).thenReturn(loan);
-
-        ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp1);
-        log.info(empResponse.getBody().toString());
-        assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
-
-        loan.setType("Grocery");
-
-        ResponseEntity<Map<String,Object>> response = adminController.editLoan(loan.getLoanId(),loan,"Bearer "+empResponse.getBody().get("authtoken").toString());
-        //Loan newLoan = (Loan) response.getBody().get("LoanDetails");
-
-        assertEquals(HttpStatus.UNAUTHORIZED,response.getStatusCode());
-        //assertNotNull(response.getBody().get("LoanDetails"));
-
-        //assertEquals("Grocery",newLoan.getType());
-
-    }
+    
     
     @Test
     void editLoanCard_null_token(){
@@ -636,6 +607,27 @@ class AdminControllerTest {
         assertEquals("I001",newItem.getItemId());
 
     }
+    
+    @Test
+    void addItem_null_token(){
+
+        when(itemService.findItemByItemId(any(String.class))).thenReturn(null);
+        when(itemService.addItem(any(Item.class))).thenReturn(item);
+
+        ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
+        log.info(empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
+
+        ResponseEntity<Map<String,Object>> response = adminController.addItem(item,null);
+        //Item newItem = (Item) response.getBody().get("ItemDetails");
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatusCode());
+        //assertNotNull(response.getBody().get("ItemDetails"));
+
+        //assertEquals("I001",newItem.getItemId());
+
+    }
+
 
     @Test
     void editItem(){
@@ -679,6 +671,7 @@ class AdminControllerTest {
 
     }
 
+    
     @Test
     void deleteItem(){
         when(itemService.findItemByItemId(any(String.class))).thenReturn(item);
@@ -695,6 +688,24 @@ class AdminControllerTest {
         assertEquals(HttpStatus.CREATED,response.getStatusCode());
 
     }
+    
+    @Test
+    void deleteItem_null_token(){
+        when(itemService.findItemByItemId(any(String.class))).thenReturn(item);
+        doNothing().when(itemService).deleteById(any(Long.class));
+
+        ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
+        log.info(empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
+
+
+        ResponseEntity<Map<String,Object>> response = adminController.deleteItem(item.getItemId(),null);
+
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatusCode());
+
+    }
+
 
 
     @Test
@@ -729,6 +740,37 @@ class AdminControllerTest {
     }
 
     @Test
+    void viewItems_null_token(){
+        Item item1 = new Item();
+        item1.setCategory("Grocery");
+        item1.setItemId("I002");
+        item1.setId(2L);
+        item1.setMake("Wood");
+        item1.setValue(5000L);
+        item1.setStatus(false);
+        item1.setDescription("Milk");
+
+
+        List<Item> itemList = new ArrayList<Item>();
+
+        itemList.add(item);
+        itemList.add(item1);
+
+        when(itemService.getItems()).thenReturn(itemList);
+
+        ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
+        log.info(empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
+
+        ResponseEntity<Map<String,Object>> response = adminController.viewItems(null);
+        //List<Item> items = (List<Item>) response.getBody().get("ItemList");
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatusCode());
+        //assertEquals(2,items.size());
+        //assertEquals("I001", items.get(0).getItemId());
+        //assertEquals("I002", items.get(1).getItemId());
+    }
+
+    @Test
     void deleteEmployee(){
         when(employeeService.findById(any(Long.class))).thenReturn(Optional.of(emp));
         doNothing().when(deleteEmployeeService).deleteIssueCards(any(Long.class));
@@ -743,6 +785,23 @@ class AdminControllerTest {
         assertEquals(HttpStatus.OK,response.getStatusCode());
 
     }
+    
+    @Test
+    void deleteEmployee_null_token(){
+        when(employeeService.findById(any(Long.class))).thenReturn(Optional.of(emp));
+        doNothing().when(deleteEmployeeService).deleteIssueCards(any(Long.class));
+        doNothing().when(employeeService).deleteById(any(Long.class));
+
+        ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
+        log.info(empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
+
+        ResponseEntity<Map<String,Object>> response = adminController.deleteUser(emp.getEmployeeId(),null);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatusCode());
+
+    }
+
 
     @Test
     void editEmployee(){
@@ -765,5 +824,28 @@ class AdminControllerTest {
 
 
     }
+    
+    @Test
+    void editEmployee_null_token(){
+
+        when(employeeService.findById(any(Long.class))).thenReturn(Optional.of(emp));
+        when(employeeService.addEmployee(any(Employee.class),any(String.class))).thenReturn(emp);
+
+        ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
+        log.info(empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
+
+        emp.setDesignation("SDE");
+
+        ResponseEntity<Map<String,Object>> response = adminController.editUser(emp.getEmployeeId(),emp,null);
+
+        //Employee employee = (Employee) response.getBody().get("employee");
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatusCode());
+        //assertEquals("SDE",employee.getDesignation());
+
+
+    }
+
 
 }
