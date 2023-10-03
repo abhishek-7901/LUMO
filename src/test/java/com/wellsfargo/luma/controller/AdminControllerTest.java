@@ -128,6 +128,11 @@ class AdminControllerTest {
         loan=null;
         item = null;
     }
+    
+//    @Test
+//    void autenticateAndGetToken() {
+//    	when()
+//    }
 
 
 //    @BeforeAll
@@ -312,6 +317,70 @@ class AdminControllerTest {
     }
 
     @Test
+    void addLoanCard_null_token(){
+        // Create an ArgumentCaptor to capture the Employee.class parameter
+//        ArgumentCaptor<String> userNameCaptor = ArgumentCaptor.forClass(String.class);
+//        ArgumentCaptor<String> passwordCaptor = ArgumentCaptor.forClass(String.class);
+        // Specify behavior for the mock
+
+//        Employee emp = new Employee();
+//        emp.setPassword("secret123");
+//        emp.setName("Ayush Paul");
+//        emp.setRole("ADMIN");
+//        emp.setDob(new Date());
+//        emp.setDepartment("TCOO");
+//        emp.setDoj(new Date());
+//        emp.setDesignation("Program Associate");
+//        emp.setEmployeeId(1L);
+//        Loan loan = Loan.builder()
+//                        .loanId("L001")
+//                        .duration(3)
+//                        .type("Furniture")
+//                        .status(false)
+//                        .id(1L)
+//                        .build();
+
+        //Employee newEmp = employeeService1.addEmployee(emp,"ADMIN");
+        //log.info(newEmp.getName());
+        //token =jwtService1.generateToken(emp.getName(),emp.getPassword());
+
+
+
+//        when(jwtService.generateToken(userNameCaptor.capture(),passwordCaptor.capture())).thenAnswer(invocationOnMock -> {
+//            Object[] args = invocationOnMock.getArguments();
+//            log.info(args.toString());
+//            String str = (String) args[0];
+//            return str;
+//        });
+//        when(jwtService.extractUsername(userNameCaptor.capture())).thenAnswer(invocationOnMock -> {
+//            Object[] args = invocationOnMock.getArguments();
+//            log.info(args.toString());
+//            String str = (String) args[0];
+//            return str;
+//        });
+
+        when(loanService.findLoanByLoanId(any(String.class))).thenReturn(null);
+        when(loanService.addLoanCard(any(Loan.class))).thenReturn(loan);
+        //ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
+
+        ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
+        log.info(empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
+
+        //log.info(passwordEncoder.encode(emp.getPassword()));
+        //token =jwtService1.generateToken(emp.getName(),emp.getPassword());
+        log.info(empResponse.getBody().get("authtoken").toString());
+
+        ResponseEntity<Map<String,Object>> response = adminController.addLoanCard(loan,null);
+        //Loan newLoan = (Loan) response.getBody().get("LoanDetails");
+        Map<String,Object> map = response.getBody();
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatusCode());
+        //assertNotNull(response.getBody().get("LoanDetails"));
+        assertEquals(false,map.get("success"));
+    }
+
+    @Test
     void editLoanCard(){
 
         when(loanService.findLoanByLoanId(any(String.class))).thenReturn(loan);
@@ -332,6 +401,59 @@ class AdminControllerTest {
         assertEquals("Grocery",newLoan.getType());
 
     }
+    
+    @Test
+    void editLoanCard_unauthorized(){
+    	Employee emp1 = new Employee();
+        emp1.setPassword("secret123");
+        emp1.setName("Prabhat");
+        emp1.setRole("USER");
+        emp1.setDob(new Date());
+        emp1.setDepartment("TCOO");
+        emp1.setDoj(new Date());
+        emp1.setDesignation("Program Associate");
+        emp1.setEmployeeId(2L);
+
+        when(loanService.findLoanByLoanId(any(String.class))).thenReturn(loan);
+        when(loanService.addLoanCard(any(Loan.class))).thenReturn(loan);
+
+        ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp1);
+        log.info(empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
+
+        loan.setType("Grocery");
+
+        ResponseEntity<Map<String,Object>> response = adminController.editLoan(loan.getLoanId(),loan,"Bearer "+empResponse.getBody().get("authtoken").toString());
+        //Loan newLoan = (Loan) response.getBody().get("LoanDetails");
+
+        assertEquals(HttpStatus.UNAUTHORIZED,response.getStatusCode());
+        //assertNotNull(response.getBody().get("LoanDetails"));
+
+        //assertEquals("Grocery",newLoan.getType());
+
+    }
+    
+    @Test
+    void editLoanCard_null_token(){
+
+        when(loanService.findLoanByLoanId(any(String.class))).thenReturn(loan);
+        when(loanService.addLoanCard(any(Loan.class))).thenReturn(loan);
+
+        ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
+        log.info(empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
+
+        loan.setType("Grocery");
+
+        ResponseEntity<Map<String,Object>> response = adminController.editLoan(loan.getLoanId(),loan,null);
+        //Loan newLoan = (Loan) response.getBody().get("LoanDetails");
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatusCode());
+        //assertNotNull(response.getBody().get("LoanDetails"));
+
+       // assertEquals("Grocery",newLoan.getType());
+
+    }
 
     @Test
     void deleteLoanCard(){
@@ -347,6 +469,22 @@ class AdminControllerTest {
         ResponseEntity<Map<String,Object>> response = adminController.deleteLoan(loan.getLoanId(),"Bearer "+empResponse.getBody().get("authtoken").toString());
 
         assertEquals(HttpStatus.OK,response.getStatusCode());
+    }
+    
+    @Test
+    void deleteLoanCard_null_token(){
+
+        when(loanService.findLoanByLoanId(any(String.class))).thenReturn(loan);
+        doNothing().when(loanService).deleteById(any(Long.class));
+
+        ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
+        log.info(empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
+
+
+        ResponseEntity<Map<String,Object>> response = adminController.deleteLoan(loan.getLoanId(),null);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatusCode());
     }
 
     @Test
@@ -379,6 +517,38 @@ class AdminControllerTest {
         assertEquals("L002",loans.get(1).getLoanId());
 
     }
+    
+    @Test
+    void viewLoanCards_null_token(){
+
+        Loan loan1 = Loan.builder()
+                .loanId("L002")
+                .duration(4)
+                .type("Grocery")
+                .status(false)
+                .id(2L)
+                .build();
+
+        List<Loan> loanList = new ArrayList<Loan>();
+
+        loanList.add(loan);
+        loanList.add(loan1);
+
+        when(loanService.getLoanCards()).thenReturn(loanList);
+
+        ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
+        log.info(empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
+
+        ResponseEntity<Map<String,Object>> response = adminController.viewLoanCards(null);
+        List<Loan> loans = (List<Loan>) response.getBody().get("LoanCards");
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatusCode());
+        //assertEquals(2,loans.size());
+        //assertEquals("L001",loans.get(0).getLoanId());
+        //assertEquals("L002",loans.get(1).getLoanId());
+
+    }
+
 
     @Test
     void viewUsers(){
@@ -412,6 +582,40 @@ class AdminControllerTest {
         assertEquals(2L, employees.get(1).getEmployeeId());
 
     }
+    
+    @Test
+    void viewUsers_null_token(){
+
+        Employee emp1 = new Employee();
+        emp1.setPassword("secret123");
+        emp1.setName("Prabhat");
+        emp1.setRole("USER");
+        emp1.setDob(new Date());
+        emp1.setDepartment("TCOO");
+        emp1.setDoj(new Date());
+        emp1.setDesignation("Program Associate");
+        emp1.setEmployeeId(2L);
+
+        List<Employee> employeeList = new ArrayList<Employee>();
+
+        employeeList.add(emp);
+        employeeList.add(emp1);
+
+        when(employeeService.findAll()).thenReturn(employeeList);
+
+        ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
+        log.info(empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
+
+        ResponseEntity<Map<String,Object>> response = adminController.viewUsers(null);
+        //List<Employee> employees = (List<Employee>) response.getBody().get("EmployeeList");
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatusCode());
+        //assertEquals(2,employees.size());
+        //assertEquals(1L, employees.get(0).getEmployeeId());
+        //assertEquals(2L, employees.get(1).getEmployeeId());
+
+    }
+
 
     @Test
     void addItem(){
@@ -451,6 +655,27 @@ class AdminControllerTest {
         assertNotNull(response.getBody().get("Item details"));
 
         assertEquals("Grocery",newItem.getCategory());
+
+    }
+    
+    @Test
+    void editItem_not_null(){
+        when(itemService.findItemByItemId(any(String.class))).thenReturn(item);
+        when(itemService.addItem(any(Item.class))).thenReturn(item);
+
+        ResponseEntity<Map<String, Object>> empResponse = adminController.addEmployee(emp);
+        log.info(empResponse.getBody().toString());
+        assertEquals(HttpStatus.CREATED,empResponse.getStatusCode());
+
+        item.setCategory("Grocery");
+
+        ResponseEntity<Map<String,Object>> response = adminController.editItem(item.getItemId(),item,null);
+        //Item newItem = (Item) response.getBody().get("Item details");
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatusCode());
+        //assertNotNull(response.getBody().get("Item details"));
+
+        //assertEquals("Grocery",newItem.getCategory());
 
     }
 
